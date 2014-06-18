@@ -10,6 +10,14 @@
          syntaxCheck="false"
          verbose="true"
          bootstrap="./index.php">
+    <testsuites>
+        <testsuite name="Grupo de testes">
+            <directory>./tests</directory>
+            <directory>./tests/ServiceLayer</directory>
+            <directory>./tests/ServiceLayer/Event</directory>
+            <directory>./tests/ServiceLayer/Client</directory>
+        </testsuite>
+    </testsuites>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <exclude>

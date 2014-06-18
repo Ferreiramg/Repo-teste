@@ -1,0 +1,22 @@
+{
+    "name": "lpdeveloper/silocontrol",
+    "description": "Silo Contorle",
+    "type": "application",
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Luis Paulo",
+            "email": "lpdeveloper@hotmail.com.br"
+        }
+    ],
+    "require": {
+        "php": ">=5.5",
+        "propel/propel1": "1.7.1"
+    },
+    "autoload": {
+        "classmap": ["./ServiceLayer/table-gateway"],
+        "psr-0": {
+            "": "ServiceLayer"
+        }
+    }
+}

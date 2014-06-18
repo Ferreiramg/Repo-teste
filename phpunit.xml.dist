@@ -9,7 +9,7 @@
          stopOnFailure="false"
          syntaxCheck="false"
          verbose="true"
-         bootstrap="./index.php">
+         bootstrap="./init.php">
     <testsuites>
         <testsuite name="Grupo de testes">
             <directory>./tests</directory>

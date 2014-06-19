@@ -14,7 +14,7 @@
         "propel/propel1": "1.7.1"
     },
     "autoload": {
-        "classmap": ["./ServiceLayer/table-gateway"],
+        "classmap": ["ServiceLayer/table-gateway"],
         "psr-0": {
             "": "ServiceLayer"
         }

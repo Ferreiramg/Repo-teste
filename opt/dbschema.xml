@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
+    <table name="cliente" idMethod="native" phpName="Cliente">
+        <column name="id" phpName="Id" type="INTEGER" size="5" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="nome" phpName="Nome" type="VARCHAR" size="150" required="true"/>
+        <column name="grao" phpName="Grao" type="VARCHAR" size="50" required="true"/>
+        <column name="data" phpName="Data" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
+        <column name="armazenagem" phpName="Armazenagem" type="FLOAT" required="true" defaultValue="0.065"/>
+        <vendor type="mysql">
+            <parameter name="Engine" value="MyISAM"/>
+        </vendor>
+    </table>
+    <table name="entradas" idMethod="native" phpName="Entradas">
+        <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="peso" phpName="Peso" type="DECIMAL"/>
+        <column name="saida_peso" phpName="SaidaPeso" type="DECIMAL"/>
+        <column name="peso_corrigido" phpName="PesoCorrigido" type="DECIMAL"/>
+        <column name="_cliente" phpName="ECliente" type="INTEGER" size="5" required="true"/>
+        <column name="umidade" phpName="Umidade" type="FLOAT" required="true" defaultValue="0"/>
+        <column name="impureza" phpName="Impureza" type="FLOAT" required="true" defaultValue="0"/>
+        <column name="data" phpName="Data" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
+        <column name="ticket" phpName="Ticket" type="VARCHAR" size="25"/>
+        <column name="observacao" phpName="Observacao" type="VARCHAR" size="255"/>
+        <foreign-key foreignTable="cliente">
+            <reference local="_cliente" foreign="id"/>
+        </foreign-key>
+        <vendor type="mysql">
+            <parameter name="Engine" value="MyISAM"/>
+        </vendor>
+    </table>
+</database>

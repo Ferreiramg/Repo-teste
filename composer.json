@@ -1,6 +1,6 @@
 {
     "name": "lpdeveloper/silocontrol",
-    "description": "Silo Contorle",
+    "description": "Testes LPDev",
     "type": "application",
     "license": "GPL-3.0+",
     "authors": [
@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": ">=5.5",
-        "propel/propel1": "1.7.1"
+        "propel/propel": "2.0.*@dev"
     },
     "autoload": {
         "classmap": ["ServiceLayer/table-gateway"],

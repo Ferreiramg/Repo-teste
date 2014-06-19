@@ -13,6 +13,14 @@ namespace Event;
  *
  * @author Laticinios PJ
  */
-class Get {
-    //put your code here
+class Get implements ObserverEvent {
+
+    public function has() {
+        return \Main::$REQUEST === 'GET';
+    }
+
+    public function update(\Client\ExecuteInterface $subject) {
+        $subject->execute();
+    }
+
 }

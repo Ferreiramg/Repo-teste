@@ -11,53 +11,48 @@
  *
  * @author Luis Paulo
  */
-class DataAccessAbstractTest {
+class ConnectionTest {
 
-    
-    private $sql = <<<SQL
+    public static function initConn() {
+        $serviceContainer = Propel::getServiceContainer();
+        $serviceContainer->setAdapterClass('default', 'sqlite');
+        $manager = new ConnectionManagerSingle();
+        $manager->setConfiguration(array(
+            'dsn' => "sqlite::memory:"
+        ));
+        $serviceContainer->setConnectionManager('default', $manager);
+        $serviceContainer->getConnection()->exec(static::$sql);
+        return $serviceContainer->getConnection();
+    }
+
+    private static $sql = <<<SQL
 
 CREATE TABLE IF NOT EXISTS `cliente` (
-  `id` int(5) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(150) NOT NULL,
-  `grao` varchar(50) NOT NULL,
-  `data` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `armazenagem` float NOT NULL DEFAULT '0.065',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-
---
--- Extraindo dados da tabela `cliente`
---
+  `id` INT PRIMARY KEY     NOT NULL,
+  `nome` TEXT NOT NULL,
+  `grao` TEXT NOT NULL,
+  `data` TEXT NOT NULL,
+  `armazenagem` REAL'
+);
 
 INSERT INTO `cliente` (`id`, `nome`, `grao`, `data`, `armazenagem`) VALUES
 (1, 'Luis Paulo', 'Milho', '2014-05-28 16:52:29', 0.033),
 (2, 'Marcos', 'Milho', '2014-05-22 18:11:19', 0.065),
 (3, 'Estancia PJ', 'Milho', '2014-06-11 19:29:28', 0.033);
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `entradas`
---
-
+            
 CREATE TABLE IF NOT EXISTS `entradas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `peso` decimal(10,0) DEFAULT '0',
-  `saida_peso` decimal(10,0) DEFAULT '0',
-  `peso_corrigido` decimal(10,0) NOT NULL DEFAULT '0',
-  `_cliente` int(5) NOT NULL,
-  `umidade` float NOT NULL DEFAULT '0',
-  `impureza` float NOT NULL DEFAULT '0',
-  `data` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `ticket` varchar(25) DEFAULT NULL,
-  `observacao` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=101 ;
-
---
--- Extraindo dados da tabela `entradas`
---
-
+  `id` INT PRIMARY KEY     NOT NULL,
+  `peso` REAL,
+  `saida_peso` REAL,
+  `peso_corrigido` REAL,
+  `_cliente` INT NOT NULL,
+  `umidade` REAL,
+  `impureza` REAL,
+  `data` TEXT NOT NULL,
+  `ticket` TEXT NULL,
+  `observacao` TEXT NULL
+);
+            
 INSERT INTO `entradas` (`id`, `peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`) VALUES
 (1, 13000, 0, 11930, 1, 16, 1, '2014-05-06 00:00:00', '', ' ;'),
 (98, 19630, 0, 17914, 2, 15, 3, '0000-00-00 00:00:00', '', ' ;'),
@@ -155,10 +150,6 @@ INSERT INTO `entradas` (`id`, `peso`, `saida_peso`, `peso_corrigido`, `_cliente`
 (95, 0, 22380, 0, 3, 0, 0, '2014-03-30 00:00:00', '', ' ;Saida para AGRO-VERTENTES'),
 (99, 0, 5450, 0, 3, 0, 0, '2014-06-16 00:00:00', '001624', 'REGIS ;'),
 (100, 5450, 0, 5246, 1, 13, 2, '2014-06-10 00:00:00', '001624', 'REGIS ;');
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
 SQL;
+
 }

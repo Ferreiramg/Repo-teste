@@ -36,7 +36,7 @@ class DelegateEvent {
             }
         }
         if (!$found) {
-            throw new \RuntimeException('Evente Not Found');
+            throw new \RuntimeException('Event Not Found');
         }
     }
 

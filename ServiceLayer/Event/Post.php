@@ -11,8 +11,16 @@ namespace Event;
 /**
  * Description of Post
  *
- * @author Laticinios PJ
+ * @author Luis Paulo
  */
-class Post {
-    //put your code here
+class Post implements ObserverEvent {
+
+    public function has() {
+         return \Main::$REQUEST === 'POST';
+    }
+
+    public function update(\Client\ExecuteInterface $subject) {
+        $subject->execute();
+    }
+
 }

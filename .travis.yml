@@ -6,6 +6,8 @@ php:
 before_script:
                 - wget http://getcomposer.org/composer.phar
                 - php composer.phar install --dev --no-interaction
+                - export PATH=$PATH:/home/travis/build/Ferreiramg/Repo-teste/vendor/bin/
+                - propel model:build --input-dir="opt" --output-dir="ServiceLayer/table-gateway"
  
 script: 
         - phpunit --configuration phpunit.xml.dist --coverage-text

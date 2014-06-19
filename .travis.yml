@@ -9,4 +9,4 @@ before_script:
                 - php composer.phar install --dev --no-interaction
  
 script: 
-        - phpunit --c phpunit.xml.dist --coverage-text
+        - phpunit --configuration phpunit.xml.dist --coverage-text

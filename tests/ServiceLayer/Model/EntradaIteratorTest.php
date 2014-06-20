@@ -8,7 +8,7 @@
 
 use \PHPUnit_Framework_TestCase as PHPUnit;
 
-include dirname(__DIR__) . '/ConnectionTest.php';
+include dirname(__DIR__) . '/DBConnSqliteTest.php';
 
 /**
  * Description of EntradaIteratorTest
@@ -23,7 +23,7 @@ class EntradaIteratorTest extends PHPUnit {
         $this->object = new Model\EntradaEntityIterator();
         $sql = "SELECT id,data as dia,SUM(saida_peso)as saida, SUM(peso) as entrada "
                 . "FROM entradas WHERE _cliente = :id GROUP BY data";
-        $conn = \ConnectionTest::initConn();
+        $conn = DBConnSqliteTest::initConn();
         $stm = $conn->prepare($sql);
 
         $stm->bindValue(':id', 1); //ID Cliente

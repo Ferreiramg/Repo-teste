@@ -8,7 +8,7 @@
 
 use \PHPUnit_Framework_TestCase as PHPUnit;
 
-include 'ConnectionTest.php';
+include 'DBConnSqliteTest.php';
 
 /**
  * Description of InitConnTest
@@ -18,7 +18,7 @@ include 'ConnectionTest.php';
 class InitConnTest extends PHPUnit {
 
     public function testPropelMakeConnection() {
-        $conn = ConnectionTest::initConn();
+        $conn = DBConnSqliteTest::initConn();
 
         $this->assertInstanceOf('\Propel\Runtime\Connection\ConnectionWrapper', $conn);
     }

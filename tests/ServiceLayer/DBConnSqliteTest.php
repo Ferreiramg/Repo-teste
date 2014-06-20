@@ -14,7 +14,7 @@ use Propel\Runtime\Propel,
  *
  * @author Luis Paulo
  */
-class ConnectionTest {
+class DBConnSqliteTest {
 
     public static function initConn() {
         $serviceContainer = Propel::getServiceContainer();

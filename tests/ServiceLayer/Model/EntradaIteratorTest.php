@@ -20,17 +20,22 @@ class EntradaIteratorTest extends PHPUnit {
     protected $object, $stmt;
 
     protected function setUp() {
-        $this->object = new Model\EntradaEntityIterator();
-        $sql = "SELECT id,data as dia,SUM(saida_peso)as saida, SUM(peso) as entrada "
-                . "FROM entradas WHERE _cliente = :id GROUP BY data";
-        $conn = DBConnSqliteTest::initConn();
-        $stm = $conn->prepare($sql);
+        $mock = $this->getMock('Cliente', ['getArmazenagem']);
+        $mock->expects($this->any())
+                ->method('getArmazenagem')
+                ->will($this->returnValue(0.033));
+        $this->object = new Model\EntradaEntityIterator(60);
+        $this->object->setCliente($mock);
+        $this->stmt = DBConnSqliteTest::ConnPDO();
+    }
 
-        $stm->bindValue(':id', 1); //ID Cliente
-        $this->object = new Model\EntradaEntityIterator();
-        $stm->setFetchMode(PDO::FETCH_INTO, $this->object);
-        $stm->execute();
-        $this->stmt = $stm;
+    private function getData($id) {
+        $sql = "SELECT entradas.*, SUM(saida_peso)as saida, SUM(peso) as entrada, SUM(peso_corrigido) as corrigido FROM entradas WHERE _cliente = :id GROUP BY data ORDER BY data ASC";
+        $stm = $this->stmt->prepare($sql);
+        $stm->bindValue(':id', $id);
+        if ($stm->execute()) {
+            return $stm->fetchAll(\PDO::FETCH_ASSOC);
+        }
     }
 
     private function makeCalendar() {
@@ -39,18 +44,15 @@ class EntradaIteratorTest extends PHPUnit {
         $i = 0;
         while ($entrada < $hoje) {
             $deduction = $this->object->deduction();
-            $this->object->append(array(
+            $this->object->append([
                 'dia' => $entrada->format('Y-m-d'),
                 'entrada' => 0,
                 'desconto' => $deduction,
-                'saldo' => $this->object->getSaldo($deduction)));
-            foreach ($this->stmt as $ob) {
-                
-            }
+                'saldo' => $this->object->getSaldo($deduction)
+            ]);
             $entrada = $entrada->modify('+1day');
             ++$i;
         }
-        return $ob;
     }
 
     private function deduction($saldo) {
@@ -61,14 +63,17 @@ class EntradaIteratorTest extends PHPUnit {
 
     public function testIteratorWithFetchMode() {
 
-        $ob = $this->makeCalendar();
-        
+        $this->object->setCols($this->getData(1));
+        $this->makeCalendar();
+
         $this->assertEquals($this->object->offsetGet(7)['dia'], '2014-05-08');
-        $this->assertEquals($this->object->offsetGet(3)['saldo'], 0);//
-        $this->assertEquals($this->object->offsetGet(4)['saldo'], 0);//
-        $this->assertEquals($saldo = $this->object->offsetGet(5)['saldo'], round(13000 / 60, 2));
+        $this->assertEquals($this->object->offsetGet(3)['saldo'], 0); //não tem entrada
+        $this->assertEquals($this->object->offsetGet(4)['saldo'], 0); //não tem entrada
+        $this->assertEquals($saldo = $this->object->offsetGet(5)['saldo'], round(11930 / 60, 2));
         $this->assertEquals($this->object->offsetGet(6)['desconto'], $this->deduction($saldo));
-        $this->assertEquals(round(13000 / 60, 2), $ob->entrada);
+
+        $this->assertEquals($this->object->offsetGet(28)['dia'], '2014-05-29');
+        $this->assertEquals((int)$this->object->offsetGet(28)['saldo'], 396);
     }
 
 }

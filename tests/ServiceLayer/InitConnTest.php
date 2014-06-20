@@ -18,7 +18,7 @@ require_once 'DBConnSqliteTest.php';
 class InitConnTest extends PHPUnit {
 
     public function testPropelMakeConnection() {
-        $conn = DBConnSqliteTest::initConn();
+        $conn = DBConnSqliteTest::ConnPROPEL();
 
         $this->assertInstanceOf('\Propel\Runtime\Connection\ConnectionWrapper', $conn);
     }

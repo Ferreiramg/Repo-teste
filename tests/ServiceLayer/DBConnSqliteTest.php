@@ -16,7 +16,7 @@ use Propel\Runtime\Propel,
  */
 class DBConnSqliteTest {
 
-    public static function initConn() {
+    public static function ConnPROPEL() {
         $serviceContainer = Propel::getServiceContainer();
         $serviceContainer->setAdapterClass('default', 'sqlite');
         $manager = new ConnectionManagerSingle();
@@ -26,6 +26,12 @@ class DBConnSqliteTest {
         $serviceContainer->setConnectionManager('default', $manager);
         $serviceContainer->getConnection()->exec(static::$sql);
         return $serviceContainer->getConnection();
+    }
+
+    public static function ConnPDO() {
+        $dbh = new PDO('sqlite::memory:');
+        $dbh->exec(static::$sql);
+        return $dbh;
     }
 
     private static $sql = <<<SQL
@@ -54,9 +60,10 @@ CREATE TABLE IF NOT EXISTS `entradas` (
   `observacao` TEXT NULL
 );
    BEGIN TRANSACTION;         
-INSERT INTO `entradas` 
-    (`id`, `peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`)
+INSERT INTO `entradas` (`id`, `peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`)
     VALUES (1, 13000, 0, 11930, 1, 16, 1, '2014-05-06', '', ' ;');
+INSERT INTO `entradas` (`id`, `peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`)
+    VALUES (2, 13000, 0, 11930, 1, 16, 1, '2014-05-29', '', ' ;');
 COMMIT;
 SQL;
 

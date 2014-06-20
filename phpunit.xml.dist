@@ -15,6 +15,7 @@
             <directory>./tests</directory>
             <directory>./tests/ServiceLayer</directory>
             <directory>./tests/ServiceLayer/Event</directory>
+            <directory>./tests/ServiceLayer/Model</directory>
             <directory>./tests/ServiceLayer/Client</directory>
         </testsuite>
     </testsuites>

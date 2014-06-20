@@ -8,7 +8,7 @@
 
 use \PHPUnit_Framework_TestCase as PHPUnit;
 
-include dirname(__DIR__) . '/DBConnSqliteTest.php';
+require_once  dirname(__DIR__) . '/DBConnSqliteTest.php';
 
 /**
  * Description of EntradaIteratorTest

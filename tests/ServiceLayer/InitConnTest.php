@@ -8,7 +8,7 @@
 
 use \PHPUnit_Framework_TestCase as PHPUnit;
 
-include 'DBConnSqliteTest.php';
+require_once 'DBConnSqliteTest.php';
 
 /**
  * Description of InitConnTest

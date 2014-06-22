@@ -21,6 +21,7 @@
     </testsuites>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./ServiceLayer</directory>
             <exclude>
                 <directory>./vendor</directory>
                 <directory>./ServiceLayer/table-gateway</directory>
@@ -29,5 +30,13 @@
     </filter>
     <logging>
         <log type="testdox-text" target="php://stdout" />
+        <!--log 
+            type="coverage-html" 
+            target="data/coverage" 
+            charset="UTF-8" 
+            yui="true" 
+            highlight="true"
+            lowUpperBound="35"
+            highUpperBound="70" / -->
     </logging>
 </phpunit>

@@ -21,14 +21,40 @@ class DelegateEventTest extends PHPUnit {
         $this->delegateObject = new DelegateEvent();
         $this->delegateObject
                 ->addEvent(new Event\Delete)
-                ->addEvent(new Event\Put);
+                ->addEvent(new Event\Put)
+                ->addEvent(new Event\Post)
+                ->addEvent(new Event\Get);
     }
 
     public function testApplyClientObserver() {
-        Main::$Action = '\Client\Entrada';
+        Main::$Action = 'ClientEventListternTest';
         Main::$REQUEST = 'DELETE';
-        $this->delegateObject->runClient(new \Event\Manager);
-        $this->assertinstanceof('\Client\Entrada', $this->delegateObject->getClient());
+        $event = new \Event\Manager();
+        $this->delegateObject->runClient($event);
+        $event->notify();
+        $this->assertinstanceof('ClientEventListternTest', $ob = $this->delegateObject->getClient());
+        $this->assertEquals($ob->event,'DELETE');
+        Main::$REQUEST = 'PUT';
+        $event->notify();
+        $this->assertinstanceof('ClientEventListternTest', $ob = $this->delegateObject->getClient());
+        $this->assertEquals($ob->event,'PUT');
+        Main::$REQUEST = 'POST';
+        $event->notify();
+         $this->assertinstanceof('ClientEventListternTest', $ob = $this->delegateObject->getClient());
+        $this->assertEquals($ob->event,'POST');
+        Main::$REQUEST = 'GET';
+        $event->notify();
+        $this->assertinstanceof('ClientEventListternTest', $ob = $this->delegateObject->getClient());
+        $this->assertEquals($ob->event,'GET');
+    }
+
+}
+
+class ClientEventListternTest extends \Client\EventExecuteInterface {
+
+    public $event;
+    public function execute() {
+        $this->event = Main::$REQUEST;
     }
 
 }

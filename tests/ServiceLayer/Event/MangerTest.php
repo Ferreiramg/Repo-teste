@@ -41,6 +41,21 @@ class MangerTest extends PHPUnit {
         $manager->notify();
     }
 
+    public function testAttachAndDetach() {
+        ob_start();
+        $manager = new \Event\Manager();
+        $manager->attach(new testClient());
+        $manager->attach($std2 = new testClient2());
+        $manager->notify();
+        $this->assertEquals(ob_get_contents(), 'Fist test Init. /n Second test!');
+        
+        ob_end_clean();
+        ob_start();
+        $manager->detach($std2);
+        $manager->notify();
+        $this->assertEquals(ob_get_contents(), 'Fist test Init. /n');
+    }
+
 }
 
 class testClient implements \Client\ExecuteInterface {

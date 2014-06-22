@@ -24,6 +24,8 @@ class Main {
         $manager = new Manager();
         $delegate = new DelegateEvent();
         $delegate
+                ->addEvent(new Event\Post)
+                ->addEvent(new Event\Get)
                 ->addEvent(new Event\Put)
                 ->addEvent(new Event\Delete)
                 ->runClient($manager);

@@ -8,35 +8,36 @@
 
 namespace Event;
 
-use Client\ExecuteInterface;
+use ArrayIterator,
+    Client\ClientInterface as Client;
 
 /**
- * Description of Manager
+ * Description of _Manager
  *
- * @author Laticinios PJ
+ * @author Administrador
  */
-class Manager implements ExecuteInterface {
+class ObsManager implements InterfaceEvent {
 
     private $storage;
 
     public function __construct() {
-        $this->storage = new \ArrayIterator();
+        $this->storage = new ArrayIterator();
     }
 
-    public function execute() {
-        return $this->storage->current()->execute();
+    public function attach(Client $subject) {
+        $this->storage->append($subject);
     }
 
-    public function attach(ExecuteInterface $observer) {
-        $this->storage->append($observer);
-    }
-
-    public function detach(ExecuteInterface $observer) {
+    public function detach(Client $subject) {
         foreach ($this->storage as $key => $objval) {
-            if ($objval === $observer) {
+            if ($objval === $subject) {
                 $this->storage->offsetUnset($key);
             }
         }
+    }
+
+    public function dispatch() {
+        return $this->storage->current();
     }
 
     public function notify() {

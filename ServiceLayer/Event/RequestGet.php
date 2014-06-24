@@ -9,18 +9,18 @@
 namespace Event;
 
 /**
- * Description of Post
+ * Description of _Get
  *
- * @author Luis Paulo
+ * @author Administrador
  */
-class Post implements ObserverEvent {
+class RequestGet extends AbstractEvent {
 
     public function has() {
-         return \Main::$REQUEST === 'POST';
+        return \Main::$REQUEST === 'GET';
     }
 
-    public function update(\Client\ExecuteInterface $subject) {
-        $subject->execute();
+    public function listen() {
+        $this->client->addClient(new \Client\ControllerEntrada);
     }
 
 }

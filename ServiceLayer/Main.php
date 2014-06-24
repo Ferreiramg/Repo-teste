@@ -6,8 +6,6 @@
  * and open the template in the editor.
  */
 
-use Event\Manager;
-
 /**
  * Description of Main
  *
@@ -21,15 +19,6 @@ class Main {
     public function run($request, $action = null) {
         static::$REQUEST = $request;
         static::$Action = $action;
-        $manager = new Manager();
-        $delegate = new DelegateEvent();
-        $delegate
-                ->addEvent(new Event\Post)
-                ->addEvent(new Event\Get)
-                ->addEvent(new Event\Put)
-                ->addEvent(new Event\Delete)
-                ->runClient($manager);
-        $manager->notify();
     }
 
 }

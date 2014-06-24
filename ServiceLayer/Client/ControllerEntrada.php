@@ -9,14 +9,18 @@
 namespace Client;
 
 /**
- * Description of EventExecuteInterface
+ * Description of _Entrada
  *
- * @author Laticinios PJ
+ * @author Administrador
  */
-abstract class EventExecuteInterface implements ExecuteInterface {
+class ControllerEntrada extends AbstracClient {
 
-    public function update(ExecuteInterface $subject) {
-        $subject->execute();
+    public function execute() {
+        echo 'Entradas Cliente';
+    }
+
+    public function hasRequest() {
+        return true;
     }
 
 }

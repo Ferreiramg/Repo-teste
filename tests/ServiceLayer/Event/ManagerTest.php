@@ -13,7 +13,7 @@ use \PHPUnit_Framework_TestCase as PHPUnit;
  *
  * @author Laticinios PJ
  */
-class ManagerTest {
+class ManagerTest extends PHPUnit {
 
     protected $manager;
 
@@ -33,28 +33,47 @@ class ManagerTest {
         $this->manager->detach(new testClient());
     }
 
+    public function testInstanceOf() {
+        $manager = new Event\ObsManager();
+        $manager->attach(new testClient);
+
+        $this->assertInstanceOf('testClient', $manager->dispatch());
+    }
+
+    public function testNotifyFunction() {
+        $manager = new Event\ObsManager();
+        $manager->attach(new testClient);
+        $this->expectOutputString('First Test!');
+        $manager->notify();
+    }
+
+    public function testDetachAndAttachMethods() {
+
+        $manager = new Event\ObsManager();
+        $manager->attach($cli = new testClient);
+        $manager->detach($cli);
+        $this->expectOutputString('');
+        $manager->notify();
+    }
+
 }
 
-class testClient  {
+class testClient implements \Client\ClientInterface {
+
+    public function clientDelegate(\Client\Delegate $delegate) {
+        
+    }
 
     public function execute() {
-        echo "Fist test Init. /n";
+        echo 'First Test!';
     }
 
-    public function update( $subject) {
-        $subject->execute();
+    public function hasRequest() {
+        
     }
 
-}
-
-class testClient2 {
-
-    public function execute() {
-        echo " Second test!";
-    }
-
-    public function update( $subject) {
-        $subject->execute();
+    public function update(\Event\InterfaceEvent $subject) {
+        $subject->dispatch()->execute();
     }
 
 }

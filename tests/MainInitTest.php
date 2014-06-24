@@ -32,7 +32,6 @@ class MainInitTest extends PHPUnit {
     }
 
     public function testSequenceOfExecution() {
-        Main::$REQUEST = 'GET';
         $event = new \Event\Delegate();
         $manager = new Event\ObsManager();
         $client = new Client\Delegate($manager);

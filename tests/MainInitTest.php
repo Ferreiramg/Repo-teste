@@ -31,7 +31,7 @@ class MainInitTest extends PHPUnit {
     }
 
     public function testSequenceOfExecution() {
-        $event = new \Event\Delegate();
+        $event = new Event\Delegate();
         $manager = new Event\ObsManager();
         $client = new Client\Delegate($manager);
 

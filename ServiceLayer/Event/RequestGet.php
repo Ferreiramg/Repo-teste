@@ -21,6 +21,7 @@ class RequestGet extends AbstractEvent {
 
     public function listen() {
         $this->client->addClient(new \Client\ControllerEntrada);
+        $this->client->addClient(new \Client\EntradaRead());
     }
 
 }

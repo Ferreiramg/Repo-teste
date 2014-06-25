@@ -16,7 +16,11 @@ namespace Client;
 class ControllerEntrada extends AbstracClient {
 
     public function execute() {
-        
+        $model = new \Model\Entrada();
+        $post = filter_input_array(INPUT_POST, $model->args);
+        if ($post['acao']) {
+            $response = call_user_func_array([$model, $post['acao']], $post);
+        }
     }
 
     public function hasRequest() {

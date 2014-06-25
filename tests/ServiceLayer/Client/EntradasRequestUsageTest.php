@@ -7,28 +7,27 @@
  */
 
 use \PHPUnit_Framework_TestCase as PHPUnit;
+use GuzzleHttp\Client;
 
 require_once dirname(__DIR__) . '/DBConnSqliteTest.php';
 
 /**
- * Description of EntradaTest
+ * Description of EntradasRequestUsageTest
  *
- * @author Administrador
+ * @author Luis Paulo
  */
-class EntradaTest extends PHPUnit {
+class EntradasRequestUsageTest extends PHPUnit {
 
-    protected $model;
+    protected $requestServer;
 
     protected function setUp() {
+        $this->requestServer = new Client();
+
         DBConnSqliteTest::ConnPROPEL();
-        $this->model = new Model\Entrada();
     }
 
-    public function testInstanceOf() {
+    public function testEventPostRequestMain() {
 
-        foreach (EntradasQuery::create()->find() as $values) {
-            var_dump($values);
-        }
     }
 
 }

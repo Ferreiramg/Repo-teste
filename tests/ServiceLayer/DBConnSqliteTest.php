@@ -36,7 +36,7 @@ class DBConnSqliteTest {
 
     private static $sql = <<<SQL
 CREATE TABLE IF NOT EXISTS cliente (
-  `id` INT PRIMARY KEY NOT NULL,
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `nome` TEXT NOT NULL,
   `grao` TEXT NOT NULL,
   `data` TEXT NOT NULL,
@@ -48,7 +48,7 @@ BEGIN TRANSACTION;
     (1, 'Luis Paulo', 'Milho', '2014-05-28 16:52:29', 0.033);
 COMMIT;          
 CREATE TABLE IF NOT EXISTS `entradas` (
-  `id` INT PRIMARY KEY     NOT NULL,
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `peso` REAL,
   `saida_peso` REAL,
   `peso_corrigido` REAL,

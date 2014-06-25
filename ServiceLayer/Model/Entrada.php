@@ -34,4 +34,17 @@ class Entrada extends \Base\Entradas {
         parent::__construct();
     }
 
+    private function checkType($type) {
+        $this->type = $type;
+        return $type === 1;
+    }
+
+    public function create(array $args) {
+        
+    }
+
+    public function deletar(array $args) {
+        
+    }
+
 }

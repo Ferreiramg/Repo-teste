@@ -55,17 +55,13 @@ class CalcDiscounts {
      * @throws RuntimeException %s , não é multiplo de dois
      */
     private function getCsvDataFiltering() {
-        $out = array();
+
         for ($this->csv->rewind(); $this->csv->valid(); $this->csv->next()) {
             if ($this->csv->accept()) {
-                $out = $this->csv->current();
-                break;
+                return $this->csv->current();
             }
         }
-        if (empty($out)) {
-            throw new RuntimeException(sprintf("%s , não é multiplo de dois", $this->csv->getParam()));
-        }
-        return $out;
+        throw new RuntimeException(sprintf("%s , não é multiplo de dois", $this->csv->getParam()));
     }
 
 }

@@ -8,7 +8,7 @@
 
 use \PHPUnit_Framework_TestCase as PHPUnit;
 
-require_once  dirname(__DIR__) . '/DBConnSqliteTest.php';
+require_once dirname(__DIR__) . '/DBConnSqliteTest.php';
 
 /**
  * Description of EntradaIteratorTest
@@ -48,7 +48,8 @@ class EntradaIteratorTest extends PHPUnit {
                 'dia' => $entrada->format('Y-m-d'),
                 'entrada' => 0,
                 'desconto' => $deduction,
-                'saldo' => $this->object->getSaldo($deduction)
+                'saldo' => $this->object->getSaldo($deduction),
+                'observacao' => ''
             ]);
             $entrada = $entrada->modify('+1day');
             ++$i;
@@ -73,7 +74,8 @@ class EntradaIteratorTest extends PHPUnit {
         $this->assertEquals($this->object->offsetGet(6)['desconto'], $this->deduction($saldo));
 
         $this->assertEquals($this->object->offsetGet(28)['dia'], '2014-05-29');
-        $this->assertEquals((int)$this->object->offsetGet(28)['saldo'], 396);
+        $this->assertEquals((int) $this->object->offsetGet(28)['saldo'], 396);
+        $this->assertEquals($this->object->offsetGet(34)['dia'], '2014-06-04');
     }
 
 }

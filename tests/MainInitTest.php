@@ -21,14 +21,13 @@ class MainInitTest extends PHPUnit {
      */
     public function testBootstrapEventExceptionWithoutParams() {
 
-        $event = new \Event\Delegate();
-        $manager = new Event\ObsManager();
-        $client = new Client\Delegate($manager);
+        $main = new Main();
+        $main->run(null);
+    }
 
-        $event->addEvent(new Event\RequestGet($client));
-        $event->runEvents();
-
-        $manager->notify();
+    public function testBootstrapinit() {
+        $main = new Main();
+        $main->run('GET', 'entrada');
     }
 
     public function testSequenceOfExecution() {

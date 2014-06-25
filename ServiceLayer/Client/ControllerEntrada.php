@@ -16,11 +16,11 @@ namespace Client;
 class ControllerEntrada extends AbstracClient {
 
     public function execute() {
-        echo 'Entradas Cliente';
+        
     }
 
     public function hasRequest() {
-        return true;
+        return \Main::$Action === 'entrada';
     }
 
 }

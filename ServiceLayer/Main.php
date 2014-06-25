@@ -19,6 +19,14 @@ class Main {
     public function run($request, $action = null) {
         static::$REQUEST = $request;
         static::$Action = $action;
+        
+        $event = new Event\Delegate();
+        $manager = new Event\ObsManager();
+        $client = new Client\Delegate($manager);
+
+        $event->addEvent(new Event\RequestGet($client));
+        $event->runEvents();
+        $manager->notify();
     }
 
 }

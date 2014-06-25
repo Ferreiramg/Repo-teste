@@ -55,6 +55,7 @@ class CalcDiscountsTest extends PHPUnit {
 
     /**
      * @expectedException RuntimeException
+     * @expectedExceptionMessage 14.30 , não é multiplo de dois
      */
     public function testGetExceptionUmidadeWrongValue() {
         $umidade = '14.30'; //errado.

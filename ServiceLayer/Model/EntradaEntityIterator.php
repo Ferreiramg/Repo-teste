@@ -36,16 +36,17 @@ class EntradaEntityIterator extends \ArrayIterator {
 
         $__data = (object) $this->cols[$this->pointer];
         if ($value['dia'] === $__data->data) {
-            
+
             $entrada = round($__data->corrigido / $this->media, 2, PHP_ROUND_HALF_DOWN);
             $saida = round($__data->saida / $this->media, 2, PHP_ROUND_HALF_UP);
             self::$saldo += ($entrada - $saida);
-            
+
             $value = array(
                 'dia' => $value['dia'],
                 'entrada' => $entrada,
                 'desconto' => $this->deduction(),
-                'saldo' => self::$saldo
+                'saldo' => self::$saldo,
+                'observacao' => $__data->observacao
             );
             if (next($this->cols) !== false) {
                 ++$this->pointer;
@@ -56,6 +57,10 @@ class EntradaEntityIterator extends \ArrayIterator {
 
     public function setCliente(\Cliente $cliente) {
         $this->cliente = $cliente;
+    }
+
+    public function saldo() {
+        return static::$saldo;
     }
 
     public function getSaldo($deduction) {

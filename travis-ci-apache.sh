@@ -4,7 +4,7 @@
 sudo apt-get install -qq apache2
 
 # Configure Apache
-WEBROOT="/home/travis/build/Ferreiramg/Repo-teste"
+WEBROOT="$(pwd)/"
 CGIROOT=`dirname "$(which php-cgi)"`
 echo "WEBROOT: $WEBROOT"
 echo "CGIROOT: $CGIROOT"
@@ -35,6 +35,4 @@ sudo a2enmod actions
 sudo service apache2 restart
 
 # Configure custom domain
-echo "127.0.0.1 dev.local" | sudo tee --append /etc/hosts
-
-echo "TRAVIS_PHP_VERSION: $TRAVIS_PHP_VERSION"
+sudo echo "127.0.0.1 dev.local" | sudo tee --append /etc/hosts

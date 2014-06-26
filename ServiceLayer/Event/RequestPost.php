@@ -9,18 +9,18 @@
 namespace Event;
 
 /**
- * Description of _Get
+ * Description of RequestPost
  *
  * @author Administrador
  */
-class RequestGet extends AbstractEvent {
+class RequestPost extends AbstractEvent {
 
     public function has() {
-        return \Main::$REQUEST === 'GET';
+        return \Main::$REQUEST === 'POST';
     }
 
     public function listen() {
-        $this->client->addClient(new \Client\EntradaRead());
+        $this->client->addClient(new \Client\ControllerEntrada);
     }
 
 }

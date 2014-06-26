@@ -148,7 +148,7 @@ class CSVFilter extends \FilterIterator {
      */
     public function accept() {
 
-        return ($this->param === $this->getInnerIterator()->current()[0]);
+        return ($this->param === (float)$this->getInnerIterator()->current()[0]);
     }
 
 }

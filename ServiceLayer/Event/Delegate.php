@@ -19,6 +19,7 @@ class Delegate {
 
     public function addEvent(AbstractEvent $event) {
         $this->storage[] = $event;
+        return $this;
     }
 
     public function runEvents() {

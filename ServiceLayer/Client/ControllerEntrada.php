@@ -19,7 +19,7 @@ class ControllerEntrada extends AbstracClient {
         $model = new \Model\Entrada();
         $post = filter_input_array(INPUT_POST, $model->args);
         if ($post['acao']) {
-            $response = call_user_func_array([$model, $post['acao']], $post);
+            $response = call_user_func_array([$model, $post['acao']], [$post]);
         }
     }
 

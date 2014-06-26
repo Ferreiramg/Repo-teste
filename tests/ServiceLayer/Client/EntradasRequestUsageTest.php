@@ -22,12 +22,29 @@ class EntradasRequestUsageTest extends PHPUnit {
 
     protected function setUp() {
         $this->requestServer = new Client();
-
         DBConnSqliteTest::ConnPROPEL();
     }
 
-    public function testEventPostRequestMain() {
+    public function testMakeRequestTest() {
+        $response = $this->requestServer->get('http://127.0.0.1/');
+        $this->assertEquals($response->getStatusCode(), '200');
+    }
 
+    public function testCreateEntradaRequest() {
+       $response = $this->requestServer->post('http://127.0.0.1/entrada', [
+            'body' => [
+                'produtor' => 1,
+                'tipo' => 1,
+                'peso' => 30600,
+                'umidade' => '14.60',
+                'impureza' => 1,
+                'motorista' => "Luis",
+                'ticket' => 00234,
+                'observacao' => "",
+                'data' => "10-06-2014",
+                'acao' => 'create'
+    ]]);
+      $this->assertEquals($response->getStatusCode(), '200'); 
     }
 
 }

@@ -38,7 +38,7 @@ class CalcDiscountsTest extends PHPUnit {
     }
 
     public function testQuebradePeso() {
-        $umidade = '20.60';
+        $umidade = 20.6;
         $csv = new Model\CSV($this->tmp, ';');
         $calc = new Model\CalcDiscounts(
                 new Model\CSVFilter($csv, $umidade), $umidade);
@@ -46,7 +46,7 @@ class CalcDiscountsTest extends PHPUnit {
     }
 
     public function testQuebraSecagem() {
-        $umidade = '17.00';
+        $umidade = 17.0;
         $csv = new Model\CSV($this->tmp, ';');
         $calc = new Model\CalcDiscounts(
                 new Model\CSVFilter($csv, $umidade), $umidade);
@@ -55,10 +55,10 @@ class CalcDiscountsTest extends PHPUnit {
 
     /**
      * @expectedException RuntimeException
-     * @expectedExceptionMessage 14.30 , não é multiplo de dois
+     * @expectedExceptionMessage 14.3 , não é multiplo de dois
      */
     public function testGetExceptionUmidadeWrongValue() {
-        $umidade = '14.30'; //errado.
+        $umidade = 14.3; //errado.
         $csv = new Model\CSV($this->tmp, ';');
         $calc = new Model\CalcDiscounts(
                 new Model\CSVFilter($csv, $umidade), $umidade);

@@ -27,7 +27,7 @@ class MainInitTest extends PHPUnit {
 
     public function testBootstrapinit() {
         $main = new Main();
-        $main->run('GET', 'entrada');
+        $main->run('GET', 'entrada_read');
     }
 
     public function testSequenceOfExecution() {
@@ -39,6 +39,14 @@ class MainInitTest extends PHPUnit {
         $event->runEvents();
         $this->expectOutputString('execute here');
         $manager->notify();
+    }
+
+    public function testUrlRewrite() {
+        $_SERVER['REQUEST_URI'] = '/test/htaccess';
+        $_SERVER['SCRIPT_NAME'] = '/index.php';
+        $main = new Main();
+        $main->urlRewrite();
+        $this->assertEquals(Main::$Action, 'test');
     }
 
 }

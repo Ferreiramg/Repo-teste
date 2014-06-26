@@ -15,9 +15,7 @@ namespace Client;
  */
 class EntradaRead extends AbstracClient {
 
-    public function execute() {      
-        header('Content-Type: application/json');
-        var_dump($this);
+    public function execute() {
         
     }
 

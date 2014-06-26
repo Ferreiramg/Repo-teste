@@ -76,6 +76,7 @@ class EntradaIteratorTest extends PHPUnit {
         $this->assertEquals($this->object->offsetGet(28)['dia'], '2014-05-29');
         $this->assertEquals((int) $this->object->offsetGet(28)['saldo'], 396);
         $this->assertEquals($this->object->offsetGet(34)['dia'], '2014-06-04');
+        $this->assertEquals((int)$this->object->saldo(),392);
     }
 
 }

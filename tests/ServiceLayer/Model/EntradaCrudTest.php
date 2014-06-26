@@ -15,7 +15,7 @@ require_once dirname(__DIR__) . '/DBConnSqliteTest.php';
  *
  * @author Administrador
  */
-class EntradaCrudTest {
+class EntradaCrudTest extends PHPUnit {
 
     protected $model;
 
@@ -37,6 +37,37 @@ class EntradaCrudTest {
             'data' => "10-06-2014",
             'acao' => 'create'
         ];
+    }
+
+    public function testDoInsert() {
+        $this->model->csvfile = realpath('../') . \Configs::getInstance()->app->csv;
+        $rows = $this->model->create($this->post());
+
+        $this->assertEquals($rows, 1);
+        $this->assertEquals($this->model->getUmidade(), 14.6);
+        $data = $this->post();
+        $data['tipo'] = 0;
+        $rows2 = $this->model->create($data);
+        $this->assertEquals($rows2, 1);
+    }
+
+    public function testDoDelete() {
+        $de = $this->model->deletar(['id' => 2]);
+        $this->assertTrue($de);
+    }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testExceptionConfiFileNotFound() {
+        $this->model->create($this->post());
+    }
+
+    /**
+     * @expectedException Exceptions\ClientExceptionResponse 
+     */
+    public function testExceptionDelete() {
+        $this->model->deletar(['id' => 50]);
     }
 
 }

@@ -16,7 +16,7 @@ require_once dirname(__DIR__) . '/DBConnSqliteTest.php';
  *
  * @author Luis Paulo
  */
-class EntradasRequestUsageTest extends PHPUnit {
+class EntradasRequestUsageTest {
 
     protected $requestServer;
 
@@ -26,12 +26,12 @@ class EntradasRequestUsageTest extends PHPUnit {
     }
 
     public function testMakeRequestTest() {
-        $response = $this->requestServer->get('http://127.0.0.1/');
+        $response = $this->requestServer->get('http://localhost');
         $this->assertEquals($response->getStatusCode(), '200');
     }
 
     public function testCreateEntradaRequest() {
-       $response = $this->requestServer->post('http://127.0.0.1/entrada', [
+       $response = $this->requestServer->post('http://localhost', [
             'body' => [
                 'produtor' => 1,
                 'tipo' => 1,

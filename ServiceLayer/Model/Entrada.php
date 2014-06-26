@@ -33,7 +33,6 @@ class Entrada extends \Base\Entradas {
             'data' => ['filter' => FILTER_SANITIZE_STRING],
             'acao' => ['filter' => FILTER_SANITIZE_STRING]
         );
-        $this->csvfile = realpath('opt/tabela.csv');
         parent::__construct();
     }
 
@@ -64,13 +63,12 @@ class Entrada extends \Base\Entradas {
             $sum = ($quebra_peso + $impureza + $secagem);
             $this->setPesoCorrigido($this->getPeso() - $sum);
         }
-        if ($this->save()) {
-            throw new ClientExceptionResponse("Inserido com sucesso!", 1, ClientExceptionResponse::SUCCESS);
-        }
+        return $this->save();
     }
 
     public function deletar(array $args) {
-        if (!is_null($this->setId($args['id'])->delete())) {
+        $id = \EntradasQuery::create()->filterById($args['id'])->delete();
+        if ($id > 0) {
             return true;
         }
         throw new ClientExceptionResponse("O registro não foi Apagado!", 0, ClientExceptionResponse::DANGER);

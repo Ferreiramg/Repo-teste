@@ -6,9 +6,6 @@
  * and open the template in the editor.
  */
 
-use Propel\Runtime\Propel,
-    Propel\Runtime\Connection\ConnectionManagerSingle;
-
 /**
  * Description of DataAccessAbstractTest
  *
@@ -16,22 +13,11 @@ use Propel\Runtime\Propel,
  */
 class DBConnSqliteTest {
 
-    public static function ConnPROPEL() {
-        $serviceContainer = Propel::getServiceContainer();
-        $serviceContainer->setAdapterClass('default', 'sqlite');
-        $manager = new ConnectionManagerSingle();
-        $manager->setConfiguration(array(
-            'dsn' => "sqlite::memory:"
-        ));
-        $serviceContainer->setConnectionManager('default', $manager);
-        $serviceContainer->getConnection()->exec(static::$sql);
-        return $serviceContainer->getConnection();
-    }
-
     public static function ConnPDO() {
-        $dbh = new PDO('sqlite::memory:');
-        $dbh->exec(static::$sql);
-        return $dbh;
+        \Configs::getInstance()->set('debug', true);
+        $con = Model\Connection\Init::getInstance()->on();
+        $con->exec(static::$sql);
+        return $con;
     }
 
     private static $sql = <<<SQL

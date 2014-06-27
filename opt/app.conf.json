@@ -1,7 +1,14 @@
 {
-  "app": {
-    "port": 80,
-    "csv":"/opt/tabela.csv"
-  },
-  "debug": false
+    "app": {
+        "port": 80,
+        "csv": "/opt/tabela.csv"
+    },
+    "connection": {
+        "mysql": {
+            "dsn": "mysql:dbname=silo;host=localhost",
+            "user": "root",
+            "pass": "s3cr3t"
+        }
+    },
+    "debug": false
 }

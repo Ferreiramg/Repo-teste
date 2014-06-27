@@ -18,7 +18,7 @@ class EntradaRead extends AbstracClient {
     private $data;
 
     public function execute() {
-     
+        
     }
 
     public function hasRequest() {
@@ -27,6 +27,7 @@ class EntradaRead extends AbstracClient {
 
     private function calendarData() {
         $iterator = new \Model\EntradaEntityIterator();
+
         $hoje = new DateTime('now');
         $entrada = new DateTime('01-05-2014');
         $i = 0;

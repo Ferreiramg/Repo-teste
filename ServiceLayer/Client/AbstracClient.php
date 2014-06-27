@@ -18,9 +18,11 @@ use Event\InterfaceEvent as EventManager;
 abstract class AbstracClient implements ClientInterface {
 
     public $delegate;
+    protected $params;
 
     public function clientDelegate(Delegate $delegateClass) {
         $this->delegate = $delegateClass;
+        $this->params = \Main::$EXTRA_PARAMS;
         return $this;
     }
 

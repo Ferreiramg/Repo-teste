@@ -20,8 +20,8 @@ class EntradaCrudTest extends PHPUnit {
     protected $model;
 
     protected function setUp() {
-        DBConnSqliteTest::ConnPROPEL();
         $this->model = new \Model\Entrada();
+        DBConnSqliteTest::ConnPDO();
     }
 
     private function post() {
@@ -32,31 +32,36 @@ class EntradaCrudTest extends PHPUnit {
             'umidade' => '14.60',
             'impureza' => 1,
             'motorista' => "Luis",
-            'ticket' => 00234,
+            'ticket' => 234,
             'observacao' => "",
-            'data' => "10-06-2014",
+            'data' => "2014-06-25",
             'acao' => 'create'
         ];
     }
 
     public function testDoInsert() {
         $this->model->csvfile = realpath('../') . \Configs::getInstance()->app->csv;
-        $rows = $this->model->create($this->post());
+        $rows = $this->model->create($data = $this->post(), $stmt); //By reference debug mode
 
-        $this->assertEquals($rows, 1);
-        $this->assertEquals($this->model->getUmidade(), 14.6);
-        $data = $this->post();
+        $EXPECTED = "INSERT INTO `entradas` 
+            (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`)
+                VALUES ('30600', '0', '28705.86', '1', '14.60', '1', '2014-06-25', '234', 'Luis: ')";
+
+        $this->assertTrue($rows);
+        $this->assertEquals("" . $EXPECTED . "", $stmt->getSQL());
+        //Insert saida tipo =0;
         $data['tipo'] = 0;
-        $rows2 = $this->model->create($data);
-        $this->assertEquals($rows2, 1);
-    }
+        $rows = $this->model->create($data, $stmt);
+        $EXPECTED = "INSERT INTO `entradas` 
+            (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`)
+                VALUES ('0', '30600', '0', '1', '0', '0', '2014-06-25', '234', 'Luis: ')";
 
-    public function testDoDelete() {
-        $de = $this->model->deletar(['id' => 2]);
-        $this->assertTrue($de);
+        $this->assertTrue($rows);
+        $this->assertEquals("" . $EXPECTED . "", $stmt->getSQL());
     }
 
     /**
+     * Exception when a file can not be set for property $this->csvfile
      * @expectedException RuntimeException
      */
     public function testExceptionConfiFileNotFound() {
@@ -64,10 +69,13 @@ class EntradaCrudTest extends PHPUnit {
     }
 
     /**
-     * @expectedException Exceptions\ClientExceptionResponse 
+     * @depends testDoInsert
      */
-    public function testExceptionDelete() {
-        $this->model->deletar(['id' => 50]);
+    public function testdoDelete() {
+        $rows = $this->model->deletar(['id' => 3]);
+        $this->assertEquals($rows, 1);
+        $rows = $this->model->deletar(['id' => 4]);
+        $this->assertEquals($rows, 1);
     }
 
 }

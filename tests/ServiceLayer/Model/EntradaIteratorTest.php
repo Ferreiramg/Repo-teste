@@ -20,9 +20,9 @@ class EntradaIteratorTest extends PHPUnit {
     protected $object, $stmt;
 
     protected function setUp() {
-        $mock = $this->getMock('Cliente', ['getArmazenagem']);
+        $mock = $this->getMock('\Produtor', ['getTaxa']);
         $mock->expects($this->any())
-                ->method('getArmazenagem')
+                ->method('getTaxa')
                 ->will($this->returnValue(0.033));
         $this->object = new Model\EntradaEntityIterator(60);
         $this->object->setCliente($mock);
@@ -49,10 +49,10 @@ class EntradaIteratorTest extends PHPUnit {
                 'entrada' => 0,
                 'desconto' => $deduction,
                 'saldo' => $this->object->getSaldo($deduction),
-                'observacao' => ''
+                'observacao' => '',
+                'decorrido' => ++$i,
             ]);
             $entrada = $entrada->modify('+1day');
-            ++$i;
         }
     }
 

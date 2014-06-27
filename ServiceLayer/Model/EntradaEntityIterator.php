@@ -55,7 +55,7 @@ class EntradaEntityIterator extends \ArrayIterator {
         parent::append($value);
     }
 
-    public function setCliente(\Cliente $cliente) {
+    public function setCliente(\Produtor $cliente) {
         $this->cliente = $cliente;
     }
 
@@ -68,7 +68,7 @@ class EntradaEntityIterator extends \ArrayIterator {
     }
 
     public function deduction() {
-        $taxa = (float) $this->cliente->getArmazenagem() / 100.0;
+        $taxa = (float) $this->cliente->getTaxa() / 100.0;
         return self::$saldo < 0 ? 0 :
                 round($taxa * self::$saldo, 2, PHP_ROUND_HALF_UP);
     }

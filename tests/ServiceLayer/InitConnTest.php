@@ -17,10 +17,12 @@ require_once 'DBConnSqliteTest.php';
  */
 class InitConnTest extends PHPUnit {
 
-    public function testPropelMakeConnection() {
-        $conn = DBConnSqliteTest::ConnPROPEL();
+    public function testMakeConnection() {
+        \Configs::getInstance()->set('debug', true);
+        $con = Model\Connection\Init::getInstance()->on();
 
-        $this->assertInstanceOf('\Propel\Runtime\Connection\ConnectionWrapper', $conn);
+        $this->assertInstanceOf('\PDO', $con);
+        $this->assertTrue($con === Model\Connection\Init::getInstance()->on());
     }
 
 }

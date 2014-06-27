@@ -25,10 +25,10 @@ class MainInitTest extends PHPUnit {
         $main->run(null);
     }
 
-    public function testBootstrapinit() {
-        $main = new Main();
-        $main->run('GET', 'entrada_read');
-    }
+//    public function testBootstrapinit() {
+//        $main = new Main();
+//        $main->run('GET', 'entrada_read');
+//    }
 
     public function testSequenceOfExecution() {
         $event = new Event\Delegate();

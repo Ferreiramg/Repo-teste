@@ -28,4 +28,21 @@ class ConfigTest extends PHPUnit {
         $this->assertTrue(is_string(Configs::getInstance()->getFile()));
     }
 
+    public function testsetConfigCache() {
+        \Configs::getInstance()->set('debug', true);
+
+        $cf = Configs::getInstance()->get('debug');
+        $this->assertTrue($cf);
+    }
+
+//      public function testRetrieveKeyFromUser()
+//  {
+//    $user = new User();
+//
+//    $reflectionOfUser = new ReflectionClass('User');
+//    $method = $reflectionOfUser->getMethod('_getKey');
+//    $method->setAccessible(true);
+//
+//    $this->assertEquals('mysuperawesomekey', $method->invokeArgs($user, array()));
+//  }
 }

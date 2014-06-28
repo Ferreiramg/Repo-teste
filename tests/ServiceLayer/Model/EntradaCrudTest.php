@@ -40,7 +40,7 @@ class EntradaCrudTest extends PHPUnit {
     }
 
     public function testDoInsert() {
-        $this->model->csvfile = realpath('../') . \Configs::getInstance()->app->csv;
+        $this->model->csvfile = ROOT . \Configs::getInstance()->app->csv;
         $rows = $this->model->create($data = $this->post(), $stmt); //By reference debug mode
 
         $EXPECTED = "INSERT INTO `entradas` 

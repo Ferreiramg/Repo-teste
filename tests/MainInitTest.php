@@ -25,6 +25,10 @@ class MainInitTest extends PHPUnit {
         $main->run(null);
     }
 
+    public function testHasDefined() {
+        $this->assertTrue(defined('ROOT'));
+    }
+
 //    public function testBootstrapinit() {
 //        $main = new Main();
 //        $main->run('GET', 'entrada_read');

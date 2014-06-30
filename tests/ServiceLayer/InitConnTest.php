@@ -28,7 +28,7 @@ class InitConnTest extends PHPUnit {
     /**
      * @expectedException RuntimeException
      */
-    public function testGetPDOexception() {
+    public function testGetPdoException() {
         \Configs::getInstance()->set('debug', false);
         Model\Connection\Init::getInstance()->unsetConn();
         Model\Connection\Init::getInstance()->on();

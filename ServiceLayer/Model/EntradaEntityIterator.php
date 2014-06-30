@@ -25,7 +25,7 @@ class EntradaEntityIterator extends \ArrayIterator {
 
     public function __construct($media = self::KG_60, $array = [], $flags = 0) {
         $this->media = $media;
-        parent::__construct($array, $flags);
+        parent::__construct($array, \ArrayIterator::ARRAY_AS_PROPS);
     }
 
     public function setCols(array $data) {
@@ -42,8 +42,10 @@ class EntradaEntityIterator extends \ArrayIterator {
             self::$saldo += ($entrada - $saida);
 
             $value = array(
+                'id' => $__data->id,
                 'dia' => $value['dia'],
                 'entrada' => $entrada,
+                'saida' => $saida,
                 'desconto' => $this->deduction(),
                 'saldo' => self::$saldo,
                 'observacao' => $__data->observacao
@@ -55,12 +57,8 @@ class EntradaEntityIterator extends \ArrayIterator {
         parent::append($value);
     }
 
-    public function setCliente(\Produtor $cliente) {
+    public function setCliente(Produtor $cliente) {
         $this->cliente = $cliente;
-    }
-
-    public function saldo() {
-        return static::$saldo;
     }
 
     public function getSaldo($deduction) {
@@ -73,4 +71,7 @@ class EntradaEntityIterator extends \ArrayIterator {
                 round($taxa * self::$saldo, 2, PHP_ROUND_HALF_UP);
     }
 
+    public function __destruct() {
+        unset($this);
+    }
 }

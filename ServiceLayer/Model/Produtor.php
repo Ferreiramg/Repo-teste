@@ -1,18 +1,34 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Model;
 
 /**
  * Description of Produtor
  *
- * @author Laticinios PJ
+ * @author Luís Paulo
  */
-class Produtor {
-    //put your code here
+class Produtor extends \ArrayIterator {
+
+//    public $id, $nome, $grao, $data, $armazenagem;
+    private $idKey;
+
+    public function __construct($id = 0) {
+        $this->setIdKey($id);
+        $conn = Connection\Init::getInstance()->on();
+        $stmt = $conn->query("SELECT * FROM cliente");
+        parent::__construct($stmt->fetchAll(\PDO::FETCH_ASSOC));
+    }
+
+    public function setIdKey($id) {
+        $this->idKey = $id;
+    }
+
+    public function getTaxa() {
+        return (double) $this->armazenagem;
+    }
+
+    public function __get($name) {
+        return $this->offsetGet($this->idKey)[(string) $name];
+    }
+
 }

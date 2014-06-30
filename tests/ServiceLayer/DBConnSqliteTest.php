@@ -32,8 +32,11 @@ BEGIN TRANSACTION;
     INSERT INTO `cliente` 
     (`id`, `nome`, `grao`, `data`, `armazenagem`) VALUES
     (1, 'Luis Paulo', 'Milho', '2014-05-28 16:52:29', 0.033);
+   INSERT INTO `cliente` 
+    (`id`, `nome`, `grao`, `data`, `armazenagem`) VALUES
+    (2, 'Ferreira', 'Milho', '2014-06-28 16:52:29', 0.043);
 COMMIT;          
-CREATE TABLE IF NOT EXISTS `entradas` (
+CREATE TABLE `entradas` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `peso` REAL,
   `saida_peso` REAL,

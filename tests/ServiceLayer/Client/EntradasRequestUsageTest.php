@@ -16,22 +16,37 @@ require_once dirname(__DIR__) . '/DBConnSqliteTest.php';
  *
  * @author Luis Paulo
  */
-class EntradasRequestUsageTest {
+class EntradasRequestUsageTest extends PHPUnit {
 
     protected $requestServer;
 
     protected function setUp() {
         $this->requestServer = new Client();
-        DBConnSqliteTest::ConnPROPEL();
+        DBConnSqliteTest::ConnPDO();
+    }
+
+    public function testMainInitRequest() {
+        ob_start();
+        $main = new Main();
+        Main::$EXTRA_PARAMS = array('calendar', 1);
+        $main->run('GET', 'entrada_read');
+        $this->assertTrue(strlen(ob_get_contents())> 4900); //characters response
+        ob_end_clean();
     }
 
     public function testMakeRequestTest() {
-        $response = $this->requestServer->get('http://localhost');
+         $this->markTestIncomplete(
+          'This test has not been implemented yet.'
+        );
+        $response = $this->requestServer->get('http://localhost/entrada_read/calendar/1');
         $this->assertEquals($response->getStatusCode(), '200');
     }
 
     public function testCreateEntradaRequest() {
-       $response = $this->requestServer->post('http://localhost', [
+         $this->markTestIncomplete(
+          'This test has not been implemented yet.'
+        );
+        $response = $this->requestServer->post('http://localhost', [
             'body' => [
                 'produtor' => 1,
                 'tipo' => 1,
@@ -43,8 +58,8 @@ class EntradasRequestUsageTest {
                 'observacao' => "",
                 'data' => "10-06-2014",
                 'acao' => 'create'
-    ]]);
-      $this->assertEquals($response->getStatusCode(), '200'); 
+        ]]);
+        $this->assertEquals($response->getStatusCode(), '200');
     }
 
 }

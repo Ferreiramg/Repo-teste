@@ -15,9 +15,7 @@ class EntradaIteratorTest extends PHPUnit {
 
     protected function setUp() {
         $this->stmt = DBConnSqliteTest::ConnPDO();
-        $mock = $this->getMockBuilder('\Model\Produtor', ['getTaxa'])
-                ->disableOriginalConstructor()
-                ->getMock();
+        $mock = $this->getMock('\Model\Produtor', ['getTaxa']);
         $mock->expects($this->any())
                 ->method('getTaxa')
                 ->will($this->returnValue(0.033));

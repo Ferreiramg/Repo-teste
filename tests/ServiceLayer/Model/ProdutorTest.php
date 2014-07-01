@@ -25,9 +25,9 @@ class ProdutorTest extends PHPUnit {
         $this->assertEquals($produtor->offsetGet(0)['nome'], 'Luis Paulo');
         $this->assertEquals($produtor->nome, 'Luis Paulo');
         $produtor->setIdKey(1);
-        $this->assertEquals($produtor->nome, 'Ferreira');       
+        $this->assertEquals($produtor->nome, 'Ferreira');
+        $this->assertEquals($produtor->count(), 2);
         //$this->assertEquals($produtor->getTaxa(),0.43);
-        
     }
 
 }

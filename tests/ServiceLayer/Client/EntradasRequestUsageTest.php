@@ -42,6 +42,13 @@ class EntradasRequestUsageTest extends PHPUnit {
         Main::$EXTRA_PARAMS = array('deletar', 300);
         $main->run('DELETE', 'entrada');
     }
+    
+     public function testCrudUsageDeleteSuccess() {
+        $main = new Main();
+        Main::$EXTRA_PARAMS = array('deletar', 2);
+        $this->expectOutputString('[{"code":"1"}]');
+        $main->run('DELETE', 'entrada');
+    }
 
     public function testMakeRequestTest() {
         $this->markTestIncomplete(

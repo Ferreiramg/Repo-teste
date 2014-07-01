@@ -35,7 +35,7 @@ class EntradaEntityIterator extends \ArrayIterator {
     public function append($value) {
 
         $__data = (object) $this->cols[$this->pointer];
-        if ($value['dia'] === $__data->data) {
+        if ($value['dia'] === date('Y-m-d',  strtotime($__data->data)) ) {
 
             $entrada = round($__data->corrigido / $this->media, 2, PHP_ROUND_HALF_DOWN);
             $saida = round($__data->saida / $this->media, 2, PHP_ROUND_HALF_UP);
@@ -66,7 +66,7 @@ class EntradaEntityIterator extends \ArrayIterator {
     }
 
     public function deduction() {
-        $taxa = (float) $this->cliente->getTaxa() / 100.0;
+        $taxa =  $this->cliente->getTaxa() / 100.0;
         return self::$saldo < 0 ? 0 :
                 round($taxa * self::$saldo, 2, PHP_ROUND_HALF_UP);
     }

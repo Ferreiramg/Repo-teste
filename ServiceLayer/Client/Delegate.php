@@ -29,6 +29,7 @@ class Delegate {
     public function runClient() {
         foreach ($this->storage as $client) {
             if ($client->hasRequest()) {
+                $this->observer->detach($client);
                 return $client->execute();
             }
         }

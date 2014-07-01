@@ -48,7 +48,7 @@ class Entrada {
             $args['impureza'] = 0;
             $args['peso'] = 0;
         }
-        $this->error_msg ="Não pode ser inserido os dados!!";
+        $this->error_msg = "Não pode ser inserido os dados!!";
         $con = Connection\Init::getInstance()->on();
         $stmt = $con->prepare("INSERT INTO `entradas` 
             (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`)
@@ -59,14 +59,14 @@ class Entrada {
         $stmt->bindValue(':_c', $args['produtor']);
         $stmt->bindValue(':u', $args['umidade']);
         $stmt->bindValue(':i', $args['impureza']);
-        $stmt->bindValue(':d', $args['data']);
+        $stmt->bindValue(':d', date('Y-m-d H:s:i', strtotime($args['data'])));
         $stmt->bindValue(':t', $args['ticket']);
         $stmt->bindValue(':o', sprintf("%s: %s", $args['motorista'], $args['observacao']));
         return $stmt->execute();
     }
 
     public function deletar(array $args) {
-          $this->error_msg ="Não foi apagado! Tente novamente.";
+        $this->error_msg = "Não foi apagado! Tente novamente.";
         return Connection\Init::getInstance()
                         ->on()
                         ->exec(sprintf("DELETE FROM `entradas` WHERE id = %u", $args['id']));

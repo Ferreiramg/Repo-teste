@@ -2,6 +2,8 @@
 
 namespace Client;
 
+use DateTime;
+
 /**
  * Description of EntradaRead
  *
@@ -19,9 +21,9 @@ class EntradaRead extends AbstracClient {
     public function execute() {
         if (isset($this->params[0]) && $this->params[0] == 'calendar') {
             echo json_encode($this->calendarData());
-            return null;
+                return null;
+            }
         }
-    }
 
     public function hasRequest() {
         return \Main::$Action === 'entrada_read';
@@ -33,8 +35,12 @@ class EntradaRead extends AbstracClient {
         $iterator = new \Model\EntradaEntityIterator();
         $iterator->setCliente(new \Model\Produtor($key));
         $iterator->setCols($data);
-        $hoje = new \DateTime('now');
-        $entrada = new \DateTime($data[0]['data']);
+        $hoje = new DateTime('now');
+        $entrada = new DateTime($data[0]['data']);
+        if (DateTime::getLastErrors()['warning_count']) {
+            throw new \Exceptions\ClientExceptionResponse(
+            print_r(DateTime::getLastErrors()['warnings'], true));
+        }
         while ($entrada < $hoje) {
             $deduction = $iterator->deduction();
             $iterator->append([

@@ -36,14 +36,14 @@ class EntradasReadDataTest extends PHPUnit {
         Main::$EXTRA_PARAMS = array(true, 1);
         $entrada = new \Client\EntradaRead();
 
-        $reflectionOfUser = new ReflectionClass('\Client\EntradaRead');
-        $method = $reflectionOfUser->getMethod('calendarData');
+        $reflection = new ReflectionClass('\Client\EntradaRead');
+        $method = $reflection->getMethod('calendarData');
         $method->setAccessible(true);
         $invo = $method->invokeArgs($entrada, array());
         $date1 = new DateTime("2014-05-06");
         $date2 = new DateTime("now");
 
-        $diff = $date2->diff($date1)->format("%a")+1;
+        $diff = $date2->diff($date1)->format("%a") + 1;
         $this->assertEquals(count($invo), $diff);
     }
 

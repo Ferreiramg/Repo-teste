@@ -45,7 +45,7 @@ class EntradaCrudTest extends PHPUnit {
 
         $EXPECTED = "INSERT INTO `entradas` 
             (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`)
-                VALUES ('30600', '0', '28705.86', '1', '14.60', '1', '2014-06-25', '234', 'Luis: ')";
+                VALUES ('30600', '0', '28705.86', '1', '14.60', '1', '2014-06-25 00:00:00', '234', 'Luis: ')";
 
         $this->assertTrue($rows);
         $this->assertEquals("" . $EXPECTED . "", $stmt->getSQL());
@@ -54,7 +54,7 @@ class EntradaCrudTest extends PHPUnit {
         $rows = $this->model->create($data, $stmt);
         $EXPECTED = "INSERT INTO `entradas` 
             (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`)
-                VALUES ('0', '30600', '0', '1', '0', '0', '2014-06-25', '234', 'Luis: ')";
+                VALUES ('0', '30600', '0', '1', '0', '0', '2014-06-25 00:00:00', '234', 'Luis: ')";
 
         $this->assertTrue($rows);
         $this->assertEquals("" . $EXPECTED . "", $stmt->getSQL());

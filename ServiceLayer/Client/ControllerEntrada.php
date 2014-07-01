@@ -8,6 +8,8 @@
 
 namespace Client;
 
+use Exceptions\ClientExceptionResponse;
+
 /**
  * Description of _Entrada
  *
@@ -17,10 +19,21 @@ class ControllerEntrada extends AbstracClient {
 
     public function execute() {
         $model = new \Model\Entrada();
-        $post = filter_input_array(INPUT_POST, $model->args);
+        $post = $this->postArgs($model);
         if ($post['acao']) {
             $response = call_user_func_array([$model, $post['acao']], [$post]);
+            if (!$response)
+                throw new ClientExceptionResponse($model->error_msg);
         }
+    }
+
+    public function postArgs($model) {
+        $post = filter_input_array(INPUT_POST, $model->args);
+        if (!$post) {
+            $post['id'] = $this->params[1];
+            $post['acao'] = $this->params[0];
+        }
+        return $post;
     }
 
     public function hasRequest() {

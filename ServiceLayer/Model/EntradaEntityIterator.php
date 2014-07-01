@@ -23,7 +23,7 @@ class EntradaEntityIterator extends \ArrayIterator {
     const KG_60 = 60;
     const KG_50 = 50;
 
-    public function __construct($media = self::KG_60, $array = [], $flags = 0) {
+    public function __construct($media = self::KG_60, $array = []) {
         $this->media = $media;
         parent::__construct($array, \ArrayIterator::ARRAY_AS_PROPS);
     }

@@ -78,4 +78,4 @@ class EntradaCrudTest extends PHPUnit {
         $this->assertEquals($rows, 1);
     }
 
-}
+    }

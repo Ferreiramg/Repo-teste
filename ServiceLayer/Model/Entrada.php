@@ -15,7 +15,7 @@ namespace Model;
  */
 class Entrada {
 
-    public $args, $csvfile;
+    public $args, $csvfile, $error_msg = "";
 
     public function __construct() {
         $this->args = array(
@@ -48,7 +48,7 @@ class Entrada {
             $args['impureza'] = 0;
             $args['peso'] = 0;
         }
-
+        $this->error_msg ="Não pode ser inserido os dados!!";
         $con = Connection\Init::getInstance()->on();
         $stmt = $con->prepare("INSERT INTO `entradas` 
             (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`)
@@ -66,6 +66,7 @@ class Entrada {
     }
 
     public function deletar(array $args) {
+          $this->error_msg ="Não foi apagado! Tente novamente.";
         return Connection\Init::getInstance()
                         ->on()
                         ->exec(sprintf("DELETE FROM `entradas` WHERE id = %u", $args['id']));

@@ -26,7 +26,8 @@ class Main {
         $client = new Client\Delegate($manager);
 
         $event->addEvent(new Event\RequestGet($client))
-                ->addEvent(new Event\RequestPost($client));
+                ->addEvent(new Event\RequestPost($client))
+                ->addEvent(new Event\RequestDelete($client));
         $event->runEvents();
         $manager->notify();
     }

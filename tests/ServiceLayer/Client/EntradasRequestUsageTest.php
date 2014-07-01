@@ -30,21 +30,30 @@ class EntradasRequestUsageTest extends PHPUnit {
         $main = new Main();
         Main::$EXTRA_PARAMS = array('calendar', 1);
         $main->run('GET', 'entrada_read');
-        $this->assertTrue(strlen(ob_get_contents())> 4900); //characters response
+        $this->assertTrue(strlen(ob_get_contents()) > 4900); //characters response
         ob_end_clean();
     }
 
+    /**
+     *@expectedException Exceptions\ClientExceptionResponse 
+     */
+    public function testCrudUsageDeleteException() {
+        $main = new Main();
+        Main::$EXTRA_PARAMS = array('deletar', 300);
+        $main->run('DELETE', 'entrada');
+    }
+
     public function testMakeRequestTest() {
-         $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+        $this->markTestIncomplete(
+                'This test has not been implemented yet.'
         );
         $response = $this->requestServer->get('http://localhost/entrada_read/calendar/1');
         $this->assertEquals($response->getStatusCode(), '200');
     }
 
     public function testCreateEntradaRequest() {
-         $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+        $this->markTestIncomplete(
+                'This test has not been implemented yet.'
         );
         $response = $this->requestServer->post('http://localhost', [
             'body' => [

@@ -31,4 +31,8 @@ class Produtor extends \ArrayIterator {
         return $this->offsetGet($this->idKey)[(string) $name];
     }
 
+    public function __toString() {    
+        return json_encode($this->getArrayCopy());
+    }
+
 }

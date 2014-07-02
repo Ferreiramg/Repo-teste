@@ -23,8 +23,8 @@ class Entrada {
             'produtor' => ['filter' => FILTER_VALIDATE_INT],
             'tipo' => ['filter' => FILTER_VALIDATE_INT, 'options' => ['min_range' => 1, 'max_range' => 2]],
             'peso' => FILTER_SANITIZE_NUMBER_INT,
-            'umidade' => ['filter' => FILTER_SANITIZE_NUMBER_FLOAT],
-            'impureza' => ['filter' => FILTER_SANITIZE_NUMBER_FLOAT],
+            'umidade' => ['filter' => FILTER_VALIDATE_FLOAT],
+            'impureza' => ['filter' => FILTER_VALIDATE_FLOAT],
             'motorista' => ['filter' => FILTER_SANITIZE_STRING],
             'ticket' => ['filter' => FILTER_SANITIZE_STRING],
             'observacao' => ['filter' => FILTER_SANITIZE_STRING],
@@ -37,7 +37,7 @@ class Entrada {
         $args['saida'] = 0;
         $args['corrigido'] = 0;
         if ($this->checkType($args['tipo'])) {
-            $calcs = $this->instanceCalcDiscountsWillApplyFilter((float) $args['umidade']);
+            $calcs = $this->instanceCalcDiscountsWillApplyFilter($args['umidade']);
             $qp = round($args['peso'] * $calcs->quebraPeso(), 2);
             $sv = round($args['peso'] * $calcs->servicoSecagem(), 2);
             $imp = $calcs->impureza($args['impureza'], $args['peso']);

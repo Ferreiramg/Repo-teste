@@ -8,6 +8,8 @@
 
 namespace Event;
 
+use Model\Cached\Memory;
+
 /**
  * Description of _Get
  *
@@ -20,6 +22,7 @@ class RequestGet extends AbstractEvent {
     }
 
     public function listen() {
+        Memory::getInstance(); //init Server Mencached
         $this->client->addClient(new \Client\EntradaRead);
         $this->client->addClient(new \Client\ProdutorRead);
     }

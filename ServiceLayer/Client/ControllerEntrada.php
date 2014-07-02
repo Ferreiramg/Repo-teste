@@ -1,9 +1,9 @@
 <?php
 
-
 namespace Client;
 
-use Exceptions\ClientExceptionResponse;
+use Exceptions\ClientExceptionResponse,
+    Model\Cached\Memory;
 
 /**
  * Description of _Entrada
@@ -14,13 +14,21 @@ class ControllerEntrada extends AbstracClient {
 
     public function execute() {
         $model = new \Model\Entrada();
+        $model->csvfile = ROOT . \Configs::getInstance()->app->csv;
         $post = $this->prepareArgs($model);
         if ($post['acao']) {
             $response = call_user_func_array([$model, $post['acao']], [$post]);
             if (!$response)
                 throw new ClientExceptionResponse($model->error_msg);
         }
+        $id = isset($post['produtor']) ? $post['produtor'] : $post['id'];
+        $this->clearCached($id);
         printf('[{"code":"%s"}]', $response);
+    }
+
+    private function clearCached($id) {
+        $cached = Memory::getInstance()->meminstance;
+        return $cached->delete('calendar:' . $id);
     }
 
     private function prepareArgs($model) {

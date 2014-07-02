@@ -51,9 +51,9 @@ class EntradasRequestUsageTest extends PHPUnit {
     }
 
     public function testMakeRequestTest() {
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+//        $this->markTestIncomplete(
+//                'This test has not been implemented yet.'
+//        );
         $response = $this->requestServer->get('http://localhost/entrada_read/calendar/1');
         $this->assertEquals($response->getStatusCode(), '200');
     }
@@ -67,7 +67,7 @@ class EntradasRequestUsageTest extends PHPUnit {
                 'produtor' => 1,
                 'tipo' => 1,
                 'peso' => 30600,
-                'umidade' => '14.60',
+                'umidade' => '20.60',
                 'impureza' => 1,
                 'motorista' => "Luis",
                 'ticket' => 00234,
@@ -76,6 +76,7 @@ class EntradasRequestUsageTest extends PHPUnit {
                 'acao' => 'create'
         ]]);
         $this->assertEquals($response->getStatusCode(), '200');
+        echo $response;
     }
 
 }

@@ -2,7 +2,8 @@
 
 namespace Client;
 
-use DateTime;
+use DateTime,
+    Model\Cached\Memory;
 
 /**
  * Description of EntradaRead
@@ -20,10 +21,16 @@ class EntradaRead extends AbstracClient {
 
     public function execute() {
         if (isset($this->params[0]) && $this->params[0] == 'calendar') {
-            echo json_encode($this->calendarData());
-                return null;
-            }
+            $key = $this->params[0] .':'. $this->params[1];
+            $_t = $this;
+            echo Memory::getInstance()->checkIn($key, function($mem)use ($_t, $key) {
+                $data = json_encode($_t->calendarData());
+                $mem->set($key, $data, time() + 300);
+                return $data;
+            });
+            return null;
         }
+    }
 
     public function hasRequest() {
         return \Main::$Action === 'entrada_read';

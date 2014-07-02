@@ -1,12 +1,8 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Client;
+
+use Model\Cached\Memory;
 
 /**
  * Description of ProdutorRead
@@ -17,7 +13,11 @@ class ProdutorRead extends AbstracClient {
 
     public function execute() {
         $model = new \Model\Produtor();
-        echo $model;
+
+        echo Memory::getInstance()->checkIn('produtor:', function($mem)use ($model) {
+            $mem->set('produtor:', (string) $model, time() + 300);
+            return (string) $model;
+        });
     }
 
     public function hasRequest() {

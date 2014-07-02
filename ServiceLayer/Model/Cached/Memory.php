@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Model\Cached;
 
 /**
@@ -15,15 +9,20 @@ namespace Model\Cached;
  */
 class Memory {
 
-    protected $meninstance;
+    public $meminstance;
 
     public function init() {
-        $this->meminstance = new \Memcache();
-        $this->meminstance->pconnect('localhost', 11211);
+        $this->meminstance = new \Memcached();
+        $this->meminstance->addServer('localhost', 11211);
+        $this->meminstance;
     }
 
-    public function on() {
-        return $this->meninstance;
+    public function checkIn($key, \Closure $callback = null) {
+        if (!($output = $this->meminstance->get($key))) {
+            if ($this->meminstance->getResultCode() == \Memcached::RES_NOTFOUND)
+                return $callback($this->meminstance);
+        }
+        return $output;
     }
 
 use \ConfigTrait;

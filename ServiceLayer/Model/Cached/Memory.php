@@ -20,7 +20,7 @@ class Memory {
     public function checkIn($key, \Closure $callback = null) {
         if (!($output = $this->meminstance->get($key))) {
             if ($this->meminstance->getResultCode() == \Memcached::RES_NOTFOUND)
-                return $callback($this->meminstance);
+                return call_user_func($callback,$this->meminstance);
         }
         return $output;
     }

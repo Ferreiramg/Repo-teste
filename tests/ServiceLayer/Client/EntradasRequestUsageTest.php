@@ -51,18 +51,18 @@ class EntradasRequestUsageTest extends PHPUnit {
     }
 
     public function testMakeRequestTest() {
-//        $this->markTestIncomplete(
-//                'This test has not been implemented yet.'
-//        );
+        $this->markTestIncomplete(
+                'This test has not been implemented yet.'
+        );
         $response = $this->requestServer->get('http://localhost/entrada_read/calendar/1');
         $this->assertEquals($response->getStatusCode(), '200');
     }
 
     public function testCreateEntradaRequest() {
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-        $response = $this->requestServer->post('http://localhost', [
+//        $this->markTestIncomplete(
+//                'This test has not been implemented yet.'
+//        );
+        $response = $this->requestServer->post('http://localhost/', [
             'body' => [
                 'produtor' => 1,
                 'tipo' => 1,

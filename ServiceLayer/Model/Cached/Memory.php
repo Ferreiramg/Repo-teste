@@ -19,8 +19,11 @@ class Memory {
 
     public function checkIn($key, \Closure $callback = null) {
         if (!($output = $this->meminstance->get($key))) {
-            if ($this->meminstance->getResultCode() == \Memcached::RES_NOTFOUND)
-                return call_user_func($callback,$this->meminstance);
+            if ($this->meminstance->getResultCode() == \Memcached::RES_NOTFOUND) {
+                if (is_null($callback))
+                    return $output;
+                return call_user_func($callback, $this->meminstance);
+            }
         }
         return $output;
     }

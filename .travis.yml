@@ -7,8 +7,8 @@ php:
 before_script:
     - sudo apt-get update
     - sudo apt-get install apache2
-    - sudo ps ax | grep memcached  
     - sudo echo "extension=memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+    - sudo echo "extension=memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
     - sudo a2enmod actions
     - sudo a2enmod rewrite
     - sudo cp -f travis-ci-apache /etc/apache2/sites-available/default

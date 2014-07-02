@@ -7,18 +7,11 @@
                 AllowOverride All
         </Directory>
         <Directory %TRAVIS_BUILD_DIR% >
+                DirectoryIndex index.php
                 Options Indexes FollowSymLinks MultiViews
                 AllowOverride All
                 Order allow,deny
                 allow from all
-        </Directory>
-
-        ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
-        <Directory "/usr/lib/cgi-bin">
-                AllowOverride All
-                Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
-                Order allow,deny
-                Allow from all
         </Directory>
 
         ErrorLog ${APACHE_LOG_DIR}/error.log

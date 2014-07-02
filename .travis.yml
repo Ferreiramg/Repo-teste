@@ -5,7 +5,9 @@ php:
     - 5.6
 
 before_script:
+    - sudo apt-get update
     - sudo apt-get install apache2 memcached php5-memcached
+    - sudo ps ax | grep memcached  
     - sudo a2enmod actions
     - sudo a2enmod rewrite
     - sudo cp -f travis-ci-apache /etc/apache2/sites-available/default

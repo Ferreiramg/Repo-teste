@@ -22,6 +22,9 @@ class MemcachedTest extends PHPUnit {
     }
 
     public function testUsageMencached() {
+        $this->markTestIncomplete(
+                'This test has not been implemented yet.'
+        );
         $_ = $this;
         $get = Memory::getInstance()
                 ->checkIn('mykey', function($mem)use($_) {

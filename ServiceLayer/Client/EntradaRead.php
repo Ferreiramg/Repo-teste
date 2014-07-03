@@ -39,6 +39,9 @@ class EntradaRead extends AbstracClient {
     private function calendarData() {
         $key = ($this->params[1] - 1); //get id produtor to array key
         $data = $this->data->getdataByClientId($this->params[1]);
+        if(empty($data)){
+            return [];
+        }
         $iterator = new \Model\EntradaEntityIterator();
         $iterator->setCliente(new \Model\Produtor($key));
         $iterator->setCols($data);

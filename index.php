@@ -9,7 +9,7 @@ error_reporting(E_ALL | E_STRICT);
 
 date_default_timezone_set('America/Sao_Paulo');
 
-Configs::getInstance()->set('connection.mysql.pass', 'saga123');
+Configs::getInstance()->set('connection.mysql.pass', 'secret');
 
 define('ROOT', dirname(__FILE__)) . DIRECTORY_SEPARATOR;
 try {

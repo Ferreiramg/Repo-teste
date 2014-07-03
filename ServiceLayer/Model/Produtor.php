@@ -14,13 +14,16 @@ class Produtor extends \ArrayIterator {
     public $error_msg;
 
     public function __construct($id = 0) {
-        $this->setIdKey($id);
         $conn = Connection\Init::getInstance()->on();
         $stmt = $conn->query("SELECT * FROM cliente");
         parent::__construct($stmt->fetchAll(\PDO::FETCH_ASSOC));
+        $this->setIdKey($id);
     }
 
     public function setIdKey($id) {
+        if (!$this->offsetExists($id)) {
+            throw new \Exceptions\ClientExceptionResponse("Produtor Offset not Exists!");
+        }
         $this->idKey = $id;
     }
 
@@ -38,6 +41,10 @@ class Produtor extends \ArrayIterator {
 
     public function create(array $args, &$stmt = null) {
         $this->error_msg = "Não pode ser inserido os dados!!";
+        if (!$this->validateArgs($args)) {
+            $this->error_msg = "Argumentos Produtor:Nome e Produtor:Taxa, estão faltando!";
+            return false;
+        }
         $con = Connection\Init::getInstance()->on();
         $stmt = $con->prepare("INSERT INTO `cliente` (`nome`, `grao`, `data`, `armazenagem`) VALUES (:n, :g, :d, :a)");
         $stmt->bindValue(':n', $args['nome']);
@@ -47,12 +54,27 @@ class Produtor extends \ArrayIterator {
         return $stmt->execute();
     }
 
+    public function update(array $args, &$stmt = null) {
+        $con = Connection\Init::getInstance()->on();
+        $this->setIdKey($args['id'] - 1);
+        $stmt = $con->prepare("UPDATE `cliente` SET `nome`=:n,`grao`=:g,`data`=:d,`armazenagem`=:a WHERE `id`=:i");
+        $stmt->bindValue(':i', $args['id'], \PDO::PARAM_INT);
+        $stmt->bindValue(':n', empty($args['nome']) ? $this->nome : $args['nome'] );
+        $stmt->bindValue(':g', empty($args['grao']) ? $this->grao : $args['grao']);
+        $stmt->bindValue(':a', empty($args['taxa']) ? $this->armazenagem : $args['taxa']);
+        $stmt->bindValue(':d', date('Y-m-d H:s:i', strtotime($args['data'])));
+        return $stmt->execute();
+    }
+
     public function deletar(array $args) {
         $this->error_msg = "Não foi apagado! Tente novamente.";
         return Connection\Init::getInstance()
-                        ->on()
-                        ->exec(sprintf("DELETE FROM `cliente` WHERE id = %$1u;"
-                                . "DELETE FROM `entradas` WHERE _cliente = %$1u", $args['id']));
+                        ->on()->exec(
+                        sprintf('DELETE FROM `cliente` WHERE id = %u', $args['id']));
+    }
+
+    private function validateArgs(array $args) {
+        return isset($args['nome']) && isset($args['taxa']);
     }
 
 }

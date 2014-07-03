@@ -43,8 +43,19 @@ class EntradasReadDataTest extends PHPUnit {
         $date1 = new DateTime("2014-05-06");
         $date2 = new DateTime("now");
 
-        $diff = $date2->diff($date1)->format("%a") + 1;
+        $diff = $date2->diff($date1)->format("%a") + 1;//number of days
         $this->assertEquals(count($invo), $diff);
+    }
+
+    public function testMakeCalendarEmptyData() {
+        Main::$EXTRA_PARAMS = array(true, 3);
+        $entrada = new \Client\EntradaRead();
+
+        $reflection = new ReflectionClass('\Client\EntradaRead');
+        $method = $reflection->getMethod('calendarData');
+        $method->setAccessible(true);
+        $invo = $method->invokeArgs($entrada, array());
+        $this->assertTrue(empty($invo));
     }
 
 }

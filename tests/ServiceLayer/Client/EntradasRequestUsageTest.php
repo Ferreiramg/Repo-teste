@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 use \PHPUnit_Framework_TestCase as PHPUnit;
 use GuzzleHttp\Client;
 
@@ -28,6 +22,7 @@ class EntradasRequestUsageTest extends PHPUnit {
     public function testMainInitRequest() {
         ob_start();
         $main = new Main();
+        \Model\Cached\Memory::getInstance()->meminstance->delete('calendar:1');//hack for coverage
         Main::$EXTRA_PARAMS = array('calendar', 1);
         $main->run('GET', 'entrada_read');
         $this->assertTrue(strlen(ob_get_contents()) > 4900); //characters response

@@ -21,7 +21,7 @@ class EntradaRead extends AbstracClient {
 
     public function execute() {
         if (isset($this->params[0]) && $this->params[0] == 'calendar') {
-            $key = $this->params[0] .':'. $this->params[1];
+            $key = (string)$this->params[0] .':'. $this->params[1];
             $_t = $this;
             echo Memory::getInstance()->checkIn($key, function($mem)use ($_t, $key) {
                 $data = json_encode($_t->calendarData());

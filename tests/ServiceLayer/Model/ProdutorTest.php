@@ -11,23 +11,82 @@ require_once dirname(__DIR__) . '/DBConnSqliteTest.php';
  */
 class ProdutorTest extends PHPUnit {
 
+    protected $prod;
+
     protected function setUp() {
         DBConnSqliteTest::ConnPDO(); //init connection sqlite db
+        $this->prod = new \Model\Produtor();
     }
 
     public function testProdutorIteratorData() {
-        $produtor = new \Model\Produtor();
-        $this->assertInstanceOf('\Iterator', $produtor);
+        $this->assertInstanceOf('\Iterator', $this->prod);
     }
 
     public function testProdutorIteratorAccessData() {
-        $produtor = new \Model\Produtor();
-        $this->assertEquals($produtor->offsetGet(0)['nome'], 'Luis Paulo');
-        $this->assertEquals($produtor->nome, 'Luis Paulo');
-        $produtor->setIdKey(1);
-        $this->assertEquals($produtor->nome, 'Ferreira');
-        $this->assertEquals($produtor->count(), 2);
+        $this->assertEquals($this->prod->offsetGet(0)['nome'], 'Luis Paulo');
+        $this->assertEquals($this->prod->nome, 'Luis Paulo');
+        $this->prod->setIdKey(1);
+        $this->assertEquals($this->prod->nome, 'Ferreira');
+        $this->assertEquals($this->prod->count(), 2);
         //$this->assertEquals($produtor->getTaxa(),0.43);
+    }
+
+    public function testInsertData() {
+        $stmt = null;
+        $rows = $this->prod->create($this->postArgs(), $stmt);
+        $this->assertTrue($rows);
+        $produtor2 = new \Model\Produtor(2);
+        $this->assertEquals($produtor2->nome, 'Toninho');
+    }
+
+    public function testUpdateData() {
+        $stmt = null;
+        $rows = $this->prod->update([
+            'id' => 3,
+            'nome' => 'Toninho Branquinho',
+            'milho' => '',
+            'data' => '03-07-2014'
+                ], $stmt);
+        $this->assertTrue($rows);
+        $produtor2 = new \Model\Produtor(2);
+        $this->assertEquals($produtor2->nome, 'Toninho Branquinho');
+        $this->assertEquals($produtor2->grao, 'milho');
+        $this->assertEquals($produtor2->armazenagem, '0.045');
+    }
+
+    public function testMissingArguments() {
+        $stmt = null;
+        $rows = $this->prod->create(['data' => ''], $stmt);
+        $this->assertFalse($rows);
+    }
+
+    /**
+     * @depends testInsertData
+     */
+    public function testDeleteData() {
+        $rows = $this->prod->deletar(['id' => 3]);
+        $this->assertEquals($rows, 1);
+    }
+
+    /**
+     * @depends testDeleteData
+     */
+    public function testOffSetNoExist() {
+        try {
+            new \Model\Produtor(2);
+        } catch (Exceptions\ClientExceptionResponse $e) {
+            echo $e->renderJsonMessage(); //expected exception here
+        }
+        $this->expectOutputString('{"message":"Produtor Offset not Exists!","code":0,"severity":"error"}');
+    }
+
+    private function postArgs() {
+        return [
+            'nome' => 'Toninho',
+            'grao' => 'milho',
+            'taxa' => 0.045,
+            'data' => '03-07-2014'
+        ];
     }
 
 }

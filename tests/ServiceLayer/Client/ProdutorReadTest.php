@@ -18,19 +18,20 @@ class ProdutorReadTest extends PHPUnit {
 
     public function testReadDataProdutor() {
         $main = new Main();
+        \Model\Cached\Memory::getInstance()->meminstance->delete('produtor:'); //hack for coverage
         $this->expectOutputString($this->expected);
         $main->run('GET', 'produtor_read');
     }
 
     public function testInsertDataProdutor() {
         $request = new Client();
-                $this->markTestIncomplete(
+        $this->markTestIncomplete(
                 'This test has not been implemented yet.'
         );
         $response = $request->post('http://localhost/produtor', [
             'body' => [
                 'nome' => 'Antonio Rezende',
-                'taxa' => 0.033,
+                'taxa' => 0.033, //SQL REAL Type
                 'grao' => 'Soja',
                 'data' => "10-06-2014",
                 'acao' => 'create'

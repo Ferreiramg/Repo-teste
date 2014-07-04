@@ -65,7 +65,7 @@ class EntradasRequestUsageTest extends PHPUnit {
                 'umidade' => '20.60',
                 'impureza' => 1,
                 'motorista' => "Luis",
-                'ticket' => 00234,
+                'ticket' => '00234',
                 'observacao' => "",
                 'data' => "10-06-2014",
                 'acao' => 'create'

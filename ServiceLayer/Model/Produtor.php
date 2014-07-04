@@ -21,7 +21,7 @@ class Produtor extends \ArrayIterator {
     }
 
     public function setIdKey($id) {
-        if (!$this->offsetExists($id)) {
+        if (!$this->offsetExists($id) && $this->count() > 0) {
             throw new \Exceptions\ClientExceptionResponse("Produtor Offset not Exists!");
         }
         $this->idKey = $id;

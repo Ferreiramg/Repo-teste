@@ -14,8 +14,7 @@ class TempTableTest extends PHPUnit {
     private $tmpt;
 
     protected function setUp() {
-        DBConnSqliteTest::ConnPDO();
-        $this->tmpt = new \Model\Cached\TempTable();
+        $this->tmpt = new \Model\Cached\TempTable(DBConnSqliteTest::ConnPDO());
     }
 
     protected function tearDown() {
@@ -41,18 +40,7 @@ class TempTableTest extends PHPUnit {
         $tmpt->reload();
         $this->assertEquals($tmpt->count(), 1);
         $this->assertEquals($tmpt->saldo, '97450');
-        echo $tmpt;
     }
-
-//    /**
-//     * @expectedException  Exceptions\ClientExceptionResponse
-//     */
-//    public function testExceptionTmpTableHasBeCreated() {
-//        $reflection = new ReflectionClass('\Model\Cached\TempTable');
-//        $method = $reflection->getMethod('createTable');
-//        $method->setAccessible(true);
-//        $method->invoke($this->tmpt);
-//    }
 
     private $expected = "INSERT INTO tmpReport (id,produtor,saldo,impureza_media,service_secagem,quebra_peso, umidade_media, quebra_tecnica,service_armazenagem)VALUES('1','Luis Paulo','97450','1.56','15000','7540','13', '542','2500')";
 

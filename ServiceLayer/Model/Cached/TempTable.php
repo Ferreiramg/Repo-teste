@@ -12,18 +12,18 @@ class TempTable {
     public $conn, $values, $ponter = 0;
     private $_it;
 
-    public function __construct() {
-        $this->conn = \Model\Connection\Init::getInstance()->on();
-        if (!$this->createTable()) {
-            throw new \Exceptions\ClientExceptionResponse("Temp table was not created!");
-        }
+    public function __construct(\PDO $conn) {
+        $this->conn = $conn;
+        $this->createTable();
         $stmt = $this->conn->query("SELECT * FROM tmpReport");
         $stmt->fetchAll(\PDO::FETCH_ASSOC);
         $this->_it = new \ArrayIterator($stmt->fetchAll(\PDO::FETCH_ASSOC));
     }
 
     private function createTable() {
-        return $this->conn->exec($this->sql);
+        if (!$this->conn->exec($this->sql)) {
+            throw new \RuntimeException("Temp table was not created!");
+        }
     }
 
     public function reload($id = false) {
@@ -83,6 +83,17 @@ class TempTable {
         return json_encode($this->_it->getArrayCopy());
     }
 
+    public static function initSession() {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        $_SESSION['tmp_data'] = true;
+    }
+
+    public static function unsetSession() {
+        unset($_SESSION['tmp_data']);
+    }
+
     public $sql = <<<SQL
 CREATE TEMPORARY TABLE IF NOT EXISTS tmpReport(
     id INTEGER NOT NULL ,
@@ -91,9 +102,7 @@ CREATE TEMPORARY TABLE IF NOT EXISTS tmpReport(
     impureza_media REAL NOT NULL DEFAULT 0.00,
     umidade_media REAL NOT NULL DEFAULT 0.00,
     service_secagem REAL NOT NULL DEFAULT 0.00,
-    quebra_peso REAL NOT NULL DEFAULT 0.00,
-
-    
+    quebra_peso REAL NOT NULL DEFAULT 0.00,   
     quebra_tecnica REAL NOT NULL DEFAULT 0.00,
     service_armazenagem REAL NOT NULL DEFAULT 0.00
 );

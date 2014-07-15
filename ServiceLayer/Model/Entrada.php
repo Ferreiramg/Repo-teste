@@ -43,6 +43,7 @@ class Entrada {
             $imp = $calcs->impureza($args['impureza'], $args['peso']);
             $args['corrigido'] = $args['peso'] - ($qp + $sv + $imp);
         } else {
+            $qp = 0;$sv = 0;$imp = 0;
             $args['saida'] = $args['peso'];
             $args['umidade'] = 0;
             $args['impureza'] = 0;
@@ -50,9 +51,7 @@ class Entrada {
         }
         $this->error_msg = "Não pode ser inserido os dados!!";
         $con = Connection\Init::getInstance()->on();
-        $stmt = $con->prepare("INSERT INTO `entradas` 
-            (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`)
-                VALUES (:p, :s, :crr, :_c, :u, :i, :d, :t, :o)");
+        $stmt = $con->prepare("INSERT INTO `entradas` (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`,`quebra_peso`,`servicos`,`desc_impureza`) VALUES (:p, :s, :crr, :_c, :u, :i, :d, :t, :o,:q,:b,:z)");
         $stmt->bindValue(':p', $args['peso']);
         $stmt->bindValue(':s', $args['saida']);
         $stmt->bindValue(':crr', $args['corrigido']);
@@ -62,6 +61,9 @@ class Entrada {
         $stmt->bindValue(':d', date('Y-m-d H:s:i', strtotime($args['data'])));
         $stmt->bindValue(':t', $args['ticket']);
         $stmt->bindValue(':o', sprintf("%s: %s", $args['motorista'], $args['observacao']));
+        $stmt->bindValue(':q', $qp);
+        $stmt->bindValue(':b', $sv);
+        $stmt->bindValue(':z', $imp);
         return $stmt->execute();
     }
 

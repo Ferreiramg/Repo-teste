@@ -52,7 +52,6 @@ class TempTable {
         $stmt->bindValue(':a', $this->service_armazenagem);
         if ($stmt->execute()) {
             $this->values = [];
-
             return true;
         }
         return false;

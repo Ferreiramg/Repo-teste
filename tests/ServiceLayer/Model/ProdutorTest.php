@@ -39,6 +39,11 @@ class ProdutorTest extends PHPUnit {
         $this->assertEquals($produtor2->nome, 'Toninho');
     }
 
+    public function testGetSaldoProdutor() {
+        $this->prod->setIdKey(0);
+        $this->assertEquals($this->prod->getSaldo(), 23860.0);
+    }
+
     public function testUpdateData() {
         $stmt = null;
         $rows = $this->prod->update([

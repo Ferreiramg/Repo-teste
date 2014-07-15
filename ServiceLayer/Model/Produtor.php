@@ -27,6 +27,18 @@ class Produtor extends \ArrayIterator {
         $this->idKey = $id;
     }
 
+    public function getSaldo() {
+        $smt = Connection\Init::getInstance()->on()
+                ->query("SELECT sum(peso_corrigido) as soma FROM entradas "
+                . "WHERE _cliente=" . ++$this->idKey);
+        $res = 0;
+        if ($smt) {
+            $res = (float) $smt->fetch(\PDO::FETCH_OBJ)->soma;
+            $smt->closeCursor();
+        }
+        return $res;
+    }
+
     public function getTaxa() {
         return (double) $this->armazenagem;
     }
@@ -71,6 +83,14 @@ class Produtor extends \ArrayIterator {
         return Connection\Init::getInstance()
                         ->on()->exec(
                         sprintf('DELETE FROM `cliente` WHERE id = %u', $args['id']));
+    }
+
+    public function AutoIncrementRedefine() {
+        //ALTER TABLE  `cliente` AUTO_INCREMENT =3
+
+        return Connection\Init::getInstance()
+                        ->on()->exec(
+                        sprintf('ALTER TABLE  `cliente` AUTO_INCREMENT =%u', $args['id']));
     }
 
     private function validateArgs(array $args) {

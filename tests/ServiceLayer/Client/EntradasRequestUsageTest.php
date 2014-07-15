@@ -57,7 +57,7 @@ class EntradasRequestUsageTest extends PHPUnit {
         $this->markTestIncomplete(
                 'This test has not been implemented yet.'
         );
-        $response = $this->requestServer->post('http://localhost/', [
+        $response = $this->requestServer->post('http://localhost/entrada', [
             'body' => [
                 'produtor' => 1,
                 'tipo' => 1,

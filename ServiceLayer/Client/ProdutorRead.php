@@ -11,10 +11,12 @@ use Model\Cached\Memory;
  */
 class ProdutorRead extends AbstracClient {
 
+    const CACHE_KEY = 'produtor:';
+
     public function execute() {
         $model = new \Model\Produtor();
 
-        echo Memory::getInstance()->checkIn('produtor:', function($mem)use ($model) {
+        echo Memory::getInstance()->checkIn('produtor:', function(\Memcached $mem)use ($model) {
             $mem->set('produtor:', (string) $model, time() + 300);
             return (string) $model;
         });

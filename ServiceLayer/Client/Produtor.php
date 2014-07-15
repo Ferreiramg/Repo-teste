@@ -31,7 +31,7 @@ class Produtor extends AbstracClient {
 
     private function clearCached() {
         $cached = Memory::getInstance()->meminstance;
-        return $cached->delete('produtor:');
+        return $cached->delete(ProdutorRead::CACHE_KEY);
     }
 
     private function prepareArgs() {

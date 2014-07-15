@@ -43,19 +43,14 @@ class EntradaCrudTest extends PHPUnit {
         $this->model->csvfile = ROOT . \Configs::getInstance()->app->csv;
         $rows = $this->model->create($data = $this->post(), $stmt); //By reference debug mode
 
-        $EXPECTED = "INSERT INTO `entradas` 
-            (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`)
-                VALUES ('30600', '0', '28705.86', '1', '14.60', '1', '2014-06-25 00:00:00', '234', 'Luis: ')";
+        $EXPECTED = "INSERT INTO `entradas` (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`,`quebra_peso`,`servicos`,`desc_impureza`) VALUES ('30600', '0', '28705.86', '1', '14.60', '1', '2014-06-25 00:00:00', '234', 'Luis: ','553.86','1034.28','306')";
 
         $this->assertTrue($rows);
         $this->assertEquals("" . $EXPECTED . "", $stmt->getSQL());
         //Insert saida tipo =0;
         $data['tipo'] = 0;
         $rows = $this->model->create($data, $stmt);
-        $EXPECTED = "INSERT INTO `entradas` 
-            (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`)
-                VALUES ('0', '30600', '0', '1', '0', '0', '2014-06-25 00:00:00', '234', 'Luis: ')";
-
+        $EXPECTED = "INSERT INTO `entradas` (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`,`quebra_peso`,`servicos`,`desc_impureza`) VALUES ('0', '30600', '0', '1', '0', '0', '2014-06-25 00:00:00', '234', 'Luis: ','0','0','0')";
         $this->assertTrue($rows);
         $this->assertEquals("" . $EXPECTED . "", $stmt->getSQL());
     }
@@ -78,4 +73,4 @@ class EntradaCrudTest extends PHPUnit {
         $this->assertEquals($rows, 1);
     }
 
-    }
+}

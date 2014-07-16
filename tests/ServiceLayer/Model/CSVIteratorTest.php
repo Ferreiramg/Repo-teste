@@ -18,7 +18,7 @@ class csvFilterTest extends FilterIterator {
 
     /**
      * 
-     * @return boolean
+     * @return bool
      */
     public function accept() {
 

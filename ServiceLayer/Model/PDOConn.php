@@ -1,13 +1,9 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Model;
+
 use PDO;
+
 /**
  * Description of PDOConn
  *
@@ -22,6 +18,9 @@ class PDOConn extends PDO {
 
 }
 
+/**
+ * For Debug SQL mode
+ */
 class PDOStatementPrivate extends \PDOStatement {
 
     const NO_MAX_LENGTH = -1;
@@ -53,6 +52,11 @@ class PDOStatementPrivate extends \PDOStatement {
         parent::bindValue($parameter, $value, $data_type);
     }
 
+    /**
+     * Representation of SQL and their values
+     * @param type $values
+     * @return string SQL Statement 
+     */
     public function getSQL($values = array()) {
         $sql = $this->queryString;
         if (sizeof($values) > 0) {

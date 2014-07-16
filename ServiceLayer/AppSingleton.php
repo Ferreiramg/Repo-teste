@@ -13,6 +13,10 @@ trait AppSingleton {
         $this->init();
     }
 
+    /**
+     * Handle a single instance of the object
+     * @return \AppSingleton
+     */
     public static function getInstance() {
         return (self::$instance instanceof self) === false ? self::$instance = new self : self::$instance;
     }

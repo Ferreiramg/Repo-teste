@@ -1,17 +1,11 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Event;
 
 use Model\Cached\Memory;
 
 /**
- * Description of _Get
+ * Delegate GET event to Client
  *
  * @author Administrador
  */

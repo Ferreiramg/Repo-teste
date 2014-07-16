@@ -1,17 +1,11 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Model\Connection;
 
 /**
- * Description of Init
+ * Init a Connection
  *
- * @author Laticinios PJ
+ * @author luis Paulo
  */
 class Init {
 
@@ -35,7 +29,7 @@ class Init {
 
     /**
      * 
-     * @return PDO
+     * @return \PDO
      */
     public function on() {
         return static::$conn;

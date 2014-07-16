@@ -3,7 +3,7 @@
 namespace Event;
 
 /**
- * Description of RequestPost
+ * Delegate RequestPost to Clients
  *
  * @author Administrador
  */

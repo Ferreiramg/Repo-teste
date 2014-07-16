@@ -20,8 +20,8 @@ class EntradaRead extends AbstracClient {
     }
 
     public function execute() {
-        if (isset($this->params[0]) && $this->params[0] == 'calendar') {
-            $key = (string)$this->params[0] .':'. $this->params[1];
+        if (isset($this->params[0]) && isset($this->params[1]) && $this->params[0] == 'calendar') {
+            $key = (string) $this->params[0] . ':' . $this->params[1];
             $_t = $this;
             echo Memory::getInstance()->checkIn($key, function(\Memcached $mem)use ($_t, $key) {
                 $data = json_encode($_t->calendarData());
@@ -37,10 +37,15 @@ class EntradaRead extends AbstracClient {
         return \Main::$Action === 'entrada_read';
     }
 
+    /**
+     * Make a Calendar ( should be in a model )
+     * @return array
+     * @throws \Exceptions\ClientExceptionResponse format error date
+     */
     private function calendarData() {
         $key = ($this->params[1] - 1); //get id produtor to array key
         $data = $this->data->getdataByClientId($this->params[1]);
-        if(empty($data)){
+        if (empty($data)) {
             return [];
         }
         $iterator = new \Model\EntradaEntityIterator();
@@ -48,7 +53,7 @@ class EntradaRead extends AbstracClient {
         $iterator->setCols($data);
         $hoje = new DateTime('now');
         $entrada = new DateTime($data[0]['data']);
-        if (DateTime::getLastErrors()['warning_count']) {
+        if (DateTime::getLastErrors()['warning_count']) { //error format date
             throw new \Exceptions\ClientExceptionResponse(
             print_r(DateTime::getLastErrors()['warnings'], true));
         }

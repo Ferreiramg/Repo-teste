@@ -1,15 +1,9 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of Main
+ * Main Bootstrap of Application
  *
- * @author Laticinios PJ
+ * @author Luis Paulo
  */
 class Main {
 
@@ -17,6 +11,11 @@ class Main {
     public static $Action = null;
     public static $EXTRA_PARAMS = null;
 
+    /**
+     * Run Application
+     * @param string $request
+     * @param string $action
+     */
     public function run($request, $action = null) {
         static::$REQUEST = $request;
         $this->urlRewrite($action);
@@ -32,6 +31,11 @@ class Main {
         $manager->notify();
     }
 
+    /**
+     * Prepare .htaccess params to usage
+     * @param string $custom
+     * @return null
+     */
     public function urlRewrite($custom = null) {
 
         if ($custom || !isset($_SERVER['REQUEST_URI'])) {

@@ -1,19 +1,14 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Event;
 
 use ArrayIterator,
     Client\ClientInterface as Client;
 
 /**
- * Description of _Manager
- *
+ * Observer Client Events 
+ * 
+ * @see \Event\InterfaceEvent
  * @author Administrador
  */
 class ObsManager implements InterfaceEvent {

@@ -6,7 +6,7 @@ use Exceptions\ClientExceptionResponse,
     Model\Cached\Memory;
 
 /**
- * Description of _Entrada
+ * Cliente Entrada CRUD events
  *
  * @author Administrador
  */

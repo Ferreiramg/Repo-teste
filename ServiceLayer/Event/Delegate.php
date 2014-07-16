@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Event;
 
 /**
@@ -17,11 +11,22 @@ class Delegate {
 
     private $storage;
 
+    /**
+     * Add to storage a event
+     * @param \Event\AbstractEvent $event
+     * @return \Event\Delegate
+     */
     public function addEvent(AbstractEvent $event) {
         $this->storage[] = $event;
         return $this;
     }
 
+    /**
+     * Listening to a Client
+     * @see \Event\AbstractEvent::listen
+     * @return null
+     * @throws \RuntimeException
+     */
     public function runEvents() {
         foreach ($this->storage as $eventControll) {
             if ($eventControll->has()) {

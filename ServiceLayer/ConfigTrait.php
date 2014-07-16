@@ -20,7 +20,7 @@
 use \AppSingleton;
 
 /**
- * Description of Configs
+ * Abstract Config class access
  *
  * @author Luís Paulo
  */

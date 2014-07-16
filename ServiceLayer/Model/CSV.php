@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Model;
 
 use Exception,
@@ -103,7 +97,7 @@ class CSV implements \Iterator {
      * This method checks if the end of file is reached.
      *
      * @access public
-     * @return boolean Returns true on EOF reached, false otherwise.
+     * @return bool Returns true on EOF reached, false otherwise.
      */
     public function next() {
         $this->rowCounter++;
@@ -114,7 +108,7 @@ class CSV implements \Iterator {
      * This method checks if the next row is a valid row.
      *
      * @access public
-     * @return boolean If the next row is a valid row.
+     * @return bool If the next row is a valid row.
      */
     public function valid() {
         return !feof($this->filePointer);
@@ -144,7 +138,7 @@ class CSVFilter extends \FilterIterator {
 
     /**
      * 
-     * @return boolean
+     * @return bool
      */
     public function accept() {
 

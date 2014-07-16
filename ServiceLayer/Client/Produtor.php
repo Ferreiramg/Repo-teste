@@ -6,7 +6,7 @@ use Model\Cached\Memory,
     Exceptions\ClientExceptionResponse;
 
 /**
- * Description of Produtor
+ * Produtor Client actions CRUD event
  *
  * @author Luis Paulo
  */
@@ -29,11 +29,19 @@ class Produtor extends AbstracClient {
         return \Main::$Action === 'produtor';
     }
 
+    /**
+     * Clear memcached
+     * @return bool
+     */
     private function clearCached() {
         $cached = Memory::getInstance()->meminstance;
         return $cached->delete(ProdutorRead::CACHE_KEY);
     }
 
+    /**
+     * Apply filters
+     * @return array 
+     */
     private function prepareArgs() {
         $post = filter_input_array(INPUT_POST, [
             'id' => FILTER_VALIDATE_INT,

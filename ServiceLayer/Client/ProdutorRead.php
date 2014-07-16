@@ -5,7 +5,7 @@ namespace Client;
 use Model\Cached\Memory;
 
 /**
- * Description of ProdutorRead
+ * Cliente only Read
  *
  * @author Luis Paulo
  */

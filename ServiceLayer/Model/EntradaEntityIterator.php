@@ -4,7 +4,8 @@
 namespace Model;
 
 /**
- * Description of EntradaEntityIterator
+ * EntradaEntityIterator apply data to storage iterator.
+ * Make a calendar day iterator
  *
  * @author Administrador
  */

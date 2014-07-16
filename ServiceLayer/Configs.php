@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 use Noodlehaus\Config;
 
 /**
@@ -21,7 +15,7 @@ class Configs {
     public function init() {
         $this->file = dirname(__DIR__) . '/opt/' . self::$CONF_FILE;
         if (!$this->exists($this->file)) {
-            throw new RuntimeException(sprintf("Config DB file not found. Create new [ %s ] in [ ./opt ] folder!",  $this->file));
+            throw new RuntimeException(sprintf("Config DB file not found. Create new [ %s ] in [ ./opt ] folder!", $this->file));
         }
         $this->_document = new Config($this->file);
     }

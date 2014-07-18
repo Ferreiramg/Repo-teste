@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Model;
 
 /**
@@ -13,7 +12,7 @@ class EntradaEntityIterator extends \ArrayIterator {
 
     public $cliente;
     private $media = 60;
-    public static $saldo = 0;
+    public static $saldo = 0, $armazenagem = 0;
     public $cols = [], $pointer = 0;
 
     const KG_60 = 60;
@@ -29,14 +28,13 @@ class EntradaEntityIterator extends \ArrayIterator {
     }
 
     public function append($value) {
-
+        static::$armazenagem +=$this->deduction();
         $__data = (object) $this->cols[$this->pointer];
-        if ($value['dia'] === date('Y-m-d',  strtotime($__data->data)) ) {
-
+        if ($value['dia'] === date('Y-m-d', strtotime($__data->data))) {
             $entrada = round($__data->corrigido / $this->media, 2, PHP_ROUND_HALF_DOWN);
             $saida = round($__data->saida / $this->media, 2, PHP_ROUND_HALF_UP);
             self::$saldo += ($entrada - $saida);
-
+            static::$armazenagem +=$this->deduction();
             $value = array(
                 'id' => $__data->id,
                 'dia' => $value['dia'],
@@ -61,13 +59,20 @@ class EntradaEntityIterator extends \ArrayIterator {
         return static::$saldo -= $deduction;
     }
 
+    public function getDeductionArmazenagem() {
+        return static::$armazenagem;
+    }
+
     public function deduction() {
-        $taxa =  $this->cliente->getTaxa() / 100.0;
+        $taxa = $this->cliente->getTaxa() / 100.0;
         return self::$saldo < 0 ? 0 :
                 round($taxa * self::$saldo, 2, PHP_ROUND_HALF_UP);
     }
 
     public function __destruct() {
+        static::$armazenagem = 0;
+        static::$saldo = 0;
         unset($this);
     }
+
 }

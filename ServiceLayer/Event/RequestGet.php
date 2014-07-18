@@ -19,6 +19,7 @@ class RequestGet extends AbstractEvent {
         Memory::getInstance(); //init Server Mencached
         $this->client->addClient(new \Client\EntradaRead);
         $this->client->addClient(new \Client\ProdutorRead);
+        $this->client->addClient(new \Client\ProdutorReport);
     }
 
 }

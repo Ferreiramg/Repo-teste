@@ -17,7 +17,7 @@ interface ClientInterface {
 
     /**
      * True if the request, triggers the execute
-     * @return bool true || false
+     * @return bool true|false
      */
     public function hasRequest();
 

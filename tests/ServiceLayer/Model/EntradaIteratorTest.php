@@ -21,7 +21,6 @@ class EntradaIteratorTest extends PHPUnit {
                 ->will($this->returnValue(0.033));
         $this->object = new Model\EntradaEntityIterator(60);
         $this->object->setCliente($mock);
-        $this->object->rewind();
     }
 
     private function getData($id) {
@@ -34,7 +33,7 @@ class EntradaIteratorTest extends PHPUnit {
     }
 
     private function makeCalendar() {
-        $hoje = new DateTime('now');
+        $hoje = new DateTime('20-07-2014');
         $entrada = new DateTime('01-05-2014');
         $i = 0;
         while ($entrada < $hoje) {
@@ -64,6 +63,10 @@ class EntradaIteratorTest extends PHPUnit {
         $this->assertEquals($this->object->offsetGet(7)['dia'], '2014-05-08');
         $this->assertEquals($this->object->offsetGet(28)['dia'], '2014-05-29');
         $this->assertEquals($this->object->offsetGet(34)['dia'], '2014-06-04');
+    }
+
+    public function testGetDeductionStorage() {
+        $this->assertEquals((int) $this->object->getDeductionArmazenagem(), 8);
     }
 
 }

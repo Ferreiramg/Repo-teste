@@ -23,6 +23,15 @@ class ProdutorReadTest extends PHPUnit {
         $main->run('GET', 'produtor_read');
     }
 
+    public function testReadReportDataprodutor() {
+        $this->markTestIncomplete(
+                'This test has not been implemented yet.'
+        );
+        $main = new Main();
+        Main::$EXTRA_PARAMS = [1];
+        $main->run('GET', 'produtor_report');
+    }
+
     public function testInsertDataProdutor() {
         $request = new Client();
         $this->markTestIncomplete(
@@ -42,7 +51,7 @@ class ProdutorReadTest extends PHPUnit {
 
     public function testExceptionCreateDataProdutor() {
         $request = new Client();
-                $this->markTestIncomplete(
+        $this->markTestIncomplete(
                 'This test has not been implemented yet.'
         );
         $response = $request->post('http://localhost/produtor', [

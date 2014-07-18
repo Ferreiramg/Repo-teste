@@ -42,7 +42,7 @@ class EntradaRead extends AbstracClient {
      * @return array
      * @throws \Exceptions\ClientExceptionResponse format error date
      */
-    private function calendarData() {
+    public function calendarData() {
         $key = ($this->params[1] - 1); //get id produtor to array key
         $data = $this->data->getdataByClientId($this->params[1]);
         if (empty($data)) {

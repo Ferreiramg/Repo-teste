@@ -14,8 +14,8 @@ before_script:
     - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
     - sudo service apache2 restart
     #app composer required
-    - sudo composer self-update
-    - sudo composer install --dev --no-interaction --prefer-dist
+    -  composer self-update
+    -  composer install --dev --no-interaction --prefer-dist
  
 script: 
     - phpunit --configuration phpunit.xml.dist --coverage-text

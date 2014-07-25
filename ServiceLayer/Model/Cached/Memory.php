@@ -28,5 +28,5 @@ class Memory {
         return $output;
     }
 
-use \ConfigTrait;
+use \AppSingleton;
 }

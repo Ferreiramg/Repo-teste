@@ -33,7 +33,7 @@ class EntradaEntityIterator extends \ArrayIterator {
         if ($value['dia'] === date('Y-m-d', strtotime($__data->data))) {
             $entrada = round($__data->corrigido / $this->media, 2, PHP_ROUND_HALF_DOWN);
             $saida = round($__data->saida / $this->media, 2, PHP_ROUND_HALF_UP);
-            self::$saldo += ($entrada - $saida);
+            static::$saldo += ($entrada - $saida);
             static::$armazenagem +=$this->deduction();
             $value = array(
                 'id' => $__data->id,
@@ -65,14 +65,13 @@ class EntradaEntityIterator extends \ArrayIterator {
 
     public function deduction() {
         $taxa = $this->cliente->getTaxa() / 100.0;
-        return self::$saldo < 0 ? 0 :
-                round($taxa * self::$saldo, 2, PHP_ROUND_HALF_UP);
+        return static::$saldo < 0 ? 0 :
+                round($taxa * static::$saldo, 2, PHP_ROUND_HALF_UP);
     }
 
     public function __destruct() {
         static::$armazenagem = 0;
         static::$saldo = 0;
-        unset($this);
     }
 
 }

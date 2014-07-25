@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html ng-app="main">
+    <head>
+        <title>Curso de Angular</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="public/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="public/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+        <link href="public/css/defaul.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body ng-controller="infoLog">
+        <div class="container" ng-controller="produtorDataStore as produtor" 
+                     ng-init="produtor.getData()">
+            <nav-menu></nav-menu>
+            <div class="container">          
+                <calendar-grid></calendar-grid>
+            </div>
+        </div>
+        <script src="public/js/libs/angular.js/angular.min.js" type="text/javascript"></script>
+        <script src="public/js/libs/angular.js/ngProgress.js" type="text/javascript"></script>
+        <script src="public/js/main.js" type="text/javascript"></script>
+        <script src="public/js/produtor.js" type="text/javascript"></script>
+    </body>
+</html>

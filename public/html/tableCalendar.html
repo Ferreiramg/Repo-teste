@@ -1,0 +1,26 @@
+<table class="table table-bordered table-responsive">
+    <thead class="well">
+        <tr>
+            <th>ID</th>
+            <th>Dias</th>
+            <th>Entrada</th>
+            <th>Saida</th>
+            <th>Desconto</th>
+            <th>Saldo</th>
+            <th>Observação</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="values in calendardays">
+            <td>{{values.id}}</td>
+            <td>{{values.dia}}</td>
+            <td>{{values.entrada}}</td>
+            <td ng-class="{ 'warning':calendar.isSaida(values.saida) }">
+                {{values.saida}}
+            </td>
+            <td>{{values.desconto}}</td>
+            <td>{{values.saldo}}</td>
+            <td>{{values.observacao}}</td>
+        </tr>
+    </tbody>
+</table>

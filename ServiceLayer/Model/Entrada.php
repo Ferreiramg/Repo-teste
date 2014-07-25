@@ -37,7 +37,9 @@ class Entrada {
             $imp = $calcs->impureza($args['impureza'], $args['peso']);
             $args['corrigido'] = $args['peso'] - ($qp + $sv + $imp);
         } else {
-            $qp = 0;$sv = 0;$imp = 0;
+            $qp = 0;
+            $sv = 0;
+            $imp = 0;
             $args['saida'] = $args['peso'];
             $args['umidade'] = 0;
             $args['impureza'] = 0;

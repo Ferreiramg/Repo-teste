@@ -17,11 +17,11 @@ class MemcachedTest extends PHPUnit {
 
     public function testUsageMencached() {
         $this->markTestIncomplete(
-                'This test has not been implemented yet.'
+                'This test has not work in travis ci.'
         );
         $_ = $this;
         $get = Memory::getInstance()
-                ->checkIn('mykey', function($mem)use($_) {
+                ->checkIn('mykey', function(\Memcached $mem)use($_) {
             $_->assertInstanceOf('\Memcached', $mem);
             $mem->set('mykey', array());
             return array();

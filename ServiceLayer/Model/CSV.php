@@ -128,7 +128,7 @@ class CSVFilter extends \FilterIterator {
     private $param;
 
     public function __construct(\Iterator $iterator, $params) {
-        $this->param = (float)$params;
+        $this->param = (float) $params;
         parent::__construct($iterator);
     }
 
@@ -142,7 +142,7 @@ class CSVFilter extends \FilterIterator {
      */
     public function accept() {
 
-        return ($this->param === (float)$this->getInnerIterator()->current()[0] );
+        return ($this->param === (float) $this->getInnerIterator()->current()[0] );
     }
 
 }

@@ -19,7 +19,7 @@ class ProdutorReportTest extends PHPUnit {
     }
 
     public function testResumeInfoProdutor() {
-        $this->assertCount(3, $this->prod->resumeInfoEntradas());
+        $this->assertCount(2, $this->prod->resumeInfoEntradas());
     }
 
     /**

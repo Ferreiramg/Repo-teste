@@ -42,13 +42,13 @@ class EntradaRead extends AbstracClient {
      * @return array
      * @throws \Exceptions\ClientExceptionResponse format error date
      */
-    public function calendarData() {
+    public function calendarData($media= \Model\EntradaEntityIterator::KG_60) {
         $key = ($this->params[1] - 1); //get id produtor to array key
         $data = $this->data->getdataByClientId($this->params[1]);
         if (empty($data)) {
             return [];
         }
-        $iterator = new \Model\EntradaEntityIterator();
+        $iterator = new \Model\EntradaEntityIterator($media);
         $iterator->setCliente(new \Model\Produtor($key));
         $iterator->setCols($data);
         $hoje = new DateTime('now');

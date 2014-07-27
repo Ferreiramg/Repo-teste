@@ -10,8 +10,8 @@
             <th>Observação</th>
         </tr>
     </thead>
-    <tbody>
-        <tr ng-repeat="values in calendardays">
+    <tbody ng-init="calendar.getData()">
+        <tr ng-repeat="values in calendar.days">
             <td>{{values.id}}</td>
             <td>{{values.dia}}</td>
             <td>{{values.entrada}}</td>

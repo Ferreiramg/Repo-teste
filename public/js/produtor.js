@@ -1,40 +1,55 @@
 'use strict';
+var produtor_data = [];
 (function() {
-    var main = angular.module('produtorStore', ['ngProgress']);
+    var main = angular.module('produtorStore', ['ngRoute', 'ngProgress'])
+            .config(['$routeProvider', function($router) {
+                    $router.when('/calendar/:id', {
+                        controller: 'calendarController',
+                        controllerAs: 'calendar',
+                        templateUrl: 'public/html/tableCalendar.html'
+                    }).when('/produtor', {
+                        controller: 'produtorDataStore',
+                        controllerAs: 'produtor2',
+                        templateUrl: 'public/html/produtorlist.html'
+                    });
+                }]);
 
-    main.controller('produtorDataStore', ['$http',
-        function($http) {
+    main.controller('produtorDataStore', ['$scope', '$http',
+        function($scope,$http) {
             var store = this;
-            store.produtores = [];
+            store.data = produtor_data;
             this.id = 1;
 
-            this.getId = function(id) {
+            this.getId = function() {
                 this.id = id;
             };
 
             this.unset = function() {
-                store.produtores = [];
+                produtor_data = this.data = [];
             };
 
             this.getData = function() {
-                if (store.produtores.length === 0)
+                if (this.data.length === 0)
                     $http.get('/produtor_read').success(function(data) {
-                        store.produtores = data;
+                        produtor_data = store.data = data;
                     });
+            };
+            
+            this.update = function(id){
+                console.log(this.data[id-1]);
             };
             return this;
         }]);
 
-    main.controller('calendarController', ['$scope', '$http', 'ngProgress',
-        function($scope,$http, ngProgress) {
+    main.controller('calendarController', ['$routeParams', '$http', 'ngProgress',
+        function($params, $http, ngProgress) {
             var store = this;
-            $scope.calendardays = [];
-            this.getCalendarData = function(/*produtorDataStore*/ produtor) {
+            this.days = [];
+            this.model = [];
+            this.getData = function() {
                 ngProgress.start();
-                $http.get('/entrada_read/calendar/' + produtor.id).success(function(data) {                  
-                    $scope.$apply(function() {
-                        $scope.calendardays = data;
-                    });
+                $http.get('/entrada_read/calendar/' + $params.id).success(function(data) {
+                    store.days = data;
                     ngProgress.complete();
                 });
             };
@@ -42,15 +57,5 @@
                 return saida > 0;
             };
 
-        }]).directive('calendarGrid',
-            function() {
-                return {
-                    restrict: 'E',
-                    templateUrl: '/public/html/tableCalendar.html',
-                    controllerAs: 'calendar',
-                    controller: 'calendarController'
-                };
-            });
+        }]);
 }());
-
-

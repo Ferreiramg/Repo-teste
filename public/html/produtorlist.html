@@ -1,0 +1,30 @@
+<div class="row" ng-init="produtor2.getData()">
+    <div class="col-md-4">
+        <button type="button" class=" app-inner btn btn-success btn-lg"><span class="glyphicon glyphicon-plus"></span></button>
+    </div>
+    <div class="col-md-4" ng-repeat="value in produtor2.data"><div class="app-inner">
+            <form class="form-horizontal">
+                <fieldset>
+                    <!-- Text input-->
+                    <div class="form-group"> 
+                        <div class="col-md-7">
+                            <input ng-model="value.nome" id="textinput" name="textinput" type="text" class="form-control input-sm">
+                            <span class="help-block"></span>  
+                        </div>
+                    </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <input id="textinput" ng-model="value.grao" name="textinput" type="text" class="form-control input-sm">
+                            <span class="help-block"></span>  
+                            <input id="textinput" ng-model="value.armazenagem" name="textinput" type="text" class="form-control input-sm">
+                            <span class="help-block"></span> 
+                        </div>
+                        <button id="button1id" name="button1id" ng-click="produtor2.update(value.id)" class="btn btn-primary">Atualizar</button>
+                        <button id="button2id" name="button2id" class="btn btn-danger">Apagar</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div></div>
+</div>
+

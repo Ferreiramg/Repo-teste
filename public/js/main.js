@@ -1,14 +1,14 @@
 'use strict';
 (function() {
-    var main = angular.module('main', ['produtorStore'])
-            .controller('infoLog', ['$scope', '$log', function($scope, $log) {
-                    $scope.$log = $log;
-                }]);
-    main.directive('navMenu', function() {
-        return {
-            restrict: 'E',
-            templateUrl: '/public/html/navMenu.html'
-        };
-    });
+    var main = angular.module('main', ['ngRoute', 'produtorStore']);
 
+    main.controller('mainController', ['$scope', '$log', '$location',
+        function($scope, $log, $location) {
+            $scope.$log = $log;
+            $scope.$linkA = "/dash";
+            $scope.$active = function() { 
+                console.log($location.path());
+                $scope.$linkA = $location.path();
+            };
+        }]);
 }());

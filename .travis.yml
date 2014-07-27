@@ -19,3 +19,7 @@ matrix:
     - php: 5.6
 
   fast_finish: true
+
+notifications:
+  # Whether to receive notifications from Travis
+  email: false

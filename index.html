@@ -28,13 +28,15 @@
                     </ul>
                     <form ng-init="produtor.getData()" class="navbar-form navbar-right" role="form">
                         <div class="form-group">
+                            <button  ng-click="toggle()" title="Show Filtro" type="button" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
                             <select ng-model="produtor.id" class="form-control"> 
                                 <option ng-repeat="value in produtor.data" value="{{value.id}}">
                                     {{value.nome}}
                                 </option>
                             </select>                     
                         </div>
-                        <a ng-click="isOpen()">Search</a>
                     </form>
                 </div>
             </div>
@@ -42,10 +44,10 @@
         <div class="container">
             <div ng-view></div>
         </div>
-    <script src="public/js/libs/angular.js/angular.js" type="text/javascript"></script>
-    <script src="public/js/libs/angular.js/angular-route.js" type="text/javascript"></script>
-    <script src="public/js/libs/angular.js/ngProgress.js" type="text/javascript"></script>
-    <script src="public/js/produtor.js" type="text/javascript"></script>
-    <script src="public/js/main.js" type="text/javascript"></script>
-</body>
+        <script src="public/js/libs/angular.js/angular.js" type="text/javascript"></script>
+        <script src="public/js/libs/angular.js/angular-route.js" type="text/javascript"></script>
+        <script src="public/js/libs/angular.js/ngProgress.js" type="text/javascript"></script>
+        <script src="public/js/produtor.js" type="text/javascript"></script>
+        <script src="public/js/main.js" type="text/javascript"></script>
+    </body>
 </html>

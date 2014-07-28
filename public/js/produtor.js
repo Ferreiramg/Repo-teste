@@ -30,8 +30,7 @@ var produtor_data = [];
         // Serialize the buffer and clean it up for transportation.
         var source = buffer
                 .join("&")
-                .replace(/%20/g, "+")
-                ;
+                .replace(/%20/g, "+");
 
         return(source);
 
@@ -87,7 +86,7 @@ var produtor_data = [];
                 $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
                 $http.post('/produtor', serializeData($scope.newdata)).success(
                         function(data) {
-                            if (data.code === 1) {
+                            if (data[0].code > 0) {
                                 progress.complete();
                                 window.location.reload();
                             }

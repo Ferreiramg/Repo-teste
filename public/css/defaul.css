@@ -21,12 +21,12 @@ body > .container {
     padding-top: 60px
 }
 #search{
-    background: #101010;
+    background: rgba(0,0,0,.8);
     z-index: 100;
     position: absolute;
     top: 51px;
     right: 40px;
-    width: 150px;
+    width: 180px;
     padding: 3px;
 }
 ::-webkit-scrollbar {

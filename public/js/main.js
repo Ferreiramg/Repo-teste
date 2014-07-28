@@ -10,9 +10,9 @@
                 console.log($location.path());
                 $scope.$linkA = $location.path();
             };
-            $scope.open = true;
-            $scope.isOpen = function(){
-                $scope.open = false;
+            $scope.visible = true;
+            $scope.toggle = function() {
+                $scope.visible = !$scope.visible;
             };
         }]);
 }());

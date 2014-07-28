@@ -6,9 +6,13 @@
         function($scope, $log, $location) {
             $scope.$log = $log;
             $scope.$linkA = "/dash";
-            $scope.$active = function() { 
+            $scope.$active = function() {
                 console.log($location.path());
                 $scope.$linkA = $location.path();
+            };
+            $scope.open = true;
+            $scope.isOpen = function(){
+                $scope.open = false;
             };
         }]);
 }());

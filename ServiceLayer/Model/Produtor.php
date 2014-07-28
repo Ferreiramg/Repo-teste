@@ -80,9 +80,20 @@ class Produtor extends \ArrayIterator {
 
     public function deletar(array $args) {
         $this->error_msg = "Não foi apagado! Tente novamente.";
-        return Connection\Init::getInstance()
+        $del = Connection\Init::getInstance()
                         ->on()->exec(
-                        sprintf('DELETE FROM `cliente` WHERE id = %u', $args['id']));
+                sprintf('DELETE FROM `cliente` WHERE id = %u', $args['id']));
+        return $del && $this->reOrderId() ? 1 : 0;
+    }
+
+    private function reOrderId() {
+        $count = $this->count() -1;
+        $resp = true;
+        $conn = Connection\Init::getInstance()->on();
+        for ($index = 1; $index < $count; $index++) {
+            $resp = $conn->exec(sprintf('UPDATE `cliente` SET `id` = %1$u WHERE `id` = %1$u', $index));
+        }
+        return $resp;
     }
 
     public function AutoIncrementRedefine() {

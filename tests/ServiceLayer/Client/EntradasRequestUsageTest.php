@@ -22,7 +22,7 @@ class EntradasRequestUsageTest extends PHPUnit {
     public function testMainInitRequest() {
         ob_start();
         $main = new Main();
-        \Model\Cached\Memory::getInstance()->meminstance->delete('calendar:1');//hack for coverage
+        \Model\Cached\Memory::getInstance()->meminstance->delete('calendar:1'); //hack for coverage
         Main::$EXTRA_PARAMS = array('calendar', 1);
         $main->run('GET', 'entrada_read');
         $this->assertTrue(strlen(ob_get_contents()) > 4900); //characters response
@@ -30,15 +30,15 @@ class EntradasRequestUsageTest extends PHPUnit {
     }
 
     /**
-     *@expectedException Exceptions\ClientExceptionResponse 
+     * @expectedException Exceptions\ClientExceptionResponse 
      */
     public function testCrudUsageDeleteException() {
         $main = new Main();
         Main::$EXTRA_PARAMS = array('deletar', 300);
         $main->run('DELETE', 'entrada');
     }
-    
-     public function testCrudUsageDeleteSuccess() {
+
+    public function testCrudUsageDeleteSuccess() {
         $main = new Main();
         Main::$EXTRA_PARAMS = array('deletar', 2);
         $this->expectOutputString('[{"code":"1"}]');
@@ -47,7 +47,7 @@ class EntradasRequestUsageTest extends PHPUnit {
 
     public function testMakeRequestTest() {
         $this->markTestIncomplete(
-                'This test has not been implemented yet.'
+                'Apache rewrite not work in travis.'
         );
         $response = $this->requestServer->get('http://localhost/entrada_read/calendar/1');
         $this->assertEquals($response->getStatusCode(), '200');
@@ -55,7 +55,7 @@ class EntradasRequestUsageTest extends PHPUnit {
 
     public function testCreateEntradaRequest() {
         $this->markTestIncomplete(
-                'This test has not been implemented yet.'
+                'Apache rewrite not work in travis.'
         );
         $response = $this->requestServer->post('http://localhost/entrada', [
             'body' => [

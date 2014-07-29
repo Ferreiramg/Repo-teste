@@ -5,7 +5,7 @@ var produtor_data = [];
     function serializeData(data) {
         // If this is not an object, defer to native stringification.
         if (!angular.isObject(data)) {
-            return((data == null) ? "" : data.toString());
+            return((data === null) ? "" : data.toString());
         }
 
         var buffer = [];
@@ -22,15 +22,11 @@ var produtor_data = [];
                     "=" +
                     encodeURIComponent((value === null) ? "" : value)
                     );
-
         }
         // Serialize the buffer and clean it up for transportation.
-        var source = buffer
-                .join("&")
-                .replace(/%20/g, "+");
+        var source = buffer.join("&").replace(/%20/g, "+");
 
         return(source);
-
     }
 
     var main = angular.module('produtorStore', ['ngRoute', 'ngProgress'])

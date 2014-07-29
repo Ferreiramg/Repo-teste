@@ -41,6 +41,10 @@
                 <fieldset>
                     <!-- Text input-->
                     <div class="form-group"> 
+                        <div style="margin-left: 180px; position: absolute;">
+                            <button name="button1id" ng-click="produtor2.update(value.id)" class="btn btn-sm btn-primary">Atualizar</button>
+                            <button name="button2id" ng-click="produtor2.delete(value.id)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
                         <div class="col-md-7">
                             <input ng-model="value.nome" id="textinput" name="textinput" type="text" class="form-control input-sm">
                             <span class="help-block"></span>  
@@ -54,8 +58,6 @@
                             <input id="textinput" ng-model="value.armazenagem" name="textinput" type="text" class="form-control input-sm">
                             <span class="help-block"></span> 
                         </div>
-                        <button id="button1id" name="button1id" ng-click="produtor2.update(value.id)" class="btn btn-sm btn-primary">Atualizar</button>
-                        <button id="button2id" name="button2id" class="btn btn-sm btn-danger">Apagar</button>
                     </div>
                 </fieldset>
             </div>

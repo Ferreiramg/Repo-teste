@@ -12,18 +12,15 @@ var produtor_data = [];
 
         // Serialize each key in the object.
         for (var name in data) {
-
             if (!data.hasOwnProperty(name)) {
-
                 continue;
-
             }
             var value = data[ name ];
 
             buffer.push(
                     encodeURIComponent(name) +
                     "=" +
-                    encodeURIComponent((value == null) ? "" : value)
+                    encodeURIComponent((value === null) ? "" : value)
                     );
 
         }
@@ -64,10 +61,6 @@ var produtor_data = [];
                 this.add = false;
             };
 
-            this.getId = function() {
-                this.id = id;
-            };
-
             this.unset = function() {
                 produtor_data = this.data = [];
             };
@@ -86,7 +79,7 @@ var produtor_data = [];
                 $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
                 $http.post('/produtor', serializeData($scope.newdata)).success(
                         function(data) {
-                            if (data[0].code > 0) {
+                            if (data[0].code === "1") {
                                 progress.complete();
                                 window.location.reload();
                             }
@@ -94,15 +87,28 @@ var produtor_data = [];
             };
 
             this.update = function(id) {
-                console.log(this.data[id - 1]);
+                var _data = this.data[id - 1] || false;
+                if (_data) {
+                    progress.start();
+                    _data.acao = 'update';
+                    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+                    $http.post('/produtor', serializeData(_data)).success(
+                            function(data) {
+                                if (data[0].code === "1") {
+                                    progress.complete();
+                                }
+                            });
+                }
             };
 
             this.delete = function(id) {
                 if (this.data[id - 1]) {
                     var cf = confirm('Deseja apagar produtor?');
                     if (cf) {
+                        progress.start();
                         $http.delete('/produtor/deletar/' + id).success(function(data) {
-                            if (data.code === 1) {
+                            if (data[0].code === "1") {
+                                progress.complete();
                                 window.location.reload();
                             }
                         });

@@ -48,7 +48,7 @@ class Produtor extends AbstracClient {
             'nome' => FILTER_SANITIZE_STRING,
             'grao' => FILTER_SANITIZE_STRING,
             'taxa' => FILTER_VALIDATE_FLOAT,
-            'data' => date('now'), 'acao' => 0
+            'data' => 0, 'acao' => 0
         ]);
         if (!$post) {
             $post['id'] = $this->params[1];

@@ -14,5 +14,10 @@
             $scope.toggle = function() {
                 $scope.visible = !$scope.visible;
             };
-        }]);
+        }])
+    .config(['$routeProvider', function($router) {
+                    $router.when('/tabela', {
+                        templateUrl: 'public/html/pdftabela.html'
+                    });
+                }]);
 }());

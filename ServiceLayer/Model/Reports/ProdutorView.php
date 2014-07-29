@@ -53,9 +53,8 @@ class ProdutorView {
                 <tr><td colspan="6">Peso bruto: $bruto sacos $multiplicador Kg</td></tr>
                 <tr><td colspan="6"><h4>Descontos</h4></td></tr>
                 <tr>
-                    <td colspan="2">Quebra de Peso: $qp</td>
-                    <td colspan="2">Impureza: $imp</td>
-                    <td colspan="2">Quebra tecnica: ???</td>
+                    <td colspan="3">Quebra de Peso: $qp</td>
+                    <td colspan="3">Quebra tecnica: ???</td>
                 </tr>
                 <tr><td colspan="6">Peso Liquido Corrigido: $liquido_descontos</td></tr>
                 <tr><td colspan="6"><h4>Prestação de Serviços</h4></td></tr>

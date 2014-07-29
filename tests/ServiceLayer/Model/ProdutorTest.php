@@ -85,6 +85,23 @@ class ProdutorTest extends PHPUnit {
         $this->expectOutputString('{"message":"Produtor Offset not Exists!","code":0,"severity":"error"}');
     }
 
+    public function testMultipleInsertData() {
+        $stmt = null;
+        for ($i = 0; $i < 10; ++$i) {
+            $rows = $this->prod->create($this->postArgs(), $stmt);
+        }
+        $this->assertTrue($rows);
+        $produtor2 = new \Model\Produtor(11);
+        $this->assertEquals($produtor2->id, '13');
+    }
+
+    public function testDeleteReOrderData() {
+        $rows = $this->prod->deletar(['id' => 6]);
+        $this->assertEquals($rows, 1);
+        $produtor2 = new \Model\Produtor(10);
+        $this->assertEquals($produtor2->id, '11');
+    }
+
     private function postArgs() {
         return [
             'nome' => 'Toninho',

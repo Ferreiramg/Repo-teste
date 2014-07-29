@@ -62,7 +62,7 @@ class Produtor extends \ArrayIterator {
         $stmt->bindValue(':n', $args['nome']);
         $stmt->bindValue(':g', $args['grao']);
         $stmt->bindValue(':a', $args['taxa']);
-        $stmt->bindValue(':d', date('Y-m-d H:s:i', strtotime($args['data'])));
+        $stmt->bindValue(':d', date('Y-m-d H:s:i'));
         return $stmt->execute();
     }
 
@@ -74,7 +74,7 @@ class Produtor extends \ArrayIterator {
         $stmt->bindValue(':n', empty($args['nome']) ? $this->nome : $args['nome'] );
         $stmt->bindValue(':g', empty($args['grao']) ? $this->grao : $args['grao']);
         $stmt->bindValue(':a', empty($args['taxa']) ? $this->armazenagem : $args['taxa']);
-        $stmt->bindValue(':d', date('Y-m-d H:s:i', strtotime($args['data'])));
+        $stmt->bindValue(':d', date('Y-m-d H:s:i'));
         return $stmt->execute();
     }
 
@@ -83,25 +83,27 @@ class Produtor extends \ArrayIterator {
         $del = Connection\Init::getInstance()
                         ->on()->exec(
                 sprintf('DELETE FROM `cliente` WHERE id = %u', $args['id']));
-        return $del && $this->reOrderId() ? 1 : 0;
+        $this->reOrderId();
+        return $del;
     }
 
     private function reOrderId() {
-        $count = $this->count() -1;
-        $resp = true;
         $conn = Connection\Init::getInstance()->on();
-        for ($index = 1; $index < $count; $index++) {
-            $resp = $conn->exec(sprintf('UPDATE `cliente` SET `id` = %1$u WHERE `id` = %1$u', $index));
+        $stmt = $conn->query("SELECT * FROM cliente");
+        $i = 0;
+        foreach ($stmt->fetchAll(\PDO::FETCH_ASSOC) as $key => $value) {
+            $conn->exec(
+                    sprintf('UPDATE `cliente` SET `id` = %u WHERE `id` = %u', $key + 1, $value['id'])
+            );
+            ++$i;
         }
-        return $resp;
+        $this->AutoIncrementRedefine($i);
     }
 
-    public function AutoIncrementRedefine() {
-        //ALTER TABLE  `cliente` AUTO_INCREMENT =3
-
+    public function AutoIncrementRedefine($id) {
         return Connection\Init::getInstance()
                         ->on()->exec(
-                        sprintf('ALTER TABLE  `cliente` AUTO_INCREMENT =%u', $args['id']));
+                        sprintf('ALTER TABLE  `cliente` AUTO_INCREMENT =%u', $id));
     }
 
     private function validateArgs(array $args) {

@@ -1,6 +1,15 @@
 'use strict';
 (function() {
-    var main = angular.module('main', ['ngRoute', 'produtorStore']);
+    var main = angular.module('main',
+            [
+                'ngRoute',
+                //Strap
+                'mgcrea.ngStrap.alert',
+                //App
+                'produtorStore',
+                'EntradaStore'
+            ]
+            );
 
     main.controller('mainController', ['$scope', '$log', '$location',
         function($scope, $log, $location) {
@@ -14,10 +23,9 @@
             $scope.toggle = function() {
                 $scope.visible = !$scope.visible;
             };
-        }])
-    .config(['$routeProvider', function($router) {
-                    $router.when('/tabela', {
-                        templateUrl: 'public/html/pdftabela.html'
-                    });
-                }]);
+        }]).config(['$routeProvider', function($router) {
+            $router.when('/tabela', {
+                templateUrl: 'public/html/pdftabela.html'
+            });
+        }]);
 }());

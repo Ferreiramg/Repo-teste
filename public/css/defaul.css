@@ -89,9 +89,9 @@ body > .container {
 .datepicker.dropdown-menu button, .timepicker.dropdown-menu button {
     outline: 0;
     border: 0;
-    background: none;
+   // background: none;
 }
 .datepicker.dropdown-menu button:hover
 {
-background: red;
+    background: #f8f8f8;
 }

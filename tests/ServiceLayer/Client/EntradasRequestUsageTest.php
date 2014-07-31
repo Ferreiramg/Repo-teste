@@ -19,6 +19,10 @@ class EntradasRequestUsageTest extends PHPUnit {
         DBConnSqliteTest::ConnPDO();
     }
 
+    protected function tearDown() {
+        \Model\Cached\Memory::getInstance()->meminstance->delete('calendar:1');
+    }
+
     public function testMainInitRequest() {
         ob_start();
         $main = new Main();

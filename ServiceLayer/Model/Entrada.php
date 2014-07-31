@@ -30,6 +30,7 @@ class Entrada {
     public function create(array $args, &$stmt = null) {
         $args['saida'] = 0;
         $args['corrigido'] = 0;
+        $this->error_msg = "Não pode ser inserido os dados!!";
         if ($this->checkType($args['tipo'])) {
             $calcs = $this->instanceCalcDiscountsWillApplyFilter($args['umidade']);
             $qp = round($args['peso'] * $calcs->quebraPeso(), 2);
@@ -40,12 +41,16 @@ class Entrada {
             $qp = 0;
             $sv = 0;
             $imp = 0;
-            $args['saida'] = $args['peso'];
             $args['umidade'] = 0;
             $args['impureza'] = 0;
-            $args['peso'] = 0;
+            if ($args['tipo'] === 2) {
+                $args['saida'] = 0;
+            } else {
+                $args['saida'] = $args['peso'];
+                $args['peso'] = 0;
+            }
         }
-        $this->error_msg = "Não pode ser inserido os dados!!";
+
         $con = Connection\Init::getInstance()->on();
         $stmt = $con->prepare("INSERT INTO `entradas` (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`,`quebra_peso`,`servicos`,`desc_impureza`) VALUES (:p, :s, :crr, :_c, :u, :i, :d, :t, :o,:q,:b,:z)");
         $stmt->bindValue(':p', $args['peso']);
@@ -54,7 +59,7 @@ class Entrada {
         $stmt->bindValue(':_c', $args['produtor']);
         $stmt->bindValue(':u', $args['umidade']);
         $stmt->bindValue(':i', $args['impureza']);
-        $stmt->bindValue(':d', date('Y-m-d H:s:i', strtotime($args['data'])));
+        $stmt->bindValue(':d', date('Y-m-d H:s:i', strtotime(str_replace('/', '-', $args['data']))));
         $stmt->bindValue(':t', $args['ticket']);
         $stmt->bindValue(':o', sprintf("%s: %s", $args['motorista'], $args['observacao']));
         $stmt->bindValue(':q', $qp);
@@ -71,7 +76,6 @@ class Entrada {
     }
 
     private function checkType($type) {
-        $this->type = $type;
         return $type === 1;
     }
 

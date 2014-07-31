@@ -3,13 +3,13 @@
     var main = angular.module('main',
             [
                 'ngRoute',
-                //Strap
-                'mgcrea.ngStrap.alert',
-                //App
                 'produtorStore',
                 'EntradaStore'
-            ]
-            );
+            ]).run(function($rootScope, $templateCache) {
+        $rootScope.$on('$viewContentLoaded', function() {
+            $templateCache.removeAll();
+        });
+    });
 
     main.controller('mainController', ['$scope', '$log', '$location',
         function($scope, $log, $location) {

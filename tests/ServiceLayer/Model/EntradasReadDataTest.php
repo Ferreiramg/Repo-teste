@@ -56,6 +56,6 @@ class EntradasReadDataTest extends PHPUnit {
         $method->setAccessible(true);
         $invo = $method->invokeArgs($entrada, array());
         $this->assertTrue(empty($invo));
-    }
+}
 
 }

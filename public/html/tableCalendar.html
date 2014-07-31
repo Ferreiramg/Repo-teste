@@ -14,12 +14,15 @@
         <tr ng-repeat="values in calendar.days">
             <td>{{values.id}}</td>
             <td>{{values.dia}}</td>
-            <td>{{values.entrada}}</td>
+            <td>{{values.entrada | number:2}}</td>
             <td ng-class="{ 'warning':calendar.isSaida(values.saida) }">
-                {{values.saida}}
+                {{values.saida  | number:2}}
             </td>
-            <td>{{values.desconto}}</td>
-            <td>{{values.saldo}}</td>
+            <td>{{values.desconto | number:2}}</td>
+            <td ng-class="{ 'info':calendar.isSaida(values.qt) }"
+                title="{{'Quebra tecnica ' + values.qt}}">
+                {{values.saldo | number:2}}
+            </td>
             <td>{{values.observacao}}</td>
         </tr>
     </tbody>

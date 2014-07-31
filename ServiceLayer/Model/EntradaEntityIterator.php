@@ -13,7 +13,7 @@ class EntradaEntityIterator extends \ArrayIterator {
     public $cliente;
     private $media = 60;
     public static $saldo = 0, $armazenagem = 0;
-    public $cols = [], $pointer = 0;
+    public $cols = [], $pointer = 0, $qt = 0;
 
     const KG_60 = 60;
     const KG_50 = 50;
@@ -37,11 +37,12 @@ class EntradaEntityIterator extends \ArrayIterator {
             static::$armazenagem +=$this->deduction();
             $value = array(
                 'id' => $__data->id,
+                'qt' => 0,
                 'dia' => $value['dia'],
                 'entrada' => $entrada,
                 'saida' => $saida,
                 'desconto' => $this->deduction(),
-                'saldo' => self::$saldo,
+                'saldo' => static::$saldo,
                 'observacao' => $__data->observacao
             );
             if (next($this->cols) !== false) {
@@ -49,6 +50,10 @@ class EntradaEntityIterator extends \ArrayIterator {
             }
         }
         parent::append($value);
+    }
+
+    public function setQT($qt) {
+        $this->qt = $this->qt === 0 ? 0 : $qt;
     }
 
     public function setCliente(Produtor $cliente) {

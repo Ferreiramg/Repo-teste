@@ -3,7 +3,8 @@
 namespace Client;
 
 use DateTime,
-    Model\Cached\Memory;
+    Model\Cached\Memory,
+    Model\CalcDiscounts as Disconto;
 
 /**
  * Description of EntradaRead
@@ -42,9 +43,10 @@ class EntradaRead extends AbstracClient {
      * @return array
      * @throws \Exceptions\ClientExceptionResponse format error date
      */
-    public function calendarData($media= \Model\EntradaEntityIterator::KG_60) {
+    public function calendarData($media = \Model\EntradaEntityIterator::KG_60) {
         $key = ($this->params[1] - 1); //get id produtor to array key
         $data = $this->data->getdataByClientId($this->params[1]);
+
         if (empty($data)) {
             return [];
         }
@@ -57,20 +59,33 @@ class EntradaRead extends AbstracClient {
             throw new \Exceptions\ClientExceptionResponse(
             print_r(DateTime::getLastErrors()['warnings'], true));
         }
+        $i = 0;
+
         while ($entrada < $hoje) {
             $deduction = $iterator->deduction();
+            $qt = $this->qt($entrada, $iterator->getSaldo($deduction));
+            $saldo = $iterator->getSaldo($qt);
             $iterator->append([
                 'id' => 0,
+                'qt' => $qt,
                 'dia' => $entrada->format('Y-m-d'),
                 'entrada' => 0,
                 'saida' => 0,
                 'desconto' => $deduction,
-                'saldo' => $iterator->getSaldo($deduction),
+                'saldo' => $saldo,
                 'observacao' => ''
             ]);
+            ++$i;
             $entrada = $entrada->modify('+1day');
         }
         return $iterator->getArrayCopy();
+    }
+
+    private function qt($entrada, $saldo) {
+        if ($entrada->format('t-m') == $entrada->format('d-m') && $saldo > 0) {
+            return Disconto::quebraTecnica($saldo);
+        }
+        return 0;
     }
 
 }

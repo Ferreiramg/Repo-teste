@@ -1,8 +1,8 @@
 'use stric';
 (function() {
     var main = angular.module('EntradaStore', [
-        'ngRoute', 
-        'mgcrea.ngStrap.button', 
+        'ngRoute',
+        'mgcrea.ngStrap.button',
         'mgcrea.ngStrap.datepicker',
         'produtorStore'])
             .config(['$routeProvider', function($router) {
@@ -13,7 +13,8 @@
                     });
                 }]);
 
-    main.controller('EntradasController', function($route) {
+    main.controller('EntradasController', function($scope, $route) {
+        this.radio = {};
     });
 
 }());

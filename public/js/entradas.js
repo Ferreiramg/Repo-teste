@@ -30,6 +30,7 @@
     var main = angular.module('EntradaStore', [
         'ngRoute',
         'ui.bootstrap.buttons',
+        'ui.bootstrap.typeahead',
         'ngProgress',
         'produtorStore'])
             .config(['$routeProvider', function($router) {
@@ -42,14 +43,17 @@
 
     main.controller('EntradasController', ['$scope', '$http', 'ngProgress',
         function($scope, $http, progress) {
+
             this.radio = '1';
             this.dt = {};
-            $scope.newd = {produtor:1};
+            $scope.newd = {produtor: 1};
+            $scope.register = [];
 
             this.add = function() {
                 $scope.newd.data = this.dt;
                 $scope.newd.tipo = this.radio;
-                if(this.radio === '0'){
+
+                if (this.radio === '0') {
                     $scope.newd.umidade = 0;
                     $scope.newd.impureza = 0;
                 }
@@ -60,7 +64,11 @@
                         function(data) {
                             if (data[0].code === "1") {
                                 progress.complete();
-                                //   window.location.reload();
+                                $scope.register.push({
+                                    mt: $scope.newd.motorista,
+                                    tc: $scope.newd.ticket,
+                                    dt: $scope.newd.data
+                                });
                             }
                         });
             };

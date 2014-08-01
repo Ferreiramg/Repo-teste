@@ -23,7 +23,7 @@ class ProdutorReadTest extends PHPUnit {
         $main->run('GET', 'produtor_read');
     }
 
-    public function testReadReportDataprodutor() {
+    public function testReadReportDataProdutor() {
         $this->markTestIncomplete(
                 'This test has not been implemented yet.'
         );
@@ -35,7 +35,7 @@ class ProdutorReadTest extends PHPUnit {
     public function testInsertDataProdutor() {
         $request = new Client();
         $this->markTestIncomplete(
-                'This test has not been implemented yet.'
+                'Apache rewrite not work in travis ci.'
         );
         $response = $request->post('http://localhost/produtor', [
             'body' => [
@@ -52,7 +52,7 @@ class ProdutorReadTest extends PHPUnit {
     public function testExceptionCreateDataProdutor() {
         $request = new Client();
         $this->markTestIncomplete(
-                'This test has not been implemented yet.'
+                'Apache  rewrite not work in travis ci.'
         );
         $response = $request->post('http://localhost/produtor', [
             'body' => [

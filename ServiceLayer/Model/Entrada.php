@@ -45,6 +45,7 @@ class Entrada {
             $args['impureza'] = 0;
             if ($args['tipo'] === 2) {
                 $args['saida'] = 0;
+                $args['corrigido'] = $args['peso'];
             } else {
                 $args['saida'] = $args['peso'];
                 $args['peso'] = 0;

@@ -11,7 +11,7 @@ class Produtor extends \ArrayIterator {
 
 //    public $id, $nome, $grao, $data, $armazenagem;
     private $idKey;
-    public $error_msg;
+    public $error_msg = "Action not Found!";
 
     public function __construct($id = 0) {
         $conn = Connection\Init::getInstance()->on();

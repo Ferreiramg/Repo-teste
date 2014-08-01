@@ -3,72 +3,90 @@
         <div class="panel panel-default">
             <div class="panel-heading"><b>Nova Entrada</b></div>
             <div class="panel-body">
-                <div class="form-inline" style="margin-left: 10%">
-                    <div class="form-group" ng-init="produtor.getData()">
-                        <select ng-change="newd.produtor = produtor.id" ng-model="produtor.id" class="form-control"> 
-                            <option ng-repeat="value in produtor.data" value="{{value.id}}">
-                                {{value.nome}}
-                            </option>
-                        </select> 
-                    </div>
-                    <div class="btn-group">
-                        <label class="btn btn-default btn-sm" ng-model="entradas.radio" btn-radio="'1'">Entrada</label>
-                        <label class="btn btn-default btn-sm" ng-model="entradas.radio" btn-radio="'0'">Saida</label>
-                        <label class="btn btn-info btn-sm" ng-model="entradas.radio" btn-radio="'2'">Transferência</label>
-                    </div>
-                </div>
-                <br />
-                <div class="form-horizontal col-sm-10">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Data</label>
-                        <div class="col-sm-6">
-                            <input class="form-control" type="text" ng-model="entradas.dt">
+                <form name="form" novalidate>
+                    <div class="form-inline" style="margin-left: 10%">
+                        <div class="form-group" ng-init="produtor.getData()">
+                            <select ng-change="newd.produtor = produtor.id" ng-model="produtor.id" class="form-control"> 
+                                <option ng-repeat="value in produtor.data" value="{{value.id}}">
+                                    {{value.nome}}
+                                </option>
+                            </select> 
+                        </div>
+                        <div class="btn-group">
+                            <label class="btn btn-default btn-sm" ng-model="entradas.radio" btn-radio="'1'">Entrada</label>
+                            <label class="btn btn-default btn-sm" ng-model="entradas.radio" btn-radio="'0'">Saida</label>
+                            <label class="btn btn-info btn-sm" ng-model="entradas.radio" btn-radio="'2'">Transferência</label>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="input1" class="col-sm-3 control-label">Peso em Kg</label>
-                        <div class="col-sm-6">
-                            <input ng-model="newd.peso" type="number" class="form-control" id="input1">
-                        </div>
-                    </div>
-                    <div ng-hide="entradas.radio == '2' || entradas.radio == '0'">
+                    <br />
+                    <div class="form-horizontal col-sm-10">
                         <div class="form-group">
-                            <label for="input2" class="col-sm-3 control-label">Umidade</label>
+                            <label class="col-sm-3 control-label">Data</label>
                             <div class="col-sm-6">
-                                <input ng-model="newd.umidade" type="number" class="form-control" id="input2">
+                                <input class="form-control" type="text" ng-model="entradas.dt">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="input3" class="col-sm-3 control-label">Impureza</label>
+                            <label for="input1" class="col-sm-3 control-label">Peso em Kg</label>
                             <div class="col-sm-6">
-                                <input ng-model="newd.impureza" type="number" class="form-control" id="input3">
+                                <input integer ng-model="newd.peso" type="number" class="form-control" name="peso" id="input1">
+                            </div>
+                            <span class="help-block" ng-show="form.peso.$error.integer">Numero invalido!</span>
+                        </div>
+                        <div ng-hide="entradas.radio == '2' || entradas.radio == '0'">
+                            <div class="form-group">
+                                <label for="input2" class="col-sm-3 control-label">Umidade</label>
+                                <div class="col-sm-6">
+                                    <input smart-float ng-model="newd.umidade" name="umidade"  type="text" class="form-control" id="input2">                                   
+                                </div>
+                                <span class="help-block has-error" ng-show="form.umidade.$error.float">Numero invalido!</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="input3" class="col-sm-3 control-label">Impureza</label>
+                                <div class="col-sm-6">
+                                    <input smart-float ng-model="newd.impureza" name="impureza"  type="text" class="form-control" id="input3">
+                                </div>
+                                <span class="help-block has-error" ng-show="form.impureza.$error.float">numero invalido!</span>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div  ng-hide="entradas.radio == '2'" class="form-inline col-sm-10">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Motorista</label>
-                        <div class="col-sm-6">
-                            <input ng-model="newd.motorista" type="text" class="form-control" placeholder="">
-                        </div>
-                         <label class="control-label col-sm-2">Ticket</label>
-                        <div class="col-sm-1">
-                            <input ng-model="newd.ticket" style='width: 100px' type="text" class="form-control"  placeholder="">
-                        </div>
-                    </div>
-                </div>
-                <br /><br />
-                <div class="form-horizontal col-sm-10">
-                    <div class="form-group">
-                        <label for="input3" class="col-sm-3 control-label">Observação</label>
-                        <div class="col-sm-7">
-                            <textarea ng-model="newd.observacao" class="form-control" rows="3"></textarea>
+                    <div  ng-hide="entradas.radio == '2'" class="form-inline col-sm-10">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Motorista</label>
+                            <div class="col-sm-6">
+                                <input ng-model="newd.motorista"
+                                       typeahead="nome as nome.mt for nome in register | filter:{mt:$viewValue} | limitTo:8"
+                                       type="text" class="form-control" />
+                            </div>
+                            <label class="control-label col-sm-2">Ticket</label>
+                            <div class="col-sm-1">
+                                <input ng-model="newd.ticket" style='width: 100px' type="text" class="form-control"  placeholder="">
+                            </div>
                         </div>
                     </div>
-                    <button ng-click="entradas.add()" class="btn btn-sm btn-success">Adcionar</button>
-                </div>
+                    <div class="col-sm-10" style="margin-top: 15px">
+                        <div class="form-group">
+                            <label for="input3" class="col-sm-3 control-label">Observação</label>
+                            <div class="col-sm-7">
+                                <textarea ng-model="newd.observacao" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <button ng-click="entradas.add()" 
+                                ng-disabled="form.$invalid"
+                                class="btn btn-sm btn-success">Adcionar</button>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
+    <div class="col-md-4" ng-show="register.length" ng-model="register">
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-success" ng-repeat="value in register">
+                <span class="badge">{{$index+1}}</span>
+                <span>Data: {{value.dt}}</span>
+                 <span>Ticket: {{value.tc}}</span>
+                <button class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+            </li>
+        </ul>
     </div>
 </div>

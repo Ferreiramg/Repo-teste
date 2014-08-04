@@ -8,12 +8,9 @@
                 'ngRoute',
                 'produtorStore',
                 'ui.bootstrap.dropdown',
-                'EntradaStore'
-            ]).run(function($rootScope, $templateCache) {
-        $rootScope.$on('$viewContentLoaded', function() {
-            $templateCache.removeAll();
-        });
-    });
+                'EntradaStore',
+                'googlechart'
+            ]);
 
     main.controller('mainController', ['$scope', '$log', '$location',
         function($scope, $log, $location) {
@@ -35,6 +32,8 @@
                 templateUrl: 'public/html/pdftabela.html'
             });
         }]);
+    
+    
     main.directive('smartFloat', function() {
         return {
             require: 'ngModel',

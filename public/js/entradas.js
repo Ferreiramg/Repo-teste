@@ -1,6 +1,6 @@
-'use stric';
-(function() {
 
+(function() {
+'use stric';
     function serializeData(data) {
         // If this is not an object, defer to native stringification.
         if (!angular.isObject(data)) {
@@ -58,6 +58,7 @@
                     $scope.newd.impureza = 0;
                 }
                 progress.start();
+                $scope.newd.motorista = typeof $scope.newd.motorista === 'object' ? $scope.newd.motorista.mt : $scope.newd.motorista;
                 $scope.newd.acao = 'create';
                 $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
                 $http.post('/entrada', serializeData($scope.newd)).success(

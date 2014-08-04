@@ -8,6 +8,8 @@
         font-size: 14px;
         line-height: 1.2;
     }
+    .page-break { page-break-inside: avoid; page-break-before: always; }
+
 }
 html {
     overflow: -moz-scrollbars-vertical;
@@ -86,12 +88,13 @@ body > .container {
 .table tbody tr:hover {
     background: #f8f8f8;
 }
-.datepicker.dropdown-menu button, .timepicker.dropdown-menu button {
+/*.datepicker.dropdown-menu button, .timepicker.dropdown-menu button {
     outline: 0;
     border: 0;
-   // background: none;
+    // background: none;
 }
 .datepicker.dropdown-menu button:hover
 {
     background: #f8f8f8;
-}
+}*/
+.page-break	{ display: none; }

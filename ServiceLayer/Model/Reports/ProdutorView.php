@@ -14,9 +14,8 @@ class ProdutorView {
         foreach ($data as $values) {
             if ($values['saida'] > 0) {
                 $string .= sprintf('<tr><td colspan="6"> </td></tr>'
-                        . '<tr><td colspan="3">Data: %s</td>'
-                        . '<td colspan="3">Saida: %s</td></tr>',
-                        $values['data'],round($values['saida'] / $mult, 2));
+                        . '<tr class="warning"><td colspan="3">Data: %s</td>'
+                        . '<td colspan="3">Saida: <b>%s</b></td></tr>', $values['data'], round($values['saida'] / $mult, 2));
             } else {
                 $string .= sprintf(
                         '<tr><td colspan="6"> </td></tr>'
@@ -34,6 +33,9 @@ class ProdutorView {
         return $string;
     }
 
+    private function negativeEfect($n){
+        return $n < 0 ? '<span class="text-danger">'.$n.'</span>':$n;
+    }
     public function drawHtml(array $data, $multiplicador = \Model\EntradaEntityIterator::KG_60) {
         extract($data['agregado']);
         $bruto = round($bruto / $multiplicador, 2);
@@ -41,32 +43,34 @@ class ProdutorView {
         $imp = round($imp / $multiplicador, 2);
         $servicos = round($servicos / $multiplicador, 2);
         $liquido = round($liquido / $multiplicador, 2);
-        $liquido_descontos = round($bruto - $qp - $imp, 2);
-        $saidas = round($saidas / $multiplicador, 2);
+        $liquido_descontos = number_format(round($bruto - $qp - $imp, 2), 2);
+        $saidas = number_format(round($saidas / $multiplicador, 2), 2);
         $content = $this->content($data['content'], $multiplicador);
+        
+        $saldo = $this->negativeEfect($saldo);
         return <<<HTML
-        <table border="1">
+        <table class="table table-bordered table-responsive">
             <head>
-                <tr><td colspan="6"><h3>Relatório Resumido</h3></td></tr>
+                <tr><td colspan="6" class="well text-center"><h3>Relatório Resumido</h3></td></tr>
                 <tr><td colspan="5">Nome: $nome</td><td>Dias : $dias</td></tr>
-                <tr><td colspan="6">Taxa Armazenagem: $taxa% ao dia</td></tr>
-                <tr><td colspan="6">Peso bruto: $bruto sacos $multiplicador Kg</td></tr>
-                <tr><td colspan="6"><h4>Descontos</h4></td></tr>
+                <tr><td colspan="6"><i>Taxa Armazenagem: $taxa% ao dia</i></td></tr>
+                <tr><td colspan="6">Peso bruto: <b>$bruto</b> sacos $multiplicador Kg</td></tr>
+                <tr><td colspan="6" class="well"><h4>Descontos</h4></td></tr>
                 <tr>
-                    <td colspan="2">Quebra de Peso: $qp</td>
-                    <td colspan="2">Impureza: $imp</td>
-                    <td colspan="2">Quebra tecnica: ???</td>
+                    <td colspan="2">Quebra de Peso: <b>$qp</b></td>
+                    <td colspan="2">Impureza: <b>$imp</b></td>
+                    <td colspan="2">Quebra tecnica: $qt</td>
                 </tr>
-                <tr><td colspan="6">Peso Liquido Corrigido: $liquido_descontos</td></tr>
-                <tr><td colspan="6"><h4>Prestação de Serviços</h4></td></tr>
-                <tr><td colspan="6">Secagem e Limpeza: $servicos</td></tr>
-                <tr><td colspan="6">Armazenagem: $armazenagem</td></tr>
-                <tr><td colspan="6"><h4>Saldo</h4></td></tr>
-                <tr><td colspan="6">Saldo Liquido: $liquido</td></tr>
-                <tr><td colspan="6">Saida Total: $saidas</td></tr>
-                <tr><td colspan="6">Saldo: $saldo</td></tr>
+                <tr><td colspan="6">Peso Liquido Corrigido: <b>$liquido_descontos</b></td></tr>
+                <tr><td colspan="6" class="well"><h4>Prestação de Serviços</h4></td></tr>
+                <tr><td colspan="6">Secagem e Limpeza: <b>$servicos</b></td></tr>
+                <tr><td colspan="6">Armazenagem: <b>$armazenagem</b></td></tr>
+                <tr><td colspan="6" class="well"><h4>Saldo</h4></td></tr>
+                <tr><td colspan="6">Saldo Liquido: <b>$liquido</b></td></tr>
+                <tr><td colspan="6">Saida Total: <b>$saidas</b></td></tr>
+                <tr><td colspan="6"><b>Saldo: $saldo</b></td></tr>
             </head>               
-            <body>
+            <body class="page-break">
                 $content
             </body>
         </table>

@@ -23,7 +23,14 @@
                                 <li><a href="#">Separated link</a></li>
                             </ul>
                         </li>
-                        <li ng-class="{'active':false}"><a href="#/produtor">Produtor</a></li>
+                        <li dropdown>
+                            <a href class="dropdown-toggle">Produtor <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#/produtor">Novo</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#/resume/{{produtor.id}}/0">Relatório Resumo</a></li>
+                            </ul>
+                        </li>
                         <li ng-class="{'active':false}"><a href="#/calendar/{{produtor.id}}">Calendario</a></li>
                         <li ng-class="{'active':false}"><a href="#/tabela">Tabela Descontos</a></li>
                     </ul>

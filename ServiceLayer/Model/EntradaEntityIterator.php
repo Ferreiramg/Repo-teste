@@ -52,10 +52,6 @@ class EntradaEntityIterator extends \ArrayIterator {
         parent::append($value);
     }
 
-    public function setQT($qt) {
-        $this->qt = $this->qt === 0 ? 0 : $qt;
-    }
-
     public function setCliente(Produtor $cliente) {
         $this->cliente = $cliente;
     }

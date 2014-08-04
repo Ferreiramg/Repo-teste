@@ -30,10 +30,14 @@
         }]).config(['$routeProvider', function($router) {
             $router.when('/tabela', {
                 templateUrl: 'public/html/pdftabela.html'
+            }).when('/resume/:id/:kg', {
+                templateUrl: function(params) {
+                    return '/produtor_report/' + params.id + '/' + params.kg;
+                }
             });
         }]);
-    
-    
+
+
     main.directive('smartFloat', function() {
         return {
             require: 'ngModel',

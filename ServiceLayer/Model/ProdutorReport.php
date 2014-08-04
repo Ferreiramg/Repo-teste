@@ -18,7 +18,7 @@ class ProdutorReport {
         $stmt = $conn->query(sprintf("SELECT * FROM entradas WHERE _cliente = %u ORDER BY data ASC", $id));
         $produtor->setIdKey($id - 1);
 
-        static $total = 0, $saida = 0, $qp = 0, $servico = 0, $imp = 0, $corrgido = 0;
+        static $total = 0, $saida = 0, $qp = 0, $qt = 0, $servico = 0, $imp = 0, $corrgido = 0;
         $output = array('content' => []);
         $entradas = new \Client\EntradaRead();
         $entradas->params[1] = $id;
@@ -33,6 +33,7 @@ class ProdutorReport {
             $saldo = round($calendar[$c]['saldo'], 2);
             for ($i = 0; $i < $c; ++$i) {
                 $a +=$calendar[$i]['desconto'];
+                $qt += $calendar[$i]['qt'];
             }
         }
 
@@ -66,6 +67,7 @@ class ProdutorReport {
             'liquido' => $corrgido,
             'saidas' => $saida,
             'qp' => $qp,
+            'qt' => $qt,
             'armazenagem' => $a,
             'imp' => $imp,
             'dias' => $c,

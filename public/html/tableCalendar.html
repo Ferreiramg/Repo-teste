@@ -1,29 +1,43 @@
+<div class="row" ng-show="!visible">
+    <div class="col-md-4" style="background: rgba(0,0,0,.8);z-index: 100;position: absolute;top: 51px;right: 40px;width: 180px;padding: 3px;">
+        <input class="form-control" type="search" placeholder="filtrar ..." ng-model="search.$" />
+    </div>
+</div>
 <table class="table table-bordered table-responsive">
-    <thead class="well">
-        <tr>
-            <th>ID</th>
-            <th>Dias</th>
-            <th>Entrada</th>
-            <th>Saida</th>
-            <th>Desconto</th>
-            <th>Saldo</th>
-            <th>Observação</th>
-        </tr>
-    </thead>
-    <tbody ng-init="calendar.getData()">
-        <tr ng-repeat="values in calendar.days">
-            <td>{{values.id}}</td>
-            <td>{{values.dia}}</td>
-            <td>{{values.entrada | number:2}}</td>
-            <td ng-class="{ 'warning':calendar.isSaida(values.saida) }">
-                {{values.saida  | number:2}}
-            </td>
-            <td>{{values.desconto | number:2}}</td>
-            <td ng-class="{ 'info':calendar.isSaida(values.qt) }"
-                title="{{'Quebra tecnica ' + values.qt}}">
-                {{values.saldo | number:2}}
-            </td>
-            <td>{{values.observacao}}</td>
-        </tr>
-    </tbody>
-</table>
+        <thead class="well">
+            <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>Dias</th>
+                <th>Entrada</th>
+                <th>Saida</th>
+                <th>Desconto</th>
+                <th>Saldo</th>
+                <th>Observação</th>
+            </tr>
+        </thead>
+        <tbody ng-init="calendar.getData()">
+            <tr ng-repeat="values in calendar.days | filter:search" ng-dblClick="open(values)">
+                <td>{{$index + 1}}</td>
+                <td>{{values.id}}</td>
+                <td>{{values.dia}}</td>
+                <td>{{values.entrada| number:2}}</td>
+                <td ng-class="{ 'warning':calendar.isSaida(values.saida) }">
+                    {{values.saida}}
+                </td>
+                <td>{{values.desconto| number:2}}</td>
+                <td>{{values.saldo| number:2}}</td>
+                <td>{{values.observacao}}</td>
+            </tr>
+        </tbody>
+        <tfoot class="well">
+            <tr>
+                <td colspan="3"></td>
+                <td><b>{{calendar.days| total:'entrada' |number:2}}</b></td>
+                <td><b>{{calendar.days| total:'saida' |number:2}}</b></td>
+                <td><b>{{calendar.days| total:'desconto'|number:2}}</b></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>

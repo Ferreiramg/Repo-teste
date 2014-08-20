@@ -86,7 +86,7 @@
                 <span>Data: {{value.dt}}</span>
                  <span>Ticket: {{value.tc}}</span>
                  <span>Motorista: {{value.mt}}</span>
-                <button class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                <button ng-disabled="disable[$index].d" ng-click="entradas.deletar(value.id,$index)" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
             </li>
         </ul>
     </div>

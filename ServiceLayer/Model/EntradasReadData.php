@@ -9,6 +9,8 @@ namespace Model;
  */
 class EntradasReadData {
 
+    private $id = 0;
+
     public function getdataByClientId($id) {
         $conn = Connection\Init::getInstance()->on();
 
@@ -23,6 +25,29 @@ class EntradasReadData {
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         }
         return [];
+    }
+
+    protected function getData() {
+        $conn = Connection\Init::getInstance()->on();
+        $stmt = $conn->query(
+                sprintf("SELECT * FROM entradas WHERE _cliente = %u ORDER BY id DESC", $this->id)
+        );
+        if ($stmt) {
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        }
+        return [];
+    }
+
+    public function setId($id) {
+        $this->id = (int) $id;
+    }
+
+    public function hash($key) {
+        return (string) $key . $this->id;
+    }
+    
+    public function __toString() {
+        return json_encode($this->getData());
     }
 
 }

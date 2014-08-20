@@ -82,7 +82,7 @@ class ProdutorTest extends PHPUnit {
         } catch (Exceptions\ClientExceptionResponse $e) {
             echo $e->renderJsonMessage(); //expected exception here
         }
-        $this->expectOutputString('{"message":"Produtor Offset not Exists!","code":0,"severity":"error"}');
+        $this->expectOutputString('{"message":"Produtor Offset not Exists!","code":"0","severity":"error"}');
     }
 
     public function testMultipleInsertData() {

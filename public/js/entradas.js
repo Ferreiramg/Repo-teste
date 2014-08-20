@@ -1,6 +1,6 @@
 
 (function() {
-'use stric';
+    'use stric';
     function serializeData(data) {
         // If this is not an object, defer to native stringification.
         if (!angular.isObject(data)) {
@@ -38,21 +38,62 @@
                         controller: 'EntradasController',
                         controllerAs: 'entradas',
                         templateUrl: 'public/html/entradaview.html'
+                    }).when('/read/:id', {
+                        controller: 'EntradasController',
+                        controllerAs: 'entradas',
+                        templateUrl: 'public/html/entradagrid.html'
                     });
                 }]);
 
-    main.controller('EntradasController', ['$scope', '$http', 'ngProgress',
-        function($scope, $http, progress) {
+    main.controller('EntradasController', ['$scope', '$routeParams', '$http', 'ngProgress',
+        function($scope, $params, $http, progress) {
 
+            var store = this;
+            $scope.id = 0;
+            this.data = [];
             this.radio = '1';
+            this.kg = '1';
+
             this.dt = {};
             $scope.newd = {produtor: 1};
             $scope.register = [];
+            $scope.disable = [];
 
+            $scope.Selected = {};
+            $scope.setSelected = function(Selected, i) {
+                Selected.index = i;
+                $scope.Selected = Selected;
+            };
+            this.wasTrans = function(value) {
+                return value === "1";
+            };
+            this.getData = function() {
+                $scope.id = $params.id;
+                var id = $scope.id;
+                $http.get('/entrada_read/' + id).success(function(data) {
+                    store.data[id] = data;
+                    angular.forEach(data, function(value, key) {
+                        this.push({d: false});
+                    }, $scope.disable);
+                });
+            };
+            this.deletar = function(id, i) {
+                var cf = confirm('Deseja apagar Entrada?');
+                if (cf) {
+                    progress.start();
+                    $http.delete('/entrada/deletar/' + id).success(function(data) {
+                        var resp = data[0] || data;
+                        if (resp.code === "1") {
+                            $scope.disable[i].d = true;
+                            progress.complete();
+                        }
+                    });
+                }
+            };
             this.add = function() {
                 $scope.newd.data = this.dt;
                 $scope.newd.tipo = this.radio;
-
+                $scope.newd.wastrans = this.radio === '2' ? 1 : 0;
                 if (this.radio === '0') {
                     $scope.newd.umidade = 0;
                     $scope.newd.impureza = 0;
@@ -63,14 +104,19 @@
                 $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
                 $http.post('/entrada', serializeData($scope.newd)).success(
                         function(data) {
-                            if (data[0].code === "1") {
+                            var resp = data[0] || data;
+                            if (resp.code !== "0") {
                                 progress.complete();
+                                $scope.disable.push({d: false});
                                 $scope.register.push({
+                                    id: resp.code,
                                     mt: $scope.newd.motorista,
                                     tc: $scope.newd.ticket,
                                     dt: $scope.newd.data
                                 });
+
                             }
+                            console.log(resp.message || null);
                         });
             };
 
@@ -81,4 +127,18 @@
             this.dt = day + "-" + month + "-" + year;
         }]);
 
+    main.filter("total", function() {
+        return function(items, field) {
+            var total = 0, i = 0;
+            for (i = 0; i < items.length; i++)
+                total += items[i][field];
+            return total;
+        };
+    });
+    main.filter("kgConverte", function() {
+        return function(value, field) {
+            var kg = parseInt(field); 
+            return value / kg;
+        };
+    });
 }());

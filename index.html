@@ -13,53 +13,63 @@
             <div class="container">    
                 <div ng-controller="produtorDataStore as produtor" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li ng-class="{'active':true }"><a href="#">Home</a></li>
+                        <li ng-class="{'active':true }"><a href="#" class="b-menu">Home</a></li>
                         <li dropdown is-open="status.isopen">
-                            <a href class="dropdown-toggle">Entradas <span class="caret"></span></a>
+                            <a href class="dropdown-toggle b-menu">Entradas <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#/entrada">Criar Nova</a></li>
-                                <li><a href="#">Listar Entradas</a></li>
+                                <li><a href="#/read/{{produtor.id}}">Listar Entradas</a></li>
                                 <li class="divider"></li>
                                 <li><a href="#">Separated link</a></li>
                             </ul>
                         </li>
                         <li dropdown>
-                            <a href class="dropdown-toggle">Produtor <span class="caret"></span></a>
+                            <a href class="dropdown-toggle b-menu">Produtor <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#/produtor">Novo</a></li>
                                 <li class="divider"></li>
                                 <li><a href="#/resume/{{produtor.id}}/0">Relatório Resumo</a></li>
                             </ul>
                         </li>
-                        <li ng-class="{'active':false}"><a href="#/calendar/{{produtor.id}}">Calendario</a></li>
-                        <li ng-class="{'active':false}"><a href="#/tabela">Tabela Descontos</a></li>
+                        <li ng-class="{'active':false}"><a class="b-menu" href="#/calendar/{{produtor.id}}">Calendario</a></li>
+                        <li ng-class="{'active':false}"><a class="b-menu" href="#/tabela">Tabelas</a></li>
+                        <li dropdown>
+                            <a href class="dropdown-toggle b-menu">Graficos <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li ng-class="{'active':false}"><a href="#/inout/{{produtor.id}}">Entradas Saidas</a></li>
+                                <li><a href="#/amzsilo/2014">Armazenado Silo</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <form ng-init="produtor.getData()" class="navbar-form navbar-right" role="form">
                         <div class="form-group">
-                            <button  ng-click="toggle()" title="Show Filtro" type="button" class="btn btn-default btn-sm">
+                            <button  ng-click="toggle()" 
+                                     tooltip="{{tpTextSearch}}"
+                                     tooltip-placement="bottom"
+                                     type="button" 
+                                     class="btn btn-default btn-sm">
                                 <span class="glyphicon glyphicon-search"></span>
                             </button>
                             <select ng-model="produtor.id" class="form-control"> 
                                 <option ng-repeat="value in produtor.data" value="{{value.id}}">
                                     {{value.nome}}
                                 </option>
-                            </select>                     
+                            </select>  
+                            <button ng-click="reload(produtor.id)"  class="btn btn-default btn-sm"><span class="glyphicon glyphicon-refresh"></span></button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-        <div class="container">
-            <div ng-view></div>
-        </div>
-        
-        <script src="public/js/libs/angular.js/angular.min.js" type="text/javascript"></script>
+        <div class="container"><div ng-view></div></div>
+        <script src="public/js/libs/angular.js/angular.min.js" type="text/javascript"></script>       
         <script src="public/js/libs/angular.js/angular-route.js" type="text/javascript"></script>     
-        <script src="public/js/libs/angular.js/ui-bootstrap-tpls-0.11.0.min.js" type="text/javascript"></script>
-        <script src="public/js/libs/angular.js/ngProgress.js" type="text/javascript"></script>
-        <script src="public/js/libs/angular.js/ng-google-chart.js" type="text/javascript"></script>
+        <script src="public/js/main.js" type="text/javascript"></script>
         <script src="public/js/produtor.js" type="text/javascript"></script>
         <script src="public/js/entradas.js" type="text/javascript"></script>
-        <script src="public/js/main.js" type="text/javascript"></script>
+        <script src="public/js/chart.js" type="text/javascript"></script>
+        <script src="public/js/libs/angular.js/ui-bootstrap-tpls-0.11.0.min.js" type="text/javascript"></script>
+        <script src="public/js/libs/angular.js/ngProgress.js" type="text/javascript"></script>
+        <script src="public/js/libs/chart.js/Chart.min.js" type="text/javascript"></script>
     </body>
 </html>

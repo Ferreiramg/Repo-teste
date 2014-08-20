@@ -32,6 +32,14 @@ class PDOStatementPrivate extends \PDOStatement {
         $this->connection = $connection;
     }
 
+    /**
+     * Override PDOStatement
+     * @param type $paramno
+     * @param type $param
+     * @param type $type
+     * @param type $maxlen
+     * @param type $driverdata
+     */
     public function bindParam($paramno, &$param, $type = PDO::PARAM_STR, $maxlen = null, $driverdata = null) {
         $this->bound_params[$paramno] = array(
             'value' => &$param,
@@ -43,6 +51,12 @@ class PDOStatementPrivate extends \PDOStatement {
         parent::bindParam($paramno, $param, $type, $maxlen, $driverdata);
     }
 
+    /**
+     * Override PDOStatement
+     * @param type $parameter
+     * @param type $value
+     * @param type $data_type
+     */
     public function bindValue($parameter, $value, $data_type = PDO::PARAM_STR) {
         $this->bound_params[$parameter] = array(
             'value' => $value,

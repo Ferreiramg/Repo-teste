@@ -21,6 +21,12 @@ class DBConnSqliteTest {
     }
 
     private static $sql = <<<SQL
+CREATE TABLE caixasilo (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `servico` REAL,
+  `armazenagem` REAL,
+  `data` TEXT NOT NULL
+); 
 CREATE TABLE IF NOT EXISTS cliente (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `nome` TEXT NOT NULL,
@@ -47,6 +53,8 @@ CREATE TABLE `entradas` (
    `desc_impureza` REAL NULL,
   `umidade` REAL,
   `impureza` REAL,
+  `ano` TEXT DEFAULT '2014',
+  `foi_transf` TEXT DEFAULT 0,
   `data` TEXT NOT NULL,
   `ticket` TEXT NULL,
   `observacao` TEXT NULL

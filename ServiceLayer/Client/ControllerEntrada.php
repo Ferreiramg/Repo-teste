@@ -28,7 +28,8 @@ class ControllerEntrada extends AbstracClient {
 
     private function clearCached($id) {
         $cached = Memory::getInstance()->meminstance;
-        return $cached->delete('calendar:' . $id);
+        $cached->delete(EntradaRead::C_KEY . $id);
+        $cached->delete(EntradaRead::E_KEY . $id);
     }
 
     private function prepareArgs($model) {

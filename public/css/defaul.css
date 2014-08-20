@@ -24,15 +24,6 @@ body {
 body > .container {
     padding-top: 60px
 }
-#search{
-    background: rgba(0,0,0,.8);
-    z-index: 100;
-    position: absolute;
-    top: 51px;
-    right: 40px;
-    width: 180px;
-    padding: 3px;
-}
 ::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 7px;
@@ -41,6 +32,18 @@ body > .container {
 ::-webkit-scrollbar-thumb {
     background-color: rgba(0,0,0,.7);
     -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+.search{
+    background: rgba(0,0,0,.8);
+    z-index: 100;
+    position: absolute;
+    top: 51px;
+    right: 40px;
+    width: 180px;
+    padding: 3px;
+}
+.b-menu {
+     font-weight: bold;
 }
 .app-inner {
     width: 100%;
@@ -85,8 +88,12 @@ body > .container {
     right: 0;
     z-index: 99999;
 }
-.table tbody tr:hover {
-    background: #f8f8f8;
+.table > tbody > tr:hover {
+    opacity: 0.5; 
+    -webkit-transition: opacity 0.15s linear;
+    -moz-transition: opacity 0.15s linear;
+    -o-transition: opacity 0.15s linear;
+    transition: opacity 0.15s linear;
 }
 /*.datepicker.dropdown-menu button, .timepicker.dropdown-menu button {
     outline: 0;

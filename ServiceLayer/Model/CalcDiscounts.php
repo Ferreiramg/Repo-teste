@@ -26,7 +26,7 @@ class CalcDiscounts {
     }
 
     public static function quebraTecnica($peso) {
-        return round((static::QUEBRA_TECNICA / 100.0) * ($peso), 2, PHP_ROUND_HALF_UP);
+        return (static::QUEBRA_TECNICA / 100.0) * $peso;
     }
 
     public function quebraPeso($umidade = null) {

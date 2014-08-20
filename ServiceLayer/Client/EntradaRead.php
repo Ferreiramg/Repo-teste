@@ -3,8 +3,7 @@
 namespace Client;
 
 use DateTime,
-    Model\Cached\Memory,
-    Model\CalcDiscounts as Disconto;
+    Model\Cached\Memory;
 
 /**
  * Description of EntradaRead
@@ -15,6 +14,9 @@ class EntradaRead extends AbstracClient {
 
     private $data;
 
+    const C_KEY ="calendar:";
+    const E_KEY ="entrada:";
+
     public function __construct() {
         $this->data = new \Model\EntradasReadData();
         $this->params = \Main::$EXTRA_PARAMS;
@@ -22,7 +24,7 @@ class EntradaRead extends AbstracClient {
 
     public function execute() {
         if (isset($this->params[0]) && isset($this->params[1]) && $this->params[0] == 'calendar') {
-            $key = (string) $this->params[0] . ':' . $this->params[1];
+            $key = (string) self::C_KEY . $this->params[1];
             $_t = $this;
             echo Memory::getInstance()->checkIn($key, function(\Memcached $mem)use ($_t, $key) {
                 $data = json_encode($_t->calendarData());
@@ -32,6 +34,12 @@ class EntradaRead extends AbstracClient {
             });
             return null;
         }
+        $model = $this->data;
+        $model->setId($this->params[0]);
+         echo Memory::getInstance()->checkIn($model->hash(self::E_KEY), function(\Memcached $mem)use ($model) {
+            $mem->set($model->hash(self::E_KEY), (string) $model, time() + 300);
+            return (string) $model;
+        });
     }
 
     public function hasRequest() {
@@ -63,11 +71,9 @@ class EntradaRead extends AbstracClient {
 
         while ($entrada < $hoje) {
             $deduction = $iterator->deduction();
-            $qt = $this->qt($entrada, $iterator->getSaldo($deduction));
-            $saldo = $iterator->getSaldo($qt);
+            $saldo = $iterator->getSaldo($deduction);
             $iterator->append([
                 'id' => 0,
-                'qt' => $qt,
                 'dia' => $entrada->format('Y-m-d'),
                 'entrada' => 0,
                 'saida' => 0,
@@ -79,13 +85,6 @@ class EntradaRead extends AbstracClient {
             $entrada = $entrada->modify('+1day');
         }
         return $iterator->getArrayCopy();
-    }
-
-    private function qt($entrada, $saldo) {
-        if ($entrada->format('t-m') == $entrada->format('d-m') && $saldo > 0) {
-            return Disconto::quebraTecnica($saldo);
-        }
-        return 0;
     }
 
 }

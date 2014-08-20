@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="col-lg-10" ng-init="cotacao()">   
+        <h3>MILHO CCM FUT U14</h3>
+        <div class="row">
+            <span><b>{{home.d_cotacao.data}}</b> | <small>*Atraso 15 minutos</small></span>
+        </div>
+        <div class="row">
+            <img ng-src="http://www2.bmf.com.br{{home.d_cotacao.img}}" class="img-thumbnail"> 
+        </div>  
+        <div class="row">
+            <br />
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm disabled">Ocilação: {{home.d_cotacao.oc}}</button>
+                <button type="button" class="btn btn-default btn-sm btn-info disabled">Preço{{home.d_cotacao.preco}}</button>
+            </div>
+           
+        </div> 
+    </div>
+</div>

@@ -21,6 +21,7 @@ class EntradasRequestUsageTest extends PHPUnit {
 
     protected function tearDown() {
         \Model\Cached\Memory::getInstance()->meminstance->delete('calendar:1');
+        \Model\Cached\Memory::getInstance()->meminstance->delete('entrada:1');
     }
 
     public function testMainInitRequest() {
@@ -47,6 +48,14 @@ class EntradasRequestUsageTest extends PHPUnit {
         Main::$EXTRA_PARAMS = array('deletar', 2);
         $this->expectOutputString('[{"code":"1"}]');
         $main->run('DELETE', 'entrada');
+    }
+    
+    public function testRequestGetData(){
+        $main = new Main();
+        \Model\Cached\Memory::getInstance()->meminstance->delete('entrada:1');
+        Main::$EXTRA_PARAMS = array(1);
+        $this->expectOutputString('[{"id":"1","peso":"13000.0","saida_peso":"0.0","peso_corrigido":"11930.0","_cliente":"1","quebra_peso":null,"servicos":null,"desc_impureza":null,"umidade":"16.0","impureza":"1.0","ano":"2014","foi_transf":"0","data":"2014-05-06","ticket":"","observacao":" ;"}]');
+        $main->run('GET', 'entrada_read');
     }
 
     public function testMakeRequestTest() {

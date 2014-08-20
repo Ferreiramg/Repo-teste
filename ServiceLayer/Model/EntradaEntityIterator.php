@@ -23,21 +23,27 @@ class EntradaEntityIterator extends \ArrayIterator {
         parent::__construct($array, \ArrayIterator::ARRAY_AS_PROPS);
     }
 
+    /**
+     * Set Data to calendar
+     * @param array $data
+     */
     public function setCols(array $data) {
         $this->cols = $data;
     }
 
-    public function append($value) {
-        static::$armazenagem +=$this->deduction();
+    /**
+     * Make Calendar days with data db
+     * @param array $value
+     */
+    public function append(array $value) {
+
         $__data = (object) $this->cols[$this->pointer];
         if ($value['dia'] === date('Y-m-d', strtotime($__data->data))) {
             $entrada = round($__data->corrigido / $this->media, 2, PHP_ROUND_HALF_DOWN);
             $saida = round($__data->saida / $this->media, 2, PHP_ROUND_HALF_UP);
             static::$saldo += ($entrada - $saida);
-            static::$armazenagem +=$this->deduction();
             $value = array(
                 'id' => $__data->id,
-                'qt' => 0,
                 'dia' => $value['dia'],
                 'entrada' => $entrada,
                 'saida' => $saida,
@@ -52,18 +58,27 @@ class EntradaEntityIterator extends \ArrayIterator {
         parent::append($value);
     }
 
+    /**
+     * 
+     * @param \Model\Produtor $cliente
+     */
     public function setCliente(Produtor $cliente) {
         $this->cliente = $cliente;
     }
 
+    /**
+     * Balance decreases
+     * @param decimal $deduction
+     * @return decimal
+     */
     public function getSaldo($deduction) {
         return static::$saldo -= $deduction;
     }
 
-    public function getDeductionArmazenagem() {
-        return static::$armazenagem;
-    }
-
+    /**
+     * Make deduction
+     * @return decimal
+     */
     public function deduction() {
         $taxa = $this->cliente->getTaxa() / 100.0;
         return static::$saldo < 0 ? 0 :

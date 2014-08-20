@@ -15,7 +15,7 @@ class Init {
 
     public function init() {
         try {
-            if (\Configs::getInstance()->get('debug') === true) {
+            if (\Configs::getInstance()->get('debug') === true) { //debug mode
                 static::$conn = new \Model\PDOConn("sqlite::memory:");
                 return true;
             }

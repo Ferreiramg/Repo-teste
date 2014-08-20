@@ -21,6 +21,7 @@ class RequestGet extends AbstractEvent {
         $this->client->addClient(new \Client\ProdutorRead);
         $this->client->addClient(new \Client\ProdutorReport);
         $this->client->addClient(new \Client\ProdutorCharts);
+        $this->client->addClient(new \Client\Silo);
     }
 
 }

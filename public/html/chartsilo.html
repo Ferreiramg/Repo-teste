@@ -1,0 +1,13 @@
+<div class="row" ng-init="tc.getDataTotal()">
+    <h3>Armazenado</h3>
+    <div class="col-lg-6">
+        <canvas piechart options="options" data="chart"></canvas>  
+    </div>
+    <div class="col-lg-4">
+        <ul class="list-group">
+            <li class="list-group-item">Total de Entradas: <b>{{tc.info.corrigido| number:2}}</b></li>
+            <li class="list-group-item">Retirado: <b>{{tc.info.retirado| number:2}}</b></li>
+            <li class="list-group-item">Silo Capacidade Total de <b>50.000</b> sacos 60Kg</li>
+        </ul>
+    </div>
+</div>

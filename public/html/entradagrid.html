@@ -1,0 +1,54 @@
+<div class="btn-toolbar well-sm" role="toolbar">
+    <div class="btn-group">
+        <label class="btn btn-default btn-sm" ng-model="entradas.kg" btn-radio="'60'">60Kg</label>
+        <label class="btn btn-default btn-sm" ng-model="entradas.kg" btn-radio="'50'">50Kg</label>
+        <label class="btn btn-default btn-sm" ng-model="entradas.kg" btn-radio="'1'">Bruto</label>
+    </div>
+    <div class="btn-group">
+        <button 
+            ng-disabled="!Selected.id" 
+            ng-model="Selected.id"
+            ng-click="entradas.deletar(Selected.id, Selected.index)"
+            class="btn btn-default btn-sm btn-danger">Apagar</button>  
+        <a href="#/entrada" class="btn btn-default btn-sm btn-info">Nova Entrada</a>
+    </div>
+    <div class="row" ng-show="!visible">
+    <div class="col-md-4 input-group-sm">
+        <input class="form-control" type="search" placeholder="filtrar ..." ng-model="search.$" />
+    </div>
+</div>
+</div>
+<table class="table table-bordered table-responsive">
+    <thead class="well">
+        <tr>
+            <th class="well">#</th>
+            <th>ID</th>
+            <th>Entradas</th>
+            <th>Saidas</th>
+            <th>Umidade</th>
+            <th>Impureza</th>
+            <th>Ticket</th>
+            <th>Observação</th>
+        </tr>
+    </thead>
+    <tbody ng-init="entradas.getData()">
+        <tr ng-repeat="values in entradas.data[id] | filter:search" 
+            ng-click="setSelected(values, $index)"
+            ng-class="{'active': values.id === Selected.id}"
+            ng-hide="disable[$index].d">
+            <td>{{$index + 1}}</td>
+            <td>{{values.id}}</td>
+            <td  ng-class="{ 'success':entradas.wasTrans(values.foi_transf) }">
+                {{values.peso| kgConverte:entradas.kg | number:2 }}
+            </td>
+            <td>{{values.saida_peso| kgConverte:entradas.kg | number:2}}</td>
+            <td>{{values.umidade}} %</td>
+            <td>{{values.impureza}} %</td>
+            <td>{{values.ticket}}</td>
+            <td>{{values.observacao}}</td>
+        </tr>
+    </tbody>
+    <tfoot class="well">
+        
+    </tfoot>
+</table>

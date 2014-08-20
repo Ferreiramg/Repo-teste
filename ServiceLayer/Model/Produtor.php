@@ -83,6 +83,8 @@ class Produtor extends \ArrayIterator {
         $del = Connection\Init::getInstance()
                         ->on()->exec(
                 sprintf('DELETE FROM `cliente` WHERE id = %u', $args['id']));
+        $entrada = new Entrada();
+        $entrada->deletar($args);
         $this->reOrderId();
         return $del;
     }

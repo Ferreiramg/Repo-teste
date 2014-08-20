@@ -15,13 +15,14 @@ class Entrada {
         $this->args = array(
             'id' => ['filter' => FILTER_VALIDATE_INT],
             'produtor' => ['filter' => FILTER_VALIDATE_INT],
-            'tipo' => ['filter' => FILTER_VALIDATE_INT, 'options' => ['min_range' => 1, 'max_range' => 2]],
-            'peso' => FILTER_SANITIZE_NUMBER_INT,
+            'tipo' => ['filter' => FILTER_VALIDATE_INT],
+            'peso' => FILTER_VALIDATE_FLOAT,
             'umidade' => ['filter' => FILTER_VALIDATE_FLOAT],
             'impureza' => ['filter' => FILTER_VALIDATE_FLOAT],
             'motorista' => ['filter' => FILTER_SANITIZE_STRING],
             'ticket' => ['filter' => FILTER_SANITIZE_STRING],
             'observacao' => ['filter' => FILTER_SANITIZE_STRING],
+            'wastrans' => 0,
             'data' => ['filter' => FILTER_SANITIZE_STRING],
             'acao' => ['filter' => FILTER_SANITIZE_STRING]
         );
@@ -30,6 +31,7 @@ class Entrada {
     public function create(array $args, &$stmt = null) {
         $args['saida'] = 0;
         $args['corrigido'] = 0;
+        $trans = empty($args['wastrans']) ? 0 : $args['wastrans'];
         $this->error_msg = "Não pode ser inserido os dados!!";
         if ($this->checkType($args['tipo'])) {
             $calcs = $this->instanceCalcDiscountsWillApplyFilter($args['umidade']);
@@ -44,6 +46,7 @@ class Entrada {
             $args['umidade'] = 0;
             $args['impureza'] = 0;
             if ($args['tipo'] === 2) {
+                $args['motorista'] = "";
                 $args['saida'] = 0;
                 $args['corrigido'] = $args['peso'];
             } else {
@@ -53,7 +56,7 @@ class Entrada {
         }
 
         $con = Connection\Init::getInstance()->on();
-        $stmt = $con->prepare("INSERT INTO `entradas` (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`,`quebra_peso`,`servicos`,`desc_impureza`) VALUES (:p, :s, :crr, :_c, :u, :i, :d, :t, :o,:q,:b,:z)");
+        $stmt = $con->prepare("INSERT INTO `entradas` (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`,`quebra_peso`,`servicos`,`desc_impureza`,`foi_transf`) VALUES (:p, :s, :crr, :_c, :u, :i, :d, :t, :o,:q,:b,:z,:l)");
         $stmt->bindValue(':p', $args['peso']);
         $stmt->bindValue(':s', $args['saida']);
         $stmt->bindValue(':crr', $args['corrigido']);
@@ -66,7 +69,17 @@ class Entrada {
         $stmt->bindValue(':q', $qp);
         $stmt->bindValue(':b', $sv);
         $stmt->bindValue(':z', $imp);
-        return $stmt->execute();
+        $stmt->bindValue(':l', $trans);
+        if ($stmt->execute())
+            return $con->lastInsertId();
+        return 0;
+    }
+
+    public function makeQT(array $args) {
+        $args['tipo'] = 0;
+        $args['peso'] = CalcDiscounts::quebraTecnica($args['peso']*60);
+        $args['observacao'] = "Quebra técnica!";
+        return $this->create($args);
     }
 
     public function deletar(array $args) {

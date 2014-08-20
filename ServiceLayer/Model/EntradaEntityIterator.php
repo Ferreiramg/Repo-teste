@@ -35,7 +35,7 @@ class EntradaEntityIterator extends \ArrayIterator {
      * Make Calendar days with data db
      * @param array $value
      */
-    public function append(array $value) {
+    public function append($value) {
 
         $__data = (object) $this->cols[$this->pointer];
         if ($value['dia'] === date('Y-m-d', strtotime($__data->data))) {

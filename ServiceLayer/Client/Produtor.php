@@ -13,9 +13,9 @@ use Model\Cached\Memory,
 class Produtor extends AbstracClient {
 
     public function execute() {
-        $model = new \Model\Produtor();
-        $post = $this->prepareArgs($model);
+        $post = $this->prepareArgs();
         if ($post['acao']) {
+            $model = new \Model\Produtor();
             $response = call_user_func_array([$model, $post['acao']], [$post]);
             if (!$response)
                 throw new ClientExceptionResponse($model->error_msg);

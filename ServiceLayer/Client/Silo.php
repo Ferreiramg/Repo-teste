@@ -18,6 +18,7 @@ class Silo extends AbstracClient {
         $p1 = isset($this->params[1]) ? $this->params[1] : null;
         $p0 = isset($this->params[0]) ? $this->params[0] : 'totalEstocado';
         $key = (string) self::S_KEY . $p0 . $p1;
+
         echo Memory::getInstance()
                 ->checkIn($key, function(\Memcached $mem)use ($model, $p0, $p1, $key) {
                     $response = call_user_func_array([$model, $p0], [$p1]);
@@ -25,6 +26,7 @@ class Silo extends AbstracClient {
                     $mem->set($key, $response, time() + 300);
                     return $response;
                 });
+        Memory::getInstance()->meminstance->delete($key);
     }
 
     public function hasRequest() {

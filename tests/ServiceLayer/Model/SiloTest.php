@@ -16,18 +16,23 @@ class SiloTest extends PHPUnit {
     }
 
     protected function install() {
-        $out = [];
+        $out = array('amz' => 0, 'qp' => 0);
         $data = new \Model\ProdutorReport();
-        foreach (new Model\Produtor as $key => $value) {
-            $out[] = $data->resumeInfoEntradas($value['id'], 1)['agregado'];
+        foreach (new Model\Produtor as $value) {
+            $out['amz'] += $data->resumeInfoEntradas($value['id'], 1)['agregado']['armazenagem'];
+            $out['qp'] += $data->resumeInfoEntradas($value['id'], 1)['agregado']['qp'];
         }
         return $out;
+    }
+
+    public function testSilogetAmzSaldos() {
+        var_dump($this->install());
     }
 
     public function testTotalSilo() {
         $silo = new \Model\Silo();
         $res = $silo->totalEstocado();
-        $this->assertEquals((int)$res['ts'],0);
+        $this->assertEquals((int) $res['ts'], 0);
         $res2 = $silo->totalEstocado('2016');
         $this->assertEquals($res2['corrigido'], 0);
     }

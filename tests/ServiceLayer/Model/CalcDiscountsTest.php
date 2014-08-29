@@ -65,6 +65,15 @@ class CalcDiscountsTest extends PHPUnit {
         $calc->servicoSecagem();
     }
 
+    public function testCurrentData() {
+        $umidade = 20.2;
+        $csv = new Model\CSV($this->tmp, ';');
+        $calc = new Model\CalcDiscounts(
+                new Model\CSVFilter($csv, $umidade), $umidade);
+        $calc->servicoSecagem();
+        $this->assertEquals($calc->current(), ['20.20', '4.69', '8.53', '13.22']);
+    }
+
     private $data = "13.00;1.75;0.00;1.75
 13.20;1.75;0.13;1.88
 13.40;1.75;0.37;2.12

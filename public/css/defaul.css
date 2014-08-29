@@ -9,7 +9,13 @@
         line-height: 1.2;
     }
     .page-break { page-break-inside: avoid; page-break-before: always; }
-
+    .logo_type{    
+        display: inline;
+    }
+}
+.logo_type{
+    display: none;
+    visibility: hidden;
 }
 html {
     overflow: -moz-scrollbars-vertical;
@@ -43,7 +49,7 @@ body > .container {
     padding: 3px;
 }
 .b-menu {
-     font-weight: bold;
+    font-weight: bold;
 }
 .app-inner {
     width: 100%;

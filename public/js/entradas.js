@@ -42,9 +42,25 @@
                         controller: 'EntradasController',
                         controllerAs: 'entradas',
                         templateUrl: 'public/html/entradagrid.html'
+                    }).when('/simulator', {
+                        controller: 'SimuladorEntrada',
+                        controllerAs: 'S',
+                        templateUrl: 'public/html/simulador.html'
                     });
                 }]);
-
+    main.controller('SimuladorEntrada', ['$http', 'ngProgress', function($http, progress) {
+            this.data = {};
+            this.params = {};
+            this.params.acao = 'simulador';
+            var store = this;
+            this.run = function() {
+                $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+                $http.post('/simulator', serializeData(this.params))
+                        .success(function(data) {
+                            store.data = data;
+                        });
+            };
+        }]);
     main.controller('EntradasController', ['$scope', '$routeParams', '$http', 'ngProgress',
         function($scope, $params, $http, progress) {
 
@@ -137,7 +153,7 @@
     });
     main.filter("kgConverte", function() {
         return function(value, field) {
-            var kg = parseInt(field); 
+            var kg = parseInt(field);
             return value / kg;
         };
     });

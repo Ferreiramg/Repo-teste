@@ -85,7 +85,7 @@ class Produtor extends \ArrayIterator {
                 sprintf('DELETE FROM `cliente` WHERE id = %u', $args['id']));
         $entrada = new Entrada();
         $entrada->deletar($args);
-        $this->reOrderId();
+        $this->reOrderId(); //Reset Auto_Increment ID clientes
         return $del;
     }
 

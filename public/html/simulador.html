@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h3>Simular</h3>
+        <form class="form-inline" role="form">
+            <div class="form-group col-md-3">
+                <div class="input-group col-xs-10">
+                    <div class="input-group-addon">Peso</div>
+                    <input class="form-control" ng-model="S.params.peso" type="text">
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <div class="input-group col-xs-8">
+                    <div class="input-group-addon">Perido</div>
+                    <input class="form-control"   ng-model="S.params.dias"  type="text">
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <div class="input-group col-xs-8">
+                    <div class="input-group-addon">Taxa</div>
+                    <input class="form-control" ng-model="S.params.taxa" type="text">
+                </div>
+            </div>
+            <button ng-click="S.run()" class="btn btn-default">Simular</button>
+        </form>
+    </div>
+</div>
+<br />
+<table class="table table-bordered table-responsive">
+    <thead>
+        <tr><td colspan="4" class="text-center"><b>INFORMAÇÕES</b></td></tr>
+    </thead>
+    <tbody>
+        <tr><td>Armazenagem: {{S.data.armz}} sc 60kg</td></tr>
+        <tr><td>Serviço: </td></tr>
+        <tr><td>Impureza: </td></tr>
+        <tr><td>Quebra de Peso: </td></tr>
+    </tbody>
+</table>

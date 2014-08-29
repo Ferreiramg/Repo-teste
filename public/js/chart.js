@@ -11,6 +11,10 @@
                         controller: 'ChartInOut',
                         controllerAs: 'tc',
                         templateUrl: 'public/html/chartsilo.html'
+                    }).when('/chartresumeservice', {
+                        controller: 'ChartInOut',
+                        controllerAs: 'tc',
+                        templateUrl: 'public/html/chartsiloservico.html'
                     });
                 }]);
 
@@ -18,11 +22,39 @@
         function($scope, $params, $http) {
             var store = this;
             this.info = {};
-            
+            this.sinfo = {};
+
+            this.initServicos = function(data) {
+                $scope.chart = data;
+                this.sinfo.total = (data.total/60);
+                this.sinfo.media = (data.total/60)/data.datasets[0].data.length;
+                
+                $scope.options = {
+                    responsive: true,
+                    scaleBeginAtZero: true,
+                    scaleShowGridLines: true,
+                    scaleGridLineColor: "rgba(0,0,0,.05)",
+                    scaleGridLineWidth: 1,
+                    barShowStroke: true,
+                    barStrokeWidth: 2,
+                    barValueSpacing: 5,
+                    barDatasetSpacing: 1,
+                    legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+                };
+
+            };
+            this.servicoGetData = function() {
+                $http.get('/silo/siloPServicos').success(
+                        function(data) {
+                            data.datasets[0].label = 'Entrada';
+                            data.datasets[0].fillColor = "rgba(0,205,0,0.2)";
+                            data.datasets[0].strokeColor = "rgba(0,205,0,0.8)";
+                            data.datasets[0].pointColor = "rgba(0,205,0,1)";
+                            store.initServicos(data);
+                        });
+            };
             this.init = function(data) {
                 $scope.produtor_nome = produtor_data[$params.id - 1].nome || null;
-                if (data.lenght === 0)
-                    return null;
                 $scope.chart = data;
                 $scope.options = {
                     responsive: true,
@@ -31,36 +63,6 @@
                     tooltipTemplate: "<%if (label){%><%=label %>: <%}%><%= value %> Kg",
                     multiTooltipTemplate: "<%= datasetLabel %> - <%= value %> Kg"
                 };
-            };
-
-            this.initTotalChart = function(data) {
-                $scope.chart = data;
-                $scope.options = {
-                    responsive: true,
-                    animationSteps: 100,
-                    animationEasing: "easeOutBounce",
-                    tooltipTemplate: "<%if (label){%><%=label %>: <%}%><%= value %> sc/60Kg"
-                };
-            };
-            this.getDataTotal = function() {
-                $http.get('/silo/totalEstocado/'+$params.ano).success(function(data) {
-                    store.info = data;
-                    var chart = [
-                        {
-                            value: data.amz,
-                            color: "#F7464A",
-                            highlight: "#FF5A5E",
-                            label: "Armazenado"
-                        },
-                        {
-                            value: data.espaco,
-                            color: "#FDB45C",
-                            highlight: "#FFC870",
-                            label: "Livre"
-                        }
-                    ];
-                    store.initTotalChart(chart);
-                });
             };
             this.getData = function() {
                 $http.get('/produtor_chart/outinchart/' + $params.id).success(
@@ -82,5 +84,35 @@
                             store.init(data);
                         });
             };
+            this.initTotalChart = function(data) {
+                $scope.chart = data;
+                $scope.options = {
+                    responsive: true,
+                    animationSteps: 100,
+                    animationEasing: "easeOutBounce",
+                    tooltipTemplate: "<%if (label){%><%=label %>: <%}%><%= value %> sc/60Kg"
+                };
+            };
+            this.getDataTotal = function() {
+                $http.get('/silo/totalEstocado/' + $params.ano).success(function(data) {
+                    store.info = data;
+                    var chart = [
+                        {
+                            value: data.amz,
+                            color: "#F7464A",
+                            highlight: "#FF5A5E",
+                            label: "Armazenado"
+                        },
+                        {
+                            value: data.espaco,
+                            color: "#FDB45C",
+                            highlight: "#FFC870",
+                            label: "Livre"
+                        }
+                    ];
+                    store.initTotalChart(chart);
+                });
+            };
+
         }]);
 }());

@@ -13,11 +13,15 @@ class CalcDiscounts {
 
     const QUEBRA_TECNICA = 0.30;
 
-    private $csv, $umidade;
+    private $csv, $umidade, $data = [];
 
     public function __construct(CSVFilter $csv, $umidade = 0) {
         $this->csv = $csv;
         $this->umidade = $umidade;
+    }
+
+    public function current() {
+        return (array) $this->csv->current();
     }
 
     public function setUmidade($u = null) {

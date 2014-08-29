@@ -18,9 +18,9 @@
                             <a href class="dropdown-toggle b-menu">Entradas <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#/entrada">Criar Nova</a></li>
-                                <li><a href="#/read/{{produtor.id}}">Listar Entradas</a></li>
+                                <li><a href="#/read/{{produtor.id}}">Listar/Produtor</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
+                                <li><a href="#/simulator"  tooltip="Simular descontos técnicos">Simular</a></li>
                             </ul>
                         </li>
                         <li dropdown>
@@ -38,6 +38,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li ng-class="{'active':false}"><a href="#/inout/{{produtor.id}}">Entradas Saidas</a></li>
                                 <li><a href="#/amzsilo/2014">Armazenado Silo</a></li>
+                                <li><a href="#/chartresumeservice">Info Serviços</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -60,7 +61,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div>              
         <div class="container"><div ng-view></div></div>
         <script src="public/js/libs/angular.js/angular.min.js" type="text/javascript"></script>       
         <script src="public/js/libs/angular.js/angular-route.js" type="text/javascript"></script>     

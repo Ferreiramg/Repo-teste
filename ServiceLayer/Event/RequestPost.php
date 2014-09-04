@@ -17,6 +17,7 @@ class RequestPost extends AbstractEvent {
         $this->client->addClient(new \Client\ControllerEntrada);
         $this->client->addClient(new \Client\Produtor);
         $this->client->addClient(new \Client\SiloActions);
+        $this->client->addClient(new \Client\Email);
     }
 
 }

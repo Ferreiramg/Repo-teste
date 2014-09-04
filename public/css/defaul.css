@@ -13,10 +13,7 @@
         display: inline;
     }
 }
-.logo_type{
-    display: none;
-    visibility: hidden;
-}
+
 html {
     overflow: -moz-scrollbars-vertical;
     overflow: scroll;
@@ -53,13 +50,12 @@ body > .container {
 }
 .app-inner {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     background-color: #eee;
     border: 1px solid #ddd;
     background-color: rgba(86,61,124,.15);
     border: 1px solid rgba(86,61,124,.2);
     height: 160px;
-    text-align: center;
 }
 .app-inner:hover{
     border-color:#66afe9;

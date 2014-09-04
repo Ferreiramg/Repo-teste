@@ -49,6 +49,7 @@ class ProdutorTest extends PHPUnit {
         $rows = $this->prod->update([
             'id' => 3,
             'nome' => 'Toninho Branquinho',
+            'email' => 't@t.com',
             'milho' => '',
             'data' => '03-07-2014'
                 ], $stmt);
@@ -105,6 +106,7 @@ class ProdutorTest extends PHPUnit {
     private function postArgs() {
         return [
             'nome' => 'Toninho',
+            'email' => 't@t.com',
             'grao' => 'milho',
             'taxa' => 0.045,
             'data' => '03-07-2014'

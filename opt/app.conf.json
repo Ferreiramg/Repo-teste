@@ -1,7 +1,8 @@
 {
     "app": {
         "port": 80,
-        "csv": "/opt/tabela.csv"
+        "csv": "/opt/tabela.csv",
+        "upload_dir": "/opt/upload/"
     },
     "connection": {
         "mysql": {

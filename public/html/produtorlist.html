@@ -3,67 +3,126 @@
         <input class="form-control" type="search" placeholder="filtrar ..." ng-model="search.$" />
     </div>
 </div>
-<div class="row" ng-init="produtor2.getData()">
-    <div class="col-md-4">
-        <button type="button" add ng-click="produtor2.addForm()" class=" app-inner btn btn-success btn-lg"><span class="glyphicon glyphicon-plus"></span></button>
-    </div>
-    <div ng-if="produtor2.add">
+<div class="row">
+    <div class="row" ng-init="produtor2.getData()">
         <div class="col-md-4">
+            <button type="button" add ng-click="produtor2.addForm()" class=" app-inner btn btn-success btn-lg"><span class="glyphicon glyphicon-plus"></span></button>
+        </div>
+        <div ng-if="produtor2.add">
+            <div class="col-md-4">
+                <div class="app-inner">
+                    <form name="addnew" class="form-horizontal">
+                        <fieldset>
+                            <!-- Text input-->
+                            <div class="form-group">
+                                <div class="col-sm-7">                            
+                                    <button id="button1id" name="button1id" ng-click="produtor2.new()" class="btn btn-sm btn-success">Adcionar</button>
+                                    <button id="button2id" ng-click="produtor2.addFormRemove()" class="btn btn-sm btn-danger">Cancelar</button>                       
+                                </div>
+                                <span class="text-info"><b>Novo!</b></span>
+                            </div>
+                            <!-- Text input-->
+                            <div class="form-group">
+                                <div class="col-sm-7">
+                                    <input ng-model="newdata.nome" placeholder="Produtor Nome..." name="nome" type="text" class="form-control input-sm">
+                                    <span class="help-block"></span>  
+                                </div>
+                                <div class="col-sm-4">
+                                    <input ng-model="newdata.grao"  name="grao" placeholder="Produto (Milho)" type="text" class="form-control input-sm">
+                                    <span class="help-block"></span>  
+
+                                </div>
+                                <div class="col-sm-7">
+                                    <input ng-model="newdata.email" type="text" placeholder="E-mail" class="form-control input-sm">
+                                    <span class="help-block"></span>  
+                                </div>
+                                <div class="col-sm-4">
+                                    <input ng-model="newdata.taxa" name="taxa" placeholder="Taxa (0.045)" type="text" class="form-control input-sm">
+                                    <span class="help-block"></span> 
+                                </div>
+                            </div >
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" ng-repeat="value in produtor2.data| filter:search">
             <div class="app-inner">
-                <form name="addnew" class="form-horizontal">
+                <form name="update" class="form-horizontal">
                     <fieldset>
-                        <!-- Text input-->
-                        <div class="form-group"> 
+                        <div class="form-group">
                             <div class="col-sm-7">
-                                <input ng-model="newdata.nome" placeholder="Produtor Nome..." name="nome" type="text" class="form-control input-sm">
+                                <input ng-model="value.nome" type="text" class="form-control input-sm">
+                                <span class="help-block"></span>  
+                            </div>
+                            <div class="col-sm-4">
+                                <input ng-model="value.armazenagem" type="text" class="form-control input-sm">
+                                <span class="help-block"></span> 
+                            </div>
+                            <div class="col-sm-7">
+                                <input ng-model="value.email" type="text" class="form-control input-sm">
+                                <span class="help-block"></span>  
+                            </div>
+                            <div class="col-sm-4">
+                                <input ng-model="value.grao" type="text" class="form-control input-sm">
                                 <span class="help-block"></span>  
                             </div>
                         </div>
-                        <!-- Text input-->
-                        <div class="form-group">
+                        <div class="form-group"> 
+                            <div class="col-sm-7" style="margin-left: 205px; position: absolute;">
+                                <button name="button1id" ng-click="produtor2.update(value.id)" class="btn btn-sm btn-primary">Atualizar</button>
+                                <button name="button2id" ng-click="produtor2.delete(value.id)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+                            </div>
                             <div class="col-sm-4">
-                                <input ng-model="newdata.grao"  name="grao" placeholder="Produto (Milho)" type="text" class="form-control input-sm">
-                                <span class="help-block"></span>  
-                                <input ng-model="newdata.taxa" name="taxa" placeholder="Taxa (0.045)" type="text" class="form-control input-sm">
-                                <span class="help-block"></span> 
+                                <button name="button3id" ng-click="produtor2.open(value.id)" class="btn btn-sm btn-default">E-mail <span class="glyphicon glyphicon-envelope"></span></button>
                             </div>
-                            <button id="button1id" name="button1id" ng-click="produtor2.new()" class="btn btn-sm btn-success">Adcionar</button>
-                                <button id="button2id" ng-click="produtor2.addFormRemove()" class="btn btn-sm btn-danger">Cancelar</button>
-                            </div>
+                        </div>
                     </fieldset>
                 </form>
             </div>
-        </div>
-    </div>
-    <div class="col-md-4" ng-repeat="value in produtor2.data| filter:search">
-        <div class="app-inner">
-            <div class="form-horizontal">
-                <fieldset>
-                    <!-- Text input-->
-                    <div class="form-group"> 
-                        <div style="margin-left: 205px; position: absolute;">
-                            <button name="button1id" ng-click="produtor2.update(value.id)" class="btn btn-sm btn-primary">Atualizar</button>
-                            <button name="button2id" ng-click="produtor2.delete(value.id)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></button>
-                        </div>
-                        <div class="col-sm-7">
-                            <input ng-model="value.nome" id="textinput" name="textinput" type="text" class="form-control input-sm">
-                            <span class="help-block"></span>  
-                        </div>
-                    </div>
-                    <!-- Text input-->
-                    <div class="form-group">
-                        <div class="col-sm-4">
-                            <input id="textinput" ng-model="value.grao" name="textinput" type="text" class="form-control input-sm">
-                            <span class="help-block"></span>  
-                            <input id="textinput" ng-model="value.armazenagem" name="textinput" type="text" class="form-control input-sm">
-                            <span class="help-block"></span> 
-                        </div>
-                    </div>
-                </fieldset>
+            <div ng-if="($index + 1) % 3">
+                <br />
             </div>
-        </div>
-        <div ng-if="($index + 1) % 3">
-            <br />
         </div>
     </div>
 </div>
+<script type="text/ng-template" id="mailContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Novo E-mail</h3>
+        </div>
+        <div class="modal-body">
+        <div ng-if="!mail">
+                <h4 ng-class="message.class" class="text-center">{{message.info}}</h4>
+       </div>
+            <form ng-show="mail">
+                <fieldset>  
+                    <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></div>
+                          <input class="form-control" type="email" ng-model="mail">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon"><i class="glyphicon glyphicon-paperclip"></i></div>                                                
+                            <input type="file" class="form-control col-sm-5" onclick="this.value = null" ng-file-select="upload($files)"> 
+                        </div>
+                   <progressbar ng-show="per" value="per"><b>{{per}}%</b></progressbar>
+                    </div>
+              <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon"><i class="glyphicon glyphicon-comment"></i></div>
+                          <input class="form-control" ng-model="message.subject" placeholder="Adicione um Assunto!" type="text" >
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <textarea id="message" name="message" ng-model="message.body" class="form-control" placeholder="Sua Mensagem" rows="5" required="required"></textarea>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button title="Enviar Agora!" class="btn btn-primary" ng-show="mail" ng-click="send()"><span class="glyphicon glyphicon-send"></span></button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+</script>

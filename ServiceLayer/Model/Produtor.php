@@ -58,8 +58,9 @@ class Produtor extends \ArrayIterator {
             return false;
         }
         $con = Connection\Init::getInstance()->on();
-        $stmt = $con->prepare("INSERT INTO `cliente` (`nome`, `grao`, `data`, `armazenagem`) VALUES (:n, :g, :d, :a)");
+        $stmt = $con->prepare("INSERT INTO `cliente` (`nome`, `email`, `grao`, `data`, `armazenagem`) VALUES (:n, :m, :g, :d, :a)");
         $stmt->bindValue(':n', $args['nome']);
+        $stmt->bindValue(':m', $args['email']);
         $stmt->bindValue(':g', $args['grao']);
         $stmt->bindValue(':a', $args['taxa']);
         $stmt->bindValue(':d', date('Y-m-d H:s:i'));
@@ -69,9 +70,10 @@ class Produtor extends \ArrayIterator {
     public function update(array $args, &$stmt = null) {
         $con = Connection\Init::getInstance()->on();
         $this->setIdKey($args['id'] - 1);
-        $stmt = $con->prepare("UPDATE `cliente` SET `nome`=:n,`grao`=:g,`data`=:d,`armazenagem`=:a WHERE `id`=:i");
+        $stmt = $con->prepare("UPDATE `cliente` SET `nome`=:n,`email`=:m,`grao`=:g,`data`=:d,`armazenagem`=:a WHERE `id`=:i");
         $stmt->bindValue(':i', $args['id'], \PDO::PARAM_INT);
         $stmt->bindValue(':n', empty($args['nome']) ? $this->nome : $args['nome'] );
+        $stmt->bindValue(':m', empty($args['email']) ? $this->email : $args['email'] );
         $stmt->bindValue(':g', empty($args['grao']) ? $this->grao : $args['grao']);
         $stmt->bindValue(':a', empty($args['taxa']) ? $this->armazenagem : $args['taxa']);
         $stmt->bindValue(':d', date('Y-m-d H:s:i'));

@@ -49,20 +49,35 @@ class ProdutorReadTest extends PHPUnit {
         $this->expectOutputString('[{"code":"1"}]');
     }
 
-    public function testExceptionCreateDataProdutor() {
+    public function testUpdateDataProdutor() {
         $request = new Client();
         $this->markTestIncomplete(
                 'Apache  rewrite not work in travis ci.'
         );
         $response = $request->post('http://localhost/produtor', [
             'body' => [
-                'grao' => 'Soja',
-                'data' => "10-06-2014",
-                'acao' => 'create'
+                'id' => '18',
+                'email' => 'antonio@hotmail.com',
+                'acao' => 'update'
         ]]);
         echo $response->getBody();
-        $this->expectOutputString('Argumentos Produtor:Nome e Produtor:Taxa, estão faltando!');
+        $this->expectOutputString('[{"code":"1"}]');
     }
+
+//    public function testExceptionCreateDataProdutor() {
+//        $request = new Client();
+//        $this->markTestIncomplete(
+//                'Apache  rewrite not work in travis ci.'
+//        );
+//        $response = $request->post('http://localhost/produtor', [
+//            'body' => [
+//                'grao' => 'Soja',
+//                'data' => "10-06-2014",
+//                'acao' => 'create'
+//        ]]);
+//        echo $response->getBody();
+//        $this->expectOutputString('Argumentos Produtor:Nome e Produtor:Taxa, estão faltando!');
+//    }
 
     public function testDeleteDataProdutor() {
         $main = new Main();
@@ -80,6 +95,6 @@ class ProdutorReadTest extends PHPUnit {
         $main->run('DELETE', 'produtor');
     }
 
-    private $expected = '[{"id":"1","nome":"Luis Paulo","grao":"Milho","data":"2014-05-28 16:52:29","armazenagem":"0.033"},{"id":"2","nome":"Ferreira","grao":"Milho","data":"2014-06-28 16:52:29","armazenagem":"0.043"}]';
+    private $expected = '[{"id":"1","nome":"Luis Paulo","email":null,"grao":"Milho","data":"2014-05-28 16:52:29","armazenagem":"0.033"},{"id":"2","nome":"Ferreira","email":null,"grao":"Milho","data":"2014-06-28 16:52:29","armazenagem":"0.043"}]';
 
 }

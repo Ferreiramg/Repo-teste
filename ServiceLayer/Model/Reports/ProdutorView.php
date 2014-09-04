@@ -34,7 +34,7 @@ class ProdutorView {
     }
 
     private function negativeEfect($n) {
-        return $n < 0 ? '<span class="text-danger">' . $n . '</span>' : $n;
+        return $n < 0 ? '<span class="text-danger">' . $n . '</span> <i><small>(Negativo)</small></i>' : $n;
     }
 
     public function drawHtml(array $data, $multiplicador = \Model\EntradaEntityIterator::KG_60) {

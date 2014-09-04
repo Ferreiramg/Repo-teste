@@ -11,6 +11,7 @@
     ],
     "require": {
         "php": ">=5.5",
+        "phpmailer/phpmailer": "dev-master",
         "guzzlehttp/guzzle": "~4.0",
         "noodlehaus/config": "dev-master"
     },

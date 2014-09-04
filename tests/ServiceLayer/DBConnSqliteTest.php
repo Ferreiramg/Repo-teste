@@ -30,6 +30,7 @@ CREATE TABLE caixasilo (
 CREATE TABLE IF NOT EXISTS cliente (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `nome` TEXT NOT NULL,
+  `email` TEXT NULL,
   `grao` TEXT NOT NULL,
   `data` TEXT NOT NULL,
   `armazenagem` REAL

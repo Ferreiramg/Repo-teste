@@ -31,6 +31,7 @@
         'ngRoute',
         'ui.bootstrap.buttons',
         'ui.bootstrap.typeahead',
+        'ui.bootstrap.tabs',
         'ngProgress',
         'produtorStore'])
             .config(['$routeProvider', function($router) {
@@ -48,17 +49,23 @@
                         templateUrl: 'public/html/simulador.html'
                     });
                 }]);
+
     main.controller('SimuladorEntrada', ['$http', 'ngProgress', function($http, progress) {
             this.data = {};
             this.params = {};
             this.params.acao = 'simulador';
+            this.title = "IFORMAÇÕES";
             var store = this;
             this.run = function() {
-                $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-                $http.post('/simulator', serializeData(this.params))
-                        .success(function(data) {
-                            store.data = data;
-                        });
+                if (this.params.peso !== undefined) {
+                    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+                    $http.post('/simulator', serializeData(this.params))
+                            .success(function(data) {
+                                store.title = data.msg || "IFORMAÇÕES";
+                                store.data = data;
+                            });
+                }
+
             };
         }]);
     main.controller('EntradasController', ['$scope', '$routeParams', '$http', 'ngProgress',

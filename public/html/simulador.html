@@ -1,38 +1,65 @@
 <div class="row">
     <div class="col-lg-12">
-        <h3>Simular</h3>
+        <h3>Simulador</h3> 
         <form class="form-inline" role="form">
-            <div class="form-group col-md-3">
-                <div class="input-group col-xs-10">
-                    <div class="input-group-addon">Peso</div>
-                    <input class="form-control" ng-model="S.params.peso" type="text">
-                </div>
-            </div>
-            <div class="form-group col-md-3">
-                <div class="input-group col-xs-8">
-                    <div class="input-group-addon">Perido</div>
-                    <input class="form-control"   ng-model="S.params.dias"  type="text">
-                </div>
-            </div>
-            <div class="form-group col-md-3">
-                <div class="input-group col-xs-8">
-                    <div class="input-group-addon">Taxa</div>
-                    <input class="form-control" ng-model="S.params.taxa" type="text">
-                </div>
-            </div>
-            <button ng-click="S.run()" class="btn btn-default">Simular</button>
+            <tabset>
+                <tab heading="Armazenagem"> 
+                    <br />
+                    <div class="form-group col-md-3">
+                        <div class="input-group col-xs-10">
+                            <div class="input-group-addon">Peso</div>
+                            <input class="form-control" ng-model="S.params.peso" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <div class="input-group col-xs-8">
+                            <div class="input-group-addon">Periodo</div>
+                            <input class="form-control"   ng-model="S.params.dias"  type="text">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <div class="input-group col-xs-8">
+                            <div class="input-group-addon">Taxa</div>
+                            <input class="form-control" ng-model="S.params.taxa" type="text">
+                        </div>
+                    </div>  
+                </tab>
+                <tab heading="Descontos">
+                    <br />
+                    <div class="form-group col-md-3">
+                        <div class="input-group col-xs-12">
+                            <div class="input-group-addon">Umidade Media</div>
+                            <input class="form-control" ng-model="S.params.umidade" type="text">
+                        </div>
+                    </div> 
+                    <div class="form-group col-md-3">
+                        <div class="input-group col-xs-12">
+                            <div class="input-group-addon">Impureza Media</div>
+                            <input class="form-control" ng-model="S.params.impureza" type="text">
+                        </div>
+                    </div> 
+                </tab>
+                <tab select="S.run()">
+                    <tab-heading>
+                        <i class="glyphicon glyphicon-ok-sign"></i> Simular
+                    </tab-heading>
+                    <table class="table table-bordered table-responsive" style="border-top: none">
+                        <thead>
+                            <tr><td colspan="4" class="text-center"><b>{{S.title}}</b></td></tr>
+                            <tr><td colspan="4"><b>Total: {{S.data.total}}</b></td></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Armazenagem: <b>{{S.data.armz}}</b></td></tr>
+                            <tr><td>Serviço: <b>{{S.data.servico}}</b> </td></tr>
+                            <tr><td>Impureza: <b>{{S.data.imp}}</b> </td></tr>
+                            <tr><td>Quebra de Peso: <b>{{S.data.q_p}}</b></td></tr>
+                        </tbody>
+                        <tfoot class="well">
+                            <tr><td colspan="4">Base de Calculo: {{S.data.desc}}</td></tr>
+                        </tfoot>
+                    </table>
+                </tab>
+            </tabset>
         </form>
     </div>
 </div>
-<br />
-<table class="table table-bordered table-responsive">
-    <thead>
-        <tr><td colspan="4" class="text-center"><b>INFORMAÇÕES</b></td></tr>
-    </thead>
-    <tbody>
-        <tr><td>Armazenagem: {{S.data.armz}} sc 60kg</td></tr>
-        <tr><td>Serviço: </td></tr>
-        <tr><td>Impureza: </td></tr>
-        <tr><td>Quebra de Peso: </td></tr>
-    </tbody>
-</table>

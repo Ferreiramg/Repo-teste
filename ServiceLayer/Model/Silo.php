@@ -79,24 +79,38 @@ class Silo {
         $servico = 0;
         $qp = 0;
         $descontos = [0, 0, 0, 0];
-        if ($args['umidade'] && $args['impureza']) {
-            $calc = new CalcDiscounts(new CSVFilter(
-                    new CSV($args['csv'], ';'), $args['umidade']), $args['umidade']);
+        try {
+            if (isset($args['umidade']) && $args['umidade'] && isset($args['impureza']) && $args['impureza']) {
+                $csv = new CSV(ROOT . \Configs::getInstance()->app->csv, ';');
+                $calc = new CalcDiscounts(new CSVFilter($csv, $args['umidade']
+                        ), $args['umidade']);
 
-            $imp = $calc->impureza($args['impureza'], $args['peso']);
-            $servico = $calc->servicoSecagem();
-            $qp = $calc->quebraPeso();
-            $descontos = $calc->current();
+                $imp = $calc->impureza($args['impureza'], $args['peso']);
+                $servico = round($args['peso'] * $calc->servicoSecagem(), 2);
+                $qp = round($args['peso'] * $calc->quebraPeso(), 2);
+                $descontos = $calc->current();
+            }
+            $taxa = ($args['taxa'] / 100.0);
+            $armz = round(($args['dias'] * $taxa) * $args['peso'], 2);
+        } catch (\RuntimeException $e) {
+            return [
+                'msg' => $e->getMessage(),
+                'armz' => 0,
+                'imp' => 0,
+                'desc' => 0,
+                'servico' => 0,
+                'q_p' => 0,
+                'total' => 0
+            ];
         }
-        $taxa = ($args['taxa'] / 100.0);
-        $armz = round(($args['dias'] * $taxa) * $args['peso'], 2);
 
         return [
             'armz' => $armz,
             'imp' => $imp,
             'desc' => $descontos,
             'servico' => $servico,
-            'q_p' => $qp
+            'q_p' => $qp,
+            'total' => $armz + $imp + $servico + $qp
         ];
     }
 

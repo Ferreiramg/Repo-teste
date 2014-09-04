@@ -31,6 +31,7 @@ function serializeData(data) {
 var main = angular.module('produtorStore', [
     'ngRoute',
     'ngProgress',
+    'angularFileUpload',
     'ui.bootstrap'])
         .config(['$routeProvider', function($router) {
                 $router.when('/calendar/:id', {
@@ -44,8 +45,39 @@ var main = angular.module('produtorStore', [
                 });
             }]);
 
-main.controller('produtorDataStore', ['$scope', '$http', 'ngProgress',
-    function($scope, $http, progress) {
+main.controller('mailController',
+        function($scope, $modalInstance, items, $upload, progress) {
+            $scope.mail = items.email;
+            $scope.message = {info:"Não existe E-mail salvo!",class:"text-danger"};
+            $scope.per = 0;
+
+            var file = {};
+            
+            $scope.cancel = function() {
+                $modalInstance.dismiss('cancel');
+            };
+            $scope.send = function() {
+                if (file.length === 1)
+                    $scope.upload = $upload.upload({
+                        url: '/debug.php',
+                        data: {maile: $scope.message},
+                        file: file
+                    }).progress(function(evt) {
+                        progress.set($scope.per = parseInt(100.0 * evt.loaded / evt.total));
+                    }).success(function(data, status, headers, config) {
+                        console.log(data);
+                        progress.complete();
+                    });
+                else {
+
+                }
+            };
+            $scope.upload = function($files) {
+                file = $files;
+            };
+        });
+main.controller('produtorDataStore', ['$scope', '$upload', '$modal', '$http', 'ngProgress',
+    function($scope, $upload, $modal, $http, progress) {
 
         var store = this;
         store.data = produtor_data;
@@ -115,6 +147,25 @@ main.controller('produtorDataStore', ['$scope', '$http', 'ngProgress',
                     });
                 }
             }
+        };
+
+        this.open = function(id) {
+            var _data = this.data[id - 1] || false;
+            $modal.open({
+                templateUrl: 'mailContent.html',
+                controller: 'mailController',
+                resolve: {
+                    items: function() {
+                        return _data;
+                    },
+                    fileupload: function() {
+                        return $upload;
+                    },
+                    progress: function() {
+                        return progress;
+                    }
+                }
+            });
         };
     }]);
 

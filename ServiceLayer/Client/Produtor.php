@@ -46,6 +46,7 @@ class Produtor extends AbstracClient {
         $post = filter_input_array(INPUT_POST, [
             'id' => FILTER_VALIDATE_INT,
             'nome' => FILTER_SANITIZE_STRING,
+            'email' => FILTER_SANITIZE_EMAIL,
             'grao' => FILTER_SANITIZE_STRING,
             'taxa' => FILTER_VALIDATE_FLOAT,
             'data' => 0, 'acao' => 0

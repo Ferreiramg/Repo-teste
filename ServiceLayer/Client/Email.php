@@ -14,12 +14,15 @@ class Email extends AbstracClient {
         $post = filter_input_array(INPUT_POST, [
             'name' => FILTER_SANITIZE_STRING,
             'subject' => FILTER_SANITIZE_STRING,
-            'mail' => FILTER_SANITIZE_EMAIL,
+            'mail' => FILTER_VALIDATE_EMAIL,
             'body' => FILTER_SANITIZE_STRING,
-            'data' => 0, 'acao' => 0
-        ]);
+            'data' => 0, 'acao' => 0]
+        );
         $post['file'] = $this->upload();
-        $model->send($post);
+        if (!$model->send($post) && $model->getErrorSendMail() !== '')
+            throw new \Exceptions\ClientExceptionResponse($model->getErrorSendMail());
+
+        printf('{"code":"%s"}', 1); //true for success
     }
 
     public function hasRequest() {
@@ -28,10 +31,10 @@ class Email extends AbstracClient {
 
     private function upload() {
         if (isset($_FILES['file']) && $_FILES['file']['error'] === 0) {
-            $dir = ROOT . \Configs::getInstance()->upload_dir;
+            $dir = ROOT . \Configs::getInstance()->app->upload_dir;
             if (!file_exists($dir))
-                mkdir($dir);
-            $res = move_uploaded_file($_FILES['file']['tmp_name'], $file = (string) $dir . $_FILES['name']);
+                @mkdir($dir);
+            $res = move_uploaded_file($_FILES['file']['tmp_name'], $file = (string) $dir . $_FILES['file']['name']);
             if ($res)
                 return $file;
         }

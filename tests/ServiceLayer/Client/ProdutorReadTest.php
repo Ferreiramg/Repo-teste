@@ -64,21 +64,6 @@ class ProdutorReadTest extends PHPUnit {
         $this->expectOutputString('[{"code":"1"}]');
     }
 
-//    public function testExceptionCreateDataProdutor() {
-//        $request = new Client();
-//        $this->markTestIncomplete(
-//                'Apache  rewrite not work in travis ci.'
-//        );
-//        $response = $request->post('http://localhost/produtor', [
-//            'body' => [
-//                'grao' => 'Soja',
-//                'data' => "10-06-2014",
-//                'acao' => 'create'
-//        ]]);
-//        echo $response->getBody();
-//        $this->expectOutputString('Argumentos Produtor:Nome e Produtor:Taxa, estão faltando!');
-//    }
-
     public function testDeleteDataProdutor() {
         $main = new Main();
         Main::$EXTRA_PARAMS = array('deletar', 2);

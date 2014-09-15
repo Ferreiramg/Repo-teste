@@ -10,18 +10,21 @@ namespace Model;
 class SistemMail {
 
     private $mail;
+    public $dir;
 
     public function __construct() {
-
         $this->mail = new \PHPMailer();
+    }
 
+    public function getErrorSendMail() {
+        return $this->mail->ErrorInfo;
     }
 
     public function send(array $args) {
-        if (!$this->validate($args))
-            throw new \Exceptions\ClientExceptionResponse("Parametros incompletos!");
-        //var_dump($args);
-        if ($args['file']) {
+        if (($msg = $this->invalidate($args)))
+            throw new \Exceptions\ClientExceptionResponse($msg);
+
+        if (!empty($args['file'])) {
             $this->mail->addAttachment($args['file']);
         }
         $this->mail->From = "luispkiller@gmail.com"; // Seu e-mail
@@ -31,16 +34,18 @@ class SistemMail {
         $this->mail->Subject = (string) $args['subject'];
         $this->mail->Body = (string) $args['body'];
         $this->mail->AltBody = strip_tags($args['body']);
-
-        if (!$this->mail->send()) {
-            echo 'Mailer Error: ' . $this->mail->ErrorInfo;
-        } else {
-            echo 'Message has been sent';
-        }
+        $this->mail->send();
+        return !$this->mail->isError();
     }
 
-    private function validate(array $args) {
-        return $args['mail'] && $args['name'] && $args['body'];
+    private function invalidate(array $args) {
+        if (empty($args['mail'])) {
+            return "E-mail não é valido!";
+        }
+        if (empty($args['name']) || empty($args['body'])) {
+            return "Parametros imcompletos (nome, mensagem)!";
+        }
+        return false;
     }
 
 }

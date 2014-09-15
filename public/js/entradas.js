@@ -27,6 +27,12 @@
 
         return(source);
     }
+    ;
+    function convertKG(value, field) {
+        var kg = parseInt(field);
+        return value / kg;
+    }
+    ;
     var main = angular.module('EntradaStore', [
         'ngRoute',
         'ui.bootstrap.buttons',
@@ -76,19 +82,27 @@
             this.data = [];
             this.radio = '1';
             this.kg = '1';
+            this.cvalue = 0;
 
             this.dt = {};
+            $scope.errorEntrada = null;
             $scope.newd = {produtor: 1};
             $scope.register = [];
             $scope.disable = [];
-
             $scope.Selected = {};
             $scope.setSelected = function(Selected, i) {
                 Selected.index = i;
                 $scope.Selected = Selected;
             };
+            $scope.closeAlert = function() {
+                $scope.errorEntrada = null;
+                progress.complete();
+            };
             this.wasTrans = function(value) {
                 return value === "1";
+            };
+            this.converter = function() {
+                $scope.newd.peso = $scope.newd.peso * 60;
             };
             this.getData = function() {
                 $scope.id = $params.id;
@@ -139,7 +153,7 @@
                                 });
 
                             }
-                            console.log(resp.message || null);
+                            $scope.errorEntrada = resp.message;
                         });
             };
 
@@ -159,9 +173,6 @@
         };
     });
     main.filter("kgConverte", function() {
-        return function(value, field) {
-            var kg = parseInt(field);
-            return value / kg;
-        };
+        return convertKG;
     });
 }());

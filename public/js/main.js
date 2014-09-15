@@ -9,6 +9,7 @@
                 'produtorStore',
                 'ui.bootstrap.dropdown',
                 'ui.bootstrap.tooltip',
+                'ui.bootstrap.alert',
                 'EntradaStore',
                 'ChartController',
                 'angles'

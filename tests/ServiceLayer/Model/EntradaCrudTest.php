@@ -74,4 +74,27 @@ class EntradaCrudTest extends PHPUnit {
         $this->assertEquals($rows, 1);
     }
 
+    public function testValidateDate() {
+        $reflection = new \ReflectionClass('\Model\Entrada');
+        $method = $reflection->getMethod('validateDate');
+        $method->setAccessible(true);
+        $data = '14-05-2014';
+        $method->invokeArgs($this->model, array($data));
+        
+        ///Error teste
+        $this->setExpectedException('\Exceptions\ClientExceptionResponse');
+        $data = '14-052014';//wrong
+        $method->invokeArgs($this->model, array($data));
+    }
+    /**
+     * @expectedException \Exceptions\ClientExceptionResponse
+     */
+    public function testValidateDateErrorDateFuture(){
+        $reflection = new \ReflectionClass('\Model\Entrada');
+        $method = $reflection->getMethod('validateDate');
+        $method->setAccessible(true);
+        $data = '14-05-2035';
+        $method->invokeArgs($this->model, array($data));
+    }
+
 }

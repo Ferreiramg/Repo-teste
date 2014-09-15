@@ -44,38 +44,55 @@ var main = angular.module('produtorStore', [
                     templateUrl: 'public/html/produtorlist.html'
                 });
             }]);
-
+//mail controller
 main.controller('mailController',
-        function($scope, $modalInstance, items, $upload, progress) {
-            $scope.mail = items.email;
-            $scope.message = {info:"Não existe E-mail salvo!",class:"text-danger"};
+        function($scope, $modalInstance, items, $upload, progress, $http) {
+            $scope.message = {
+                name: items.nome,
+                mail: items.email,
+                info: "Não existe E-mail salvo!",
+                class: "text-danger"};
             $scope.per = 0;
-
             var file = {};
-            
+            function clienteResponse(data) {
+                if (data.code === "1") {
+                    $scope.message.mail = false;
+                    $scope.message.info = 'E-mail foi enviado com sucesso';
+                    $scope.message.class = "text-success";
+                    progress.complete();
+                    return false;
+                }
+                $scope.message.mail = false;
+                $scope.message.info = data.message;
+            }
             $scope.cancel = function() {
                 $modalInstance.dismiss('cancel');
+                progress.complete();
             };
             $scope.send = function() {
                 if (file.length === 1)
                     $scope.upload = $upload.upload({
-                        url: '/debug.php',
-                        data: {maile: $scope.message},
+                        url: '/sendmail',
+                        data: $scope.message,
                         file: file
                     }).progress(function(evt) {
                         progress.set($scope.per = parseInt(100.0 * evt.loaded / evt.total));
                     }).success(function(data, status, headers, config) {
-                        console.log(data);
-                        progress.complete();
+                        clienteResponse(data);
                     });
                 else {
-
+                    progress.start();
+                    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+                    $http.post('/sendmail', serializeData($scope.message)).success(function(data) {
+                        clienteResponse(data);
+                    });
                 }
             };
             $scope.upload = function($files) {
                 file = $files;
             };
         });
+//produtor controller       
 main.controller('produtorDataStore', ['$scope', '$upload', '$modal', '$http', 'ngProgress',
     function($scope, $upload, $modal, $http, progress) {
 
@@ -163,12 +180,15 @@ main.controller('produtorDataStore', ['$scope', '$upload', '$modal', '$http', 'n
                     },
                     progress: function() {
                         return progress;
+                    },
+                    http: function() {
+                        return $http;
                     }
                 }
             });
         };
     }]);
-
+//calendario controller
 main.controller('calendarController', ['$scope', '$routeParams', '$http', 'ngProgress',
     function($scope, $params, $http, ngProgress) {
         var store = this;
@@ -202,7 +222,7 @@ main.controller('calendarController', ['$scope', '$routeParams', '$http', 'ngPro
                     });
         };
     }]);
-
+//filtros
 main.filter("total", function() {
     return function(items, field) {
         var total = 0, i = 0;

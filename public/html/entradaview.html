@@ -29,9 +29,17 @@
                         <div class="form-group">
                             <label for="input1" class="col-sm-3 control-label">Peso em Kg</label>
                             <div class="col-sm-6">
-                                <input integer ng-model="newd.peso" type="number" class="form-control" name="peso" id="input1">
+                                <div class="input-group">
+                                    <input integer ng-model="newd.peso" type="number" class="form-control" name="peso">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default"
+                                                tooltip-html-unsafe='Caso o peso seja em sacos de 60.<br /> <span class="text-success">Converte o valor em Peso Bruto!</span>'
+                                                tooltip-placement="top"
+                                                ng-click="entradas.converter()" type="button">60Kg</button>
+                                    </span>
+                                </div>
                             </div>
-                            <span class="help-block" ng-show="form.peso.$error.integer">Numero invalido!</span>
+                            <span class="help-block text-danger" ng-show="form.peso.$error.integer">Numero invalido!</span>
                         </div>
                         <div ng-hide="entradas.radio == '2' || entradas.radio == '0'">
                             <div class="form-group">
@@ -39,14 +47,14 @@
                                 <div class="col-sm-6">
                                     <input smart-float ng-model="newd.umidade" name="umidade"  type="text" class="form-control" id="input2">                                   
                                 </div>
-                                <span class="help-block has-error" ng-show="form.umidade.$error.float">Numero invalido!</span>
+                                <span class="help-block text-danger" ng-show="form.umidade.$error.float">Numero invalido!</span>
                             </div>
                             <div class="form-group">
                                 <label for="input3" class="col-sm-3 control-label">Impureza</label>
                                 <div class="col-sm-6">
                                     <input smart-float ng-model="newd.impureza" name="impureza"  type="text" class="form-control" id="input3">
                                 </div>
-                                <span class="help-block has-error" ng-show="form.impureza.$error.float">numero invalido!</span>
+                                <span class="help-block text-danger" ng-show="form.impureza.$error.float">numero invalido!</span>
                             </div>
                         </div>
                     </div>
@@ -72,21 +80,23 @@
                             </div>
                         </div>
                         <button ng-click="entradas.add()" 
-                                ng-disabled="form.$invalid"
+                                ng-disabled="form.$invalid || !newd.peso || !entradas.dt"
                                 class="btn btn-sm btn-success">Adcionar</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <alert class="col-md-4 text-center" ng-show="errorEntrada" type="danger" close="closeAlert()"><b>{{errorEntrada}}</b></alert>
     <div class="col-md-4" ng-show="register.length" ng-model="register">
+
         <ul class="list-group">
             <li class="list-group-item list-group-item-success" ng-repeat="value in register">
-                <span class="badge">{{$index+1}}</span>
+                <span class="badge">{{$index + 1}}</span>
                 <span>Data: {{value.dt}}</span>
-                 <span>Ticket: {{value.tc}}</span>
-                 <span>Motorista: {{value.mt}}</span>
-                <button ng-disabled="disable[$index].d" ng-click="entradas.deletar(value.id,$index)" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                <span>Ticket: {{value.tc}}</span>
+                <span>Motorista: {{value.mt}}</span>
+                <button ng-disabled="disable[$index].d" ng-click="entradas.deletar(value.id, $index)" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
             </li>
         </ul>
     </div>

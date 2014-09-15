@@ -7,6 +7,7 @@ ini_set('memory_limit', '32M');
 
 error_reporting(E_ALL | E_STRICT);
 
+setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
 date_default_timezone_set('America/Sao_Paulo');
 
 Configs::getInstance()->set('connection.mysql.pass', 'saga123');

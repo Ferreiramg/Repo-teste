@@ -54,7 +54,7 @@ class Entrada {
                 $args['peso'] = 0;
             }
         }
-
+        $date = $this->validateDate($args['data']);
         $con = Connection\Init::getInstance()->on();
         $stmt = $con->prepare("INSERT INTO `entradas` (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`,`quebra_peso`,`servicos`,`desc_impureza`,`foi_transf`) VALUES (:p, :s, :crr, :_c, :u, :i, :d, :t, :o,:q,:b,:z,:l)");
         $stmt->bindValue(':p', $args['peso']);
@@ -63,7 +63,7 @@ class Entrada {
         $stmt->bindValue(':_c', $args['produtor']);
         $stmt->bindValue(':u', $args['umidade']);
         $stmt->bindValue(':i', $args['impureza']);
-        $stmt->bindValue(':d', date('Y-m-d H:s:i', strtotime(str_replace('/', '-', $args['data']))));
+        $stmt->bindValue(':d', $date);
         $stmt->bindValue(':t', $args['ticket']);
         $stmt->bindValue(':o', sprintf("%s: %s", $args['motorista'], $args['observacao']));
         $stmt->bindValue(':q', $qp);
@@ -77,7 +77,7 @@ class Entrada {
 
     public function makeQT(array $args) {
         $args['tipo'] = 0;
-        $args['peso'] = CalcDiscounts::quebraTecnica($args['peso']*60);
+        $args['peso'] = CalcDiscounts::quebraTecnica($args['peso'] * 60);
         $args['observacao'] = "Quebra técnica!";
         return $this->create($args);
     }
@@ -91,6 +91,20 @@ class Entrada {
 
     private function checkType($type) {
         return $type === 1;
+    }
+
+    private function validateDate($date) {
+        $now = new \DateTime('now');
+        try {
+            $date = new \DateTime(str_replace('/', '-', $date));
+            if (\DateTime::getLastErrors()['warning_count'] || $now < $date) { //error format date
+                throw new \Exceptions\ClientExceptionResponse("A data informada não é valida!");
+            }
+        } catch (\Exception $e) {
+            throw new \Exceptions\ClientExceptionResponse("A data informada não é valida!");
+        }
+
+        return $date->format('Y-m-d H:s:i');
     }
 
     private function instanceCalcDiscountsWillApplyFilter($umidade) {

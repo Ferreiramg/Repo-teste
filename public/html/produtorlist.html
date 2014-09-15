@@ -28,9 +28,8 @@
                                     <span class="help-block"></span>  
                                 </div>
                                 <div class="col-sm-4">
-                                    <input ng-model="newdata.grao"  name="grao" placeholder="Produto (Milho)" type="text" class="form-control input-sm">
+                                    <input ng-model="newdata.grao" name="grao" placeholder="Produto (Milho)" type="text" class="form-control input-sm">
                                     <span class="help-block"></span>  
-
                                 </div>
                                 <div class="col-sm-7">
                                     <input ng-model="newdata.email" type="text" placeholder="E-mail" class="form-control input-sm">
@@ -91,15 +90,15 @@
             <h3 class="modal-title">Novo E-mail</h3>
         </div>
         <div class="modal-body">
-        <div ng-if="!mail">
+        <div ng-if="!message.mail">
                 <h4 ng-class="message.class" class="text-center">{{message.info}}</h4>
        </div>
-            <form ng-show="mail">
+            <form ng-show="message.mail">
                 <fieldset>  
                     <div class="form-group">
                         <div class="input-group">
                           <div class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></div>
-                          <input class="form-control" type="email" ng-model="mail">
+                          <input class="form-control" type="email" ng-model="message.mail">
                         </div>
                     </div>
                     <div class="form-group">
@@ -122,7 +121,7 @@
             </form>
         </div>
         <div class="modal-footer">
-            <button title="Enviar Agora!" class="btn btn-primary" ng-show="mail" ng-click="send()"><span class="glyphicon glyphicon-send"></span></button>
+            <button title="Enviar Agora!" class="btn btn-primary" ng-show="message.mail" ng-click="send()"><span class="glyphicon glyphicon-send"></span></button>
             <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
         </div>
 </script>

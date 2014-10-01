@@ -14,8 +14,9 @@ class Silo {
         $out = array('amz' => 0, 'qp' => 0);
         $data = new \Model\ProdutorReport();
         foreach (new Model\Produtor as $value) {
-            $out['amz'] += $data->resumeInfoEntradas($value['id'], 1)['agregado']['armazenagem'];
-            $out['qp'] += $data->resumeInfoEntradas($value['id'], 1)['agregado']['qp'];
+            $dados = $data->resumeInfoEntradas($value['id'], 1);
+            $out['amz'] += $dados['agregado']['armazenagem'];
+            $out['qp'] += $dados['agregado']['qp'];
         }
         $ano = date('Y');
         $d = date('Y-m-d H:i:s');

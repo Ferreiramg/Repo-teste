@@ -19,8 +19,11 @@ class Email extends AbstracClient {
             'data' => 0, 'acao' => 0]
         );
         $post['file'] = $this->upload();
-        if (!$model->send($post) && $model->getErrorSendMail() !== '')
+        if (!$model->send($post) && $model->getErrorSendMail() !== '') {
+            @unlink($post['file']);
             throw new \Exceptions\ClientExceptionResponse($model->getErrorSendMail());
+        }
+
 
         printf('{"code":"%s"}', 1); //true for success
     }

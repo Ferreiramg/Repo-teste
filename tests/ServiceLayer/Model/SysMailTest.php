@@ -75,17 +75,17 @@ class SysMailTest extends PHPUnit {
      * @expectedException \Exceptions\ClientExceptionResponse
      */
     public function testSendMailExceptionInvalidParamters() {
-        $this->markTestIncomplete(
-                'This test not work in travis ci.'
-        );
+//        $this->markTestIncomplete(
+//                'This test not work in travis ci.'
+//        );
         $mail = new \Model\SistemMail();
         $mail->send(['mail' => 'luispkiller@gmail.com']);
     }
 
     public function testInvalitAttachemetFile() {
-        $this->markTestIncomplete(
-                'This test not work in travis ci.'
-        );
+//        $this->markTestIncomplete(
+//                'This test not work in travis ci.'
+//        );
         $mail = new \Model\SistemMail();
         $mail->send([
             'name' => 'luis Paulo',

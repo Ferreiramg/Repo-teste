@@ -62,7 +62,7 @@ class Produtor extends \ArrayIterator {
         $stmt->bindValue(':n', $args['nome']);
         $stmt->bindValue(':m', $args['email']);
         $stmt->bindValue(':g', $args['grao']);
-        $stmt->bindValue(':a', $args['taxa']);
+        $stmt->bindValue(':a', $args['armazenagem']);
         $stmt->bindValue(':d', date('Y-m-d H:s:i'));
         return $stmt->execute();
     }
@@ -75,7 +75,7 @@ class Produtor extends \ArrayIterator {
         $stmt->bindValue(':n', empty($args['nome']) ? $this->nome : $args['nome'] );
         $stmt->bindValue(':m', empty($args['email']) ? $this->email : $args['email'] );
         $stmt->bindValue(':g', empty($args['grao']) ? $this->grao : $args['grao']);
-        $stmt->bindValue(':a', empty($args['taxa']) ? $this->armazenagem : $args['taxa']);
+        $stmt->bindValue(':a', !isset($args['armazenagem']) ? $this->armazenagem : $args['armazenagem']);
         $stmt->bindValue(':d', date('Y-m-d H:s:i'));
         return $stmt->execute();
     }
@@ -111,7 +111,7 @@ class Produtor extends \ArrayIterator {
     }
 
     private function validateArgs(array $args) {
-        return isset($args['nome']) && isset($args['taxa']);
+        return isset($args['nome']) && isset($args['armazenagem']);
     }
 
 }

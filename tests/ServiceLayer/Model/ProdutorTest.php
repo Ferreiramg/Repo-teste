@@ -108,7 +108,7 @@ class ProdutorTest extends PHPUnit {
             'nome' => 'Toninho',
             'email' => 't@t.com',
             'grao' => 'milho',
-            'taxa' => 0.045,
+            'armazenagem' => 0.045,
             'data' => '03-07-2014'
         ];
     }

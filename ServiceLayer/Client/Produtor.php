@@ -48,7 +48,7 @@ class Produtor extends AbstracClient {
             'nome' => FILTER_SANITIZE_STRING,
             'email' => FILTER_SANITIZE_EMAIL,
             'grao' => FILTER_SANITIZE_STRING,
-            'taxa' => FILTER_VALIDATE_FLOAT,
+            'armazenagem' => FILTER_VALIDATE_FLOAT,
             'data' => 0, 'acao' => 0
         ]);
         if (!$post) {

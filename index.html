@@ -29,12 +29,12 @@
                         <li dropdown>
                             <a href class="dropdown-toggle b-menu">Produtor <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="#/produtor">Novo</a></li>
+                                <li><a href="#/produtor">Novo / Listar</a></li>
                                 <li class="divider"></li>
                                 <li><a href="#/resume/{{produtor.id}}/0">Relatório Resumo</a></li>
                             </ul>
                         </li>
-                        <li ng-class="{'active':false}"><a class="b-menu" href="#/calendar/{{produtor.id}}">Calendario</a></li>
+                        <li ng-class="{'active':false}"><a class="b-menu" href="#/calendar/{{produtor.id}}">Armazenamento</a></li>
                         <li ng-class="{'active':false}"><a class="b-menu" href="#/tabela">Tabelas</a></li>
                         <li dropdown>
                             <a href class="dropdown-toggle b-menu">Graficos <span class="caret"></span></a>
@@ -44,6 +44,7 @@
                                 <li><a href="#/chartresumeservice">Info Serviços</a></li>
                             </ul>
                         </li>
+                        <li><a href="#/configsys" class="b-menu">Configurações</a></li>
                     </ul>
                     <form ng-init="produtor.getData()" class="navbar-form navbar-right" role="form">
                         <div class="form-group">
@@ -59,7 +60,8 @@
                                     {{value.nome}}
                                 </option>
                             </select>  
-                            <button ng-click="reload(produtor.id)"  class="btn btn-default btn-sm"><span class="glyphicon glyphicon-refresh"></span></button>
+                            <reload ng-mouseenter="reload(produtor.id)"></reload>
+                            
                         </div>
                     </form>
                 </div>

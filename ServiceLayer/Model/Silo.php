@@ -62,7 +62,7 @@ class Silo {
         $sql2 = "SELECT data,SUM( servicos ) as servicos FROM  `entradas` 
                         WHERE EXTRACT( YEAR_MONTH FROM data ) =  '%s'";
         $stmt = $conn->query($sql);
-        if ($stmt)
+        if ($stmt) {
             foreach ($stmt->fetchAll(2) as $v) {
                 $stmt2 = $conn->query(sprintf($sql2, $v['data']));
                 $data = $stmt2->fetchAll(2);
@@ -72,6 +72,7 @@ class Silo {
                     $out['total'] += $p;
                 }
             }
+        }
         return $out;
     }
 
@@ -81,7 +82,7 @@ class Silo {
         $qp = 0;
         $descontos = [0, 0, 0, 0];
         try {
-            if (isset($args['umidade']) && $args['umidade'] && isset($args['impureza']) && $args['impureza']) {
+            if (isset($args['umidade']) && $args['umidade'] && isset($args['impureza'])) {
                 $csv = new CSV(ROOT . \Configs::getInstance()->app->csv, ';');
                 $calc = new CalcDiscounts(new CSVFilter($csv, $args['umidade']
                         ), $args['umidade']);

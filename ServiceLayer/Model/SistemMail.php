@@ -38,6 +38,18 @@ class SistemMail {
         return !$this->mail->isError();
     }
 
+    public function attachement() {
+        if (isset($_FILES['file']) && $_FILES['file']['error'] === 0) {
+            $dir = ROOT . \Configs::getInstance()->app->upload_dir;
+            if (!file_exists($dir))
+                @mkdir($dir);
+            $res = move_uploaded_file($_FILES['file']['tmp_name'], $file = (string) $dir . $_FILES['file']['name']);
+            if ($res)
+                return $file;
+        }
+        return null;
+    }
+
     private function invalidate(array $args) {
         if (empty($args['mail'])) {
             return "E-mail não é valido!";

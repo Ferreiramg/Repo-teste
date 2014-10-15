@@ -90,6 +90,9 @@ body > .container {
     right: 0;
     z-index: 99999;
 }
+tbody > tr > td >.no-border{
+    border: none;
+}
 .table-hover > tbody > tr:hover {
     opacity: 0.5; 
     -webkit-transition: opacity 0.15s linear;

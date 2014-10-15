@@ -56,6 +56,11 @@ class EntradaCrudTest extends PHPUnit {
         $this->assertEquals("" . $EXPECTED . "", $stmt->getSQL());
     }
 
+    public function testDoInsertQt() {
+       $rows = $this->model->makeQT($this->post());
+        $this->assertEquals((int) $rows, 5);
+    }
+
     /**
      * Exception when a file can not be set for property $this->csvfile
      * @expectedException RuntimeException
@@ -80,16 +85,17 @@ class EntradaCrudTest extends PHPUnit {
         $method->setAccessible(true);
         $data = '14-05-2014';
         $method->invokeArgs($this->model, array($data));
-        
+
         ///Error teste
         $this->setExpectedException('\Exceptions\ClientExceptionResponse');
-        $data = '14-052014';//wrong
+        $data = '14-052014'; //wrong
         $method->invokeArgs($this->model, array($data));
     }
+
     /**
      * @expectedException \Exceptions\ClientExceptionResponse
      */
-    public function testValidateDateErrorDateFuture(){
+    public function testValidateDateErrorDateFuture() {
         $reflection = new \ReflectionClass('\Model\Entrada');
         $method = $reflection->getMethod('validateDate');
         $method->setAccessible(true);

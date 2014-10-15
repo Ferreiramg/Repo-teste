@@ -18,30 +18,16 @@ class Email extends AbstracClient {
             'body' => FILTER_SANITIZE_STRING,
             'data' => 0, 'acao' => 0]
         );
-        $post['file'] = $this->upload();
+        $post['file'] = $model->attachement();
         if (!$model->send($post) && $model->getErrorSendMail() !== '') {
             @unlink($post['file']);
             throw new \Exceptions\ClientExceptionResponse($model->getErrorSendMail());
         }
-
-
         printf('{"code":"%s"}', 1); //true for success
     }
 
     public function hasRequest() {
         return \Main::$Action === 'sendmail';
-    }
-
-    private function upload() {
-        if (isset($_FILES['file']) && $_FILES['file']['error'] === 0) {
-            $dir = ROOT . \Configs::getInstance()->app->upload_dir;
-            if (!file_exists($dir))
-                @mkdir($dir);
-            $res = move_uploaded_file($_FILES['file']['tmp_name'], $file = (string) $dir . $_FILES['file']['name']);
-            if ($res)
-                return $file;
-        }
-        return null;
     }
 
 }

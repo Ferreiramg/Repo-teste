@@ -1,5 +1,5 @@
 
-(function() {
+(function () {
     'use stric';
     function serializeData(data) {
         // If this is not an object, defer to native stringification.
@@ -40,7 +40,7 @@
         'ui.bootstrap.tabs',
         'ngProgress',
         'produtorStore'])
-            .config(['$routeProvider', function($router) {
+            .config(['$routeProvider', function ($router) {
                     $router.when('/entrada', {
                         controller: 'EntradasController',
                         controllerAs: 'entradas',
@@ -56,17 +56,17 @@
                     });
                 }]);
 
-    main.controller('SimuladorEntrada', ['$http', 'ngProgress', function($http, progress) {
+    main.controller('SimuladorEntrada', ['$http', 'ngProgress', function ($http, progress) {
             this.data = {};
             this.params = {};
             this.params.acao = 'simulador';
             this.title = "IFORMAÇÕES";
             var store = this;
-            this.run = function() {
+            this.run = function () {
                 if (this.params.peso !== undefined) {
                     $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
                     $http.post('/simulator', serializeData(this.params))
-                            .success(function(data) {
+                            .success(function (data) {
                                 store.title = data.msg || "IFORMAÇÕES";
                                 store.data = data;
                             });
@@ -75,7 +75,7 @@
             };
         }]);
     main.controller('EntradasController', ['$scope', '$routeParams', '$http', 'ngProgress',
-        function($scope, $params, $http, progress) {
+        function ($scope, $params, $http, progress) {
 
             var store = this;
             $scope.id = 0;
@@ -83,6 +83,7 @@
             this.radio = '1';
             this.kg = '1';
             this.cvalue = 0;
+            this.d = 0;
 
             this.dt = {};
             $scope.errorEntrada = null;
@@ -90,35 +91,88 @@
             $scope.register = [];
             $scope.disable = [];
             $scope.Selected = {};
-            $scope.setSelected = function(Selected, i) {
+
+            function sortOn(collection, name) {
+                collection.sort(
+                        function (a, b) {
+                            if (a.group === name) {
+                                return(-1);
+                            }
+                            return(1);
+                        }
+                );
+            }
+
+            $scope.groupBy = function (attribute) {
+
+                // First, reset the groups.
+                $scope.groups = [];
+
+                // Now, sort the collection of friend on the
+                // grouping-property. This just makes it easier
+                // to split the collection.
+                sortOn(store.data, attribute);
+
+                // I determine which group we are currently in.
+                var groupValue = "_INVALID_GROUP_VALUE_";
+
+                // As we loop over each friend, add it to the
+                // current group - we'll create a NEW group every
+                // time we come across a new attribute value.
+                for (var i = 0; i < store.data.length; i++) {
+
+                    var friend = store.data[ i ];
+
+                    // Should we create a new group?
+                    if (friend[ attribute ] !== groupValue) {
+
+                        var group = {
+                            label: friend[ attribute ],
+                            data: []
+                        };
+
+                        groupValue = group.label;
+
+                        $scope.groups.push(group);
+
+                    }
+
+                    // Add the friend to the currently active
+                    // grouping.
+                    group.data.push(friend);
+
+                }
+            };
+
+            $scope.setSelected = function (Selected, i) {
                 Selected.index = i;
                 $scope.Selected = Selected;
             };
-            $scope.closeAlert = function() {
+            $scope.closeAlert = function () {
                 $scope.errorEntrada = null;
                 progress.complete();
             };
-            this.wasTrans = function(value) {
+            this.wasTrans = function (value) {
                 return value === "1";
             };
-            this.converter = function() {
+            this.converter = function () {
                 $scope.newd.peso = $scope.newd.peso * 60;
             };
-            this.getData = function() {
+            this.getData = function () {
                 $scope.id = $params.id;
                 var id = $scope.id;
-                $http.get('/entrada_read/' + id).success(function(data) {
-                    store.data[id] = data;
-                    angular.forEach(data, function(value, key) {
+                $http.get('/entrada_read/' + id).success(function (data) {
+                    store.data = data;
+                    angular.forEach(data, function (value, key) {
                         this.push({d: false});
                     }, $scope.disable);
                 });
             };
-            this.deletar = function(id, i) {
+            this.deletar = function (id, i) {
                 var cf = confirm('Deseja apagar Entrada?');
                 if (cf) {
                     progress.start();
-                    $http.delete('/entrada/deletar/' + id).success(function(data) {
+                    $http.delete('/entrada/deletar/' + id).success(function (data) {
                         var resp = data[0] || data;
                         if (resp.code === "1") {
                             $scope.disable[i].d = true;
@@ -127,7 +181,7 @@
                     });
                 }
             };
-            this.add = function() {
+            this.add = function () {
                 $scope.newd.data = this.dt;
                 $scope.newd.tipo = this.radio;
                 $scope.newd.wastrans = this.radio === '2' ? 1 : 0;
@@ -140,7 +194,7 @@
                 $scope.newd.acao = 'create';
                 $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
                 $http.post('/entrada', serializeData($scope.newd)).success(
-                        function(data) {
+                        function (data) {
                             var resp = data[0] || data;
                             if (resp.code !== "0") {
                                 progress.complete();
@@ -164,15 +218,15 @@
             this.dt = day + "-" + month + "-" + year;
         }]);
 
-    main.filter("total", function() {
-        return function(items, field) {
+    main.filter("total", function () {
+        return function (items, field) {
             var total = 0, i = 0;
             for (i = 0; i < items.length; i++)
                 total += items[i][field];
             return total;
         };
     });
-    main.filter("kgConverte", function() {
+    main.filter("kgConverte", function () {
         return convertKG;
     });
 }());

@@ -73,7 +73,7 @@ class ProdutorView {
                 <tr><td colspan="6"><b>Saldo: $saldo</b></td></tr>
             </head>               
             <body class="page-break">
-                $content
+                        $content
             </body>
         </table>
 HTML;

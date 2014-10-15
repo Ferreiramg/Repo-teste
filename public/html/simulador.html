@@ -4,40 +4,54 @@
         <form class="form-inline" role="form">
             <tabset>
                 <tab heading="Armazenagem"> 
-                    <br />
-                    <div class="form-group col-md-3">
-                        <div class="input-group col-xs-10">
-                            <div class="input-group-addon">Peso</div>
-                            <input class="form-control" ng-model="S.params.peso" type="text">
-                        </div>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <div class="input-group col-xs-8">
-                            <div class="input-group-addon">Periodo</div>
-                            <input class="form-control"   ng-model="S.params.dias"  type="text">
-                        </div>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <div class="input-group col-xs-8">
-                            <div class="input-group-addon">Taxa</div>
-                            <input class="form-control" ng-model="S.params.taxa" type="text">
-                        </div>
-                    </div>  
+                    <table class="table table-bordered table-responsive" style="border-top: none" >
+                        <tbody >
+                            <tr><td style="border: none">
+                                    <div class="form-group col-md-3">
+                                        <div class="input-group col-xs-10">
+                                            <div class="input-group-addon">Peso</div>
+                                            <input class="form-control" ng-model="S.params.peso" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <div class="input-group col-xs-8">
+                                            <div class="input-group-addon">Periodo</div>
+                                            <input class="form-control"   ng-model="S.params.dias"  type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <div class="input-group col-xs-8">
+                                            <div class="input-group-addon">Taxa</div>
+                                            <input class="form-control" ng-model="S.params.taxa" type="text">
+                                        </div>
+                                    </div>  
+                                </td></tr>
+                        </tbody>
+
+                    </table>
+
                 </tab>
                 <tab heading="Descontos">
-                    <br />
-                    <div class="form-group col-md-3">
-                        <div class="input-group col-xs-12">
-                            <div class="input-group-addon">Umidade Media</div>
-                            <input class="form-control" ng-model="S.params.umidade" type="text">
-                        </div>
-                    </div> 
-                    <div class="form-group col-md-3">
-                        <div class="input-group col-xs-12">
-                            <div class="input-group-addon">Impureza Media</div>
-                            <input class="form-control" ng-model="S.params.impureza" type="text">
-                        </div>
-                    </div> 
+                    <table class="table table-bordered table-responsive" style="border-top: none" >
+                        <tbody >
+                            <tr>
+                                <td style="border: none">
+                                    <div class="form-group col-md-3">
+                                        <div class="input-group col-xs-12">
+                                            <div class="input-group-addon">Umidade Media</div>
+                                            <input class="form-control" ng-model="S.params.umidade" type="text">
+                                        </div>
+                                    </div> 
+                                    <div class="form-group col-md-3">
+                                        <div class="input-group col-xs-12">
+                                            <div class="input-group-addon">Impureza Media</div>
+                                            <input class="form-control" ng-model="S.params.impureza" type="text">
+                                        </div>
+                                    </div> 
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </tab>
                 <tab select="S.run()">
                     <tab-heading>

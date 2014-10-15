@@ -11,6 +11,8 @@ class EntradasReadData {
 
     private $id = 0;
 
+    const QT = ": Quebra técnica!";
+
     public function getdataByClientId($id) {
         $conn = Connection\Init::getInstance()->on();
 
@@ -33,7 +35,27 @@ class EntradasReadData {
                 sprintf("SELECT * FROM entradas WHERE _cliente = %u ORDER BY id DESC", $this->id)
         );
         if ($stmt) {
-            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $data = array();
+            foreach ($stmt->fetchAll(\PDO::FETCH_ASSOC) as $key => $value) {
+                $data[] = [
+                    'id' => $value['id'],
+                    'peso' => $value['peso'],
+                    'saida_peso' => $value['saida_peso'],
+                    'peso_corrigido' => $value['peso_corrigido'],
+                    '_cliente' => $value['_cliente'],
+                    'quebra_peso' => $value['quebra_peso'],
+                    'servicos' => $value['servicos'],
+                    'desc_impureza' => $value['desc_impureza'],
+                    'umidade' => $value['umidade'],
+                    'impureza' => $value['impureza'],
+                    'ano' => $value['ano'],
+                    'foi_transf' => $value['foi_transf'],
+                    'data' => date('d/m/Y', strtotime($value['data'])),
+                    'ticket' => $value['ticket'],
+                    'observacao' => $value['observacao'],
+                    'group' => round($value['peso']) > 0 ? 'Entradas' : 'Saidas'];
+            }
+            return $data;
         }
         return [];
     }
@@ -45,7 +67,7 @@ class EntradasReadData {
     public function hash($key) {
         return (string) $key . $this->id;
     }
-    
+
     public function __toString() {
         return json_encode($this->getData());
     }

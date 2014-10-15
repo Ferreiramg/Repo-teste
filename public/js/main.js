@@ -1,5 +1,5 @@
 'use strict';
-(function() {
+(function () {
     var FLOAT_REGEXP = /^\-?\d+((\.|\,)\d+)?$/;
     var INTEGER_REGEXP = /^\-?\d+$/;
 
@@ -15,39 +15,54 @@
                 'angles'
             ]);
 
+    main.directive('reload', ['$location', function (location) {
+            return {
+                restrict: 'E',
+                replace: true,
+                template: '<a class="btn btn-default btn-sm" href="#/{{param_u}}" ><span class="glyphicon glyphicon-refresh"></span></a>',
+            };
+        }]);
     main.controller('mainController', ['$http', '$scope', '$log', '$location',
-        function($http, $scope, $log, $location) {
+        function ($http, $scope, $log, $location) {
             $scope.$log = $log;
             $scope.$linkA = "/dash";
             var store = this;
             this.d_cotacao = [];
-            $scope.$active = function() {
+            $scope.$active = function () {
                 console.log($location.path());
                 $scope.$linkA = $location.path();
             };
-            $scope.reload = function(id) {
+            $scope.reload = function (id) {
+                var params = $location.url().split('/');
+                params.shift();
+                var _p1 = params[0] || null;
+                var _p2 = params[1] || null;
+                if (!_p2) {
+                    $scope.param_u = _p1;
+                    return null;
+                }
+                var _id = parseInt(_p2) > 2000 ? _p2 : id;
+                var _p3 = params[2] ? '/' + params[2] : '';
+                $scope.param_u = _p1 + '/' + _id + _p3;
             };
             $scope.tpTextSearch = "Exibir Filtro Pesquisa";
             $scope.visible = true;
-            $scope.toggle = function() {
+            $scope.toggle = function () {
                 $scope.visible = !$scope.visible;
                 $scope.tpTextSearch = $scope.visible ? "Exibir Filtro Pesquisa" : "Fechar Filtro";
             };
             $scope.status = {
                 isopen: false
             };
-            $scope.cotacao = function() {
-                $http.get('/cotacao-json.php').success(function(data) {
+            $scope.cotacao = function () {
+                $http.get('/cotacao-json.php').success(function (data) {
                     store.d_cotacao = data[0];
+                    store.getbycookie = data.cookie || false;
                 });
             };
-        }]).config(['$routeProvider', function($router) {
+        }]).config(['$routeProvider', function ($router) {
             $router.when('/tabela', {
                 templateUrl: 'public/html/pdftabela.html'
-            }).when('/resume/:id/:kg', {
-                templateUrl: function(params) {
-                    return '/produtor_report/' + params.id + '/' + params.kg;
-                }
             }).when('/', {
                 controller: 'mainController',
                 controllerAs: 'home',
@@ -56,11 +71,11 @@
         }]);
 
 
-    main.directive('smartFloat', function() {
+    main.directive('smartFloat', function () {
         return {
             require: 'ngModel',
-            link: function(scope, elm, attrs, ctrl) {
-                ctrl.$parsers.unshift(function(viewValue) {
+            link: function (scope, elm, attrs, ctrl) {
+                ctrl.$parsers.unshift(function (viewValue) {
                     if (FLOAT_REGEXP.test(viewValue)) {
                         ctrl.$setValidity('float', true);
                         return parseFloat(viewValue.replace(',', '.'));
@@ -73,11 +88,11 @@
         };
     });
 
-    main.directive('integer', function() {
+    main.directive('integer', function () {
         return {
             require: 'ngModel',
-            link: function(scope, elm, attrs, ctrl) {
-                ctrl.$parsers.unshift(function(viewValue) {
+            link: function (scope, elm, attrs, ctrl) {
+                ctrl.$parsers.unshift(function (viewValue) {
                     if (INTEGER_REGEXP.test(viewValue)) {
                         // it is valid
                         ctrl.$setValidity('integer', true);
@@ -94,7 +109,7 @@
 
     var angles = angular.module("angles", []);
 
-    angles.chart = function(type) {
+    angles.chart = function (type) {
         return {
             restrict: "A",
             scope: {
@@ -110,11 +125,11 @@
                 tooltip: "=",
                 legend: "="
             },
-            link: function($scope, $elem) {
+            link: function ($scope, $elem) {
                 var ctx = $elem[0].getContext("2d");
                 var autosize = false;
 
-                $scope.size = function() {
+                $scope.size = function () {
                     if ($scope.width <= 0) {
                         $elem.width($elem.parent().width());
                         ctx.canvas.width = $elem.width();
@@ -132,7 +147,7 @@
                     }
                 };
 
-                $scope.$watch("data", function(newVal, oldVal) {
+                $scope.$watch("data", function (newVal, oldVal) {
                     if (chartCreated)
                         chartCreated.destroy();
 
@@ -162,7 +177,7 @@
                         angular.element($elem[0]).parent().after(chartCreated.generateLegend());
                 }, true);
 
-                $scope.$watch("tooltip", function(newVal, oldVal) {
+                $scope.$watch("tooltip", function (newVal, oldVal) {
                     if (chartCreated !== undefined)
                         chartCreated.draw();
                     if (newVal === undefined || !chartCreated.segments)
@@ -185,28 +200,28 @@
 
 
     /* Aliases for various chart types */
-    angles.directive("chart", function() {
+    angles.directive("chart", function () {
         return angles.chart();
     });
-    angles.directive("linechart", function() {
+    angles.directive("linechart", function () {
         return angles.chart("Line");
     });
-    angles.directive("barchart", function() {
+    angles.directive("barchart", function () {
         return angles.chart("Bar");
     });
-    angles.directive("radarchart", function() {
+    angles.directive("radarchart", function () {
         return angles.chart("Radar");
     });
-    angles.directive("polarchart", function() {
+    angles.directive("polarchart", function () {
         return angles.chart("PolarArea");
     });
-    angles.directive("piechart", function() {
+    angles.directive("piechart", function () {
         return angles.chart("Pie");
     });
-    angles.directive("doughnutchart", function() {
+    angles.directive("doughnutchart", function () {
         return angles.chart("Doughnut");
     });
-    angles.directive("donutchart", function() {
+    angles.directive("donutchart", function () {
         return angles.chart("Doughnut");
     });
 }());

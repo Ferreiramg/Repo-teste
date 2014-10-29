@@ -51,7 +51,7 @@ class EntradasReadData {
                     'ano' => $value['ano'],
                     'foi_transf' => $value['foi_transf'],
                     'data' => date('d/m/Y', strtotime($value['data'])),
-                    'ticket' => $value['ticket'],
+                    'ticket' => Entrada::TicketFormat($value['ticket']),
                     'observacao' => $value['observacao'],
                     'group' => round($value['peso']) > 0 ? 'Entradas' : 'Saidas'];
             }

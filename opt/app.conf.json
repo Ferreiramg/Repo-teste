@@ -9,6 +9,15 @@
             "dsn": "mysql:dbname=silo;host=localhost",
             "user": "root",
             "pass": "s3cr3t"
+        },
+        "odbc": {
+            "dbq": "/vagrant/Dados63.mdb",
+            "user": "",
+            "pass": "",
+            "export": {
+                "csv": "/opt/guardian_data.csv",
+                "table_name": "RegTick"
+            }
         }
     },
     "debug": false

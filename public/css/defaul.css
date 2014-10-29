@@ -12,6 +12,9 @@
     .logo_type{    
         display: inline;
     }
+    .btn-toolbar{
+        display: none;
+    }
 }
 
 html {
@@ -26,6 +29,16 @@ body {
 }
 body > .container {
     padding-top: 60px
+}
+dl dt {
+    float:left; 
+    font-weight:bold; 
+    margin-right:5px;  
+    width:100px; 
+}
+dl dd {
+    margin:2px 0; 
+    padding:3px 0;
 }
 ::-webkit-scrollbar {
     -webkit-appearance: none;

@@ -19,7 +19,7 @@ class DBConnSqliteTest {
         $con->exec(static::$sql);
         return $con;
     }
-
+    
     private static $sql = <<<SQL
 CREATE TABLE caixasilo (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,

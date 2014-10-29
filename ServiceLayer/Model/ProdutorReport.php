@@ -9,10 +9,11 @@ namespace Model;
  */
 class ProdutorReport {
 
-    public function resumeInfoEntradas($id = 1, $media = EntradaEntityIterator::KG_60) {
+    public function resumeInfoEntradas($id = 1, $media = EntradaEntityIterator::KG_60, $ano = null) {
         $conn = Connection\Init::getInstance()->on();
         $produtor = new Produtor();
-        $stmt = $conn->query(sprintf("SELECT * FROM entradas WHERE _cliente = %u ORDER BY data ASC", $id));
+        $ano = is_null($ano) ? date('Y') : $ano;
+        $stmt = $conn->query(sprintf("SELECT * FROM entradas WHERE _cliente = %u AND ano ='%s' ORDER BY data ASC", $id, $ano));
         $produtor->setIdKey($id - 1);
 
         static $total = 0, $saida = 0, $qp = 0, $trasferencia = 0, $servico = 0, $imp = 0, $corrgido = 0;
@@ -23,15 +24,14 @@ class ProdutorReport {
         $calendar = $entradas->calendarData($media);
         $a = 0;
         $c = 0;
-        if (!empty($calendar)) {
-            $c = count($calendar) - 1;
-            for ($i = 0; $i < $c; ++$i) {
-                $a +=$calendar[$i]['desconto'];
-            }
-        }
-
         if ($stmt) {
             $data = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            if (!empty($calendar) && !empty($data)) {
+                $c = count($calendar) - 1;
+                for ($i = 0; $i < $c; ++$i) {
+                    $a +=$calendar[$i]['desconto'];
+                }
+            }
             foreach ($data as $values) {
                 if ($values['foi_transf'] == "0")
                     $total += $values['peso'];

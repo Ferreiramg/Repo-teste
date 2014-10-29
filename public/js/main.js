@@ -27,7 +27,12 @@
             $scope.$log = $log;
             $scope.$linkA = "/dash";
             var store = this;
+            var currentDate = new Date();
             this.d_cotacao = [];
+            $scope.tpTextSearch = "Exibir Filtro Pesquisa";
+            $scope.visible = true;
+
+            $scope.year = currentDate.getFullYear();
             $scope.$active = function () {
                 console.log($location.path());
                 $scope.$linkA = $location.path();
@@ -43,16 +48,13 @@
                 }
                 var _id = parseInt(_p2) > 2000 ? _p2 : id;
                 var _p3 = params[2] ? '/' + params[2] : '';
-                $scope.param_u = _p1 + '/' + _id + _p3;
+                var _p4 = params[3] ? '/' + params[3] : '';
+                $scope.param_u = _p1 + '/' + _id + _p3 + _p4;
             };
-            $scope.tpTextSearch = "Exibir Filtro Pesquisa";
-            $scope.visible = true;
+
             $scope.toggle = function () {
                 $scope.visible = !$scope.visible;
                 $scope.tpTextSearch = $scope.visible ? "Exibir Filtro Pesquisa" : "Fechar Filtro";
-            };
-            $scope.status = {
-                isopen: false
             };
             $scope.cotacao = function () {
                 $http.get('/cotacao-json.php').success(function (data) {

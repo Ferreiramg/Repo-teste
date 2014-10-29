@@ -25,6 +25,12 @@ class InitConnTest extends PHPUnit {
         $this->assertTrue($con === Model\Connection\Init::getInstance()->on());
     }
 
+    public function testConnSqlite() {
+        $conn = Model\Connection\Init::getInstance()->on();
+        $query = $conn->query("SELECT * FROM cliente");
+        var_dump($query->fetchAll(2));
+    }
+
     /**
      * @expectedException RuntimeException
      */

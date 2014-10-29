@@ -42,7 +42,7 @@ var main = angular.module('produtorStore', [
                     controller: 'produtorDataStore',
                     controllerAs: 'produtor2',
                     templateUrl: 'public/html/produtorlist.html'
-                }).when('/resume/:id/:kg', {
+                }).when('/resume/:id/:kg/:ano', {
                     template: '<div ng-include="templateUrl">Carregando...</div>',
                     controller: 'ReportCtrl',
                     controllerAs: 'report'
@@ -51,7 +51,7 @@ var main = angular.module('produtorStore', [
 
 main.controller('ReportCtrl', function ($scope, $routeParams) {
     $scope.open = false;
-    $scope.templateUrl = '/produtor_report/' + $routeParams.id + '/' + $routeParams.kg;
+    $scope.templateUrl = '/produtor_report/' + $routeParams.id + '/' + $routeParams.kg + '/' + $routeParams.ano;
 });
 main.controller('configController', function ($scope, $modalInstance, progress, $http) {
     $scope.cancel = function () {

@@ -82,6 +82,16 @@ class Entrada {
         return $this->create($args);
     }
 
+    /**
+     * 
+     * @param string $tikc
+     * @param int $c
+     * @return string
+     */
+    public static function TicketFormat($tikc) {
+        return str_pad(trim($tikc), 6, '0', STR_PAD_LEFT);
+    }
+
     public function deletar(array $args) {
         $this->error_msg = "Não foi apagado! Tente novamente.";
         return Connection\Init::getInstance()

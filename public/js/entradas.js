@@ -38,6 +38,7 @@
         'ui.bootstrap.buttons',
         'ui.bootstrap.typeahead',
         'ui.bootstrap.tabs',
+        'ui.bootstrap.accordion',
         'ngProgress',
         'produtorStore'])
             .config(['$routeProvider', function ($router) {
@@ -53,6 +54,10 @@
                         controller: 'SimuladorEntrada',
                         controllerAs: 'S',
                         templateUrl: 'public/html/simulador.html'
+                    }).when('/ticket/:tid', {
+                        controller: 'EntradasController',
+                        controllerAs: 'entradas',
+                        templateUrl: 'public/html/ticketreport.html'
                     });
                 }]);
 
@@ -84,8 +89,8 @@
             this.kg = '1';
             this.cvalue = 0;
             this.d = 0;
+            this.shticket = null;
 
-            this.dt = {};
             $scope.errorEntrada = null;
             $scope.newd = {produtor: 1};
             $scope.register = [];
@@ -182,7 +187,6 @@
                 }
             };
             this.add = function () {
-                $scope.newd.data = this.dt;
                 $scope.newd.tipo = this.radio;
                 $scope.newd.wastrans = this.radio === '2' ? 1 : 0;
                 if (this.radio === '0') {
@@ -205,17 +209,48 @@
                                     tc: $scope.newd.ticket,
                                     dt: $scope.newd.data
                                 });
-
                             }
                             $scope.errorEntrada = resp.message;
                         });
+            };
+
+            this.showTicket = function () {
+                progress.start();
+                var tk = this.shticket || $params.tid;
+                $scope.ticketdata = {};
+                $http.get('/guardinclude/' + tk).success(function (data) {
+                    if (data && !data.message) {
+                        $scope.ticketdata = data;
+                    }
+                    $scope.errorEntrada = data.message;
+                });
+                progress.complete();
+                tk = this.shticket = null;
+            };
+            this.guardianDataInit = function () {
+                progress.start();
+                if (this.shticket)
+                    $http.get('/guardinclude/' + this.shticket).success(function (data) {
+                        if (data && !data.message) {
+                            setDataGuardian(data);
+                        }
+                        $scope.errorEntrada = data.message;
+                    });
+                progress.complete();
+            };
+            var setDataGuardian = function (data) {
+                $scope.newd.peso = data.peso_liguido;
+                $scope.newd.data = data.data[2];
+                $scope.newd.ticket = data.ticket;
+                $scope.newd.motorista = data.motorista;
+                $scope.newd.observacao = data.observacao + " Placa:" + data.placa;
             };
 
             var currentDate = new Date();
             var day = currentDate.getDate();
             var month = currentDate.getMonth() + 1;
             var year = currentDate.getFullYear();
-            this.dt = day + "-" + month + "-" + year;
+            $scope.newd.data = day + "-" + month + "-" + year;
         }]);
 
     main.filter("total", function () {

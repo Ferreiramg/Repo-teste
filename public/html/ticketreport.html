@@ -1,0 +1,71 @@
+<div class="btn-toolbar well-sm" role="toolbar">
+    <div class="row" ng-show="!visible">
+        <div class="col-md-8 input-group-sm">
+            <div class="col-md-4">
+                <input class="form-control" ng-model="entradas.shticket" type="text" placeholder="Nº Ticket" />
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-default small" ng-click="entradas.showTicket()">Buscar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <table class="table table-bordered" ng-init="entradas.showTicket()">
+        <thead>
+            <tr>
+                <td colspan="6" class="text-center">
+                    <p>Agrovertentes Comercio e Distribuição</p>
+                    <p>Endereço</p>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="3">
+                    <dl> 
+                        <dt>Ticket:</dt>
+                        <dd><b>{{ticketdata.ticket}}</b></dd>
+                        <dt>Emissor:</dt>
+                        <dd>{{ticketdata.emissor}}</dd> 
+                        <dt>Status:</dt>
+                        <dd><i>{{ticketdata.status == "F"?"Fechado":"Aberto"}}</i></dd>
+                    </dl>
+                </td>
+                <td colspan="3">
+                    <dl> 
+                        <dt>Descrição:</dt>
+                        <dd>{{ticketdata.observacao}}</dd>
+                        <dt>Motorista:</dt>
+                        <dd>{{ticketdata.motorista}}</dd>        
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <dl>          
+                        <dt>Data Entrada:</dt>
+                        <dd>{{ticketdata.data[0]}}</dd>
+                        <dt>Tara:</dt>
+                        <dd class="text-center"><b>{{ticketdata.peso_inicial}} Kg</b></dd>
+                    </dl>
+                </td>
+                <td colspan="2">
+                    <dl>          
+                        <dt>Data Saida:</dt>
+                        <dd>{{ticketdata.data[1]}}</dd>
+                        <dt>Peso Final:</dt>
+                        <dd class="text-center"><b>{{ticketdata.peso_final}} Kg</b></dd>
+                    </dl>
+                </td>
+                <td colspan="2"> 
+                    <b>Peso Liquido:</b> <h3 class="text-center">{{ticketdata.peso_liguido}} Kg</h3> 
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

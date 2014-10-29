@@ -1,103 +1,125 @@
-<div class="row">
-    <div class="col-md-7" ng-controller="produtorDataStore as produtor">
-        <div class="panel panel-default">
-            <div class="panel-heading"><b>Nova Entrada</b></div>
-            <div class="panel-body">
-                <form name="form" novalidate>
-                    <div class="form-inline" style="margin-left: 10%">
-                        <div class="form-group" ng-init="produtor.getData()">
-                            <select ng-change="newd.produtor = produtor.id" ng-model="produtor.id" class="form-control"> 
-                                <option ng-repeat="value in produtor.data" value="{{value.id}}">
-                                    {{value.nome}}
-                                </option>
-                            </select> 
-                        </div>
-                        <div class="btn-group">
-                            <label class="btn btn-default btn-sm" ng-model="entradas.radio" btn-radio="'1'">Entrada</label>
-                            <label class="btn btn-default btn-sm" ng-model="entradas.radio" btn-radio="'0'">Saida</label>
-                            <label class="btn btn-info btn-sm" ng-model="entradas.radio" btn-radio="'2'">Transferência</label>
-                        </div>
+<div  ng-controller="produtorDataStore as produtor">
+    <div class="row">
+        <div class="col-md-6">
+            <accordion ng-init="status.open = false">
+                <accordion-group is-open="status.open">
+                    <accordion-heading>
+                        <b>Buscar por Ticket</b>
+                        <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                    </accordion-heading>
+                    <div class="col-md-4">
+                        <input class="form-control" ng-model="entradas.shticket" type="text" placeholder="Nº Ticket" />
                     </div>
-                    <br />
-                    <div class="form-horizontal col-sm-10">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Data</label>
-                            <div class="col-sm-6">
-                                <input class="form-control" type="text" ng-model="entradas.dt">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="input1" class="col-sm-3 control-label">Peso em Kg</label>
-                            <div class="col-sm-6">
-                                <div class="input-group">
-                                    <input integer ng-model="newd.peso" type="number" class="form-control" name="peso">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default"
-                                                tooltip-html-unsafe='Caso o peso seja em sacos de 60.<br /> <span class="text-success">Converte o valor em Peso Bruto!</span>'
-                                                tooltip-placement="top"
-                                                ng-click="entradas.converter()" type="button">60Kg</button>
-                                    </span>
-                                </div>
-                            </div>
-                            <span class="help-block text-danger" ng-show="form.peso.$error.integer">Numero invalido!</span>
-                        </div>
-                        <div ng-hide="entradas.radio == '2' || entradas.radio == '0'">
-                            <div class="form-group">
-                                <label for="input2" class="col-sm-3 control-label">Umidade</label>
-                                <div class="col-sm-6">
-                                    <input smart-float ng-model="newd.umidade" name="umidade"  type="text" class="form-control" id="input2">                                   
-                                </div>
-                                <span class="help-block text-danger" ng-show="form.umidade.$error.float">Numero invalido!</span>
-                            </div>
-                            <div class="form-group">
-                                <label for="input3" class="col-sm-3 control-label">Impureza</label>
-                                <div class="col-sm-6">
-                                    <input smart-float ng-model="newd.impureza" name="impureza"  type="text" class="form-control" id="input3">
-                                </div>
-                                <span class="help-block text-danger" ng-show="form.impureza.$error.float">numero invalido!</span>
-                            </div>
-                        </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-default" ng-click="entradas.guardianDataInit()">Buscar</button>
                     </div>
-                    <div  ng-hide="entradas.radio == '2'" class="form-inline col-sm-10">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Motorista</label>
-                            <div class="col-sm-6">
-                                <input ng-model="newd.motorista"
-                                       typeahead="nome as nome.mt for nome in register | filter:{mt:$viewValue} | limitTo:8"
-                                       type="text" class="form-control" />
-                            </div>
-                            <label class="control-label col-sm-2">Ticket</label>
-                            <div class="col-sm-1">
-                                <input ng-model="newd.ticket" style='width: 100px' type="text" class="form-control"  placeholder="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-10" style="margin-top: 15px">
-                        <div class="form-group">
-                            <label for="input3" class="col-sm-3 control-label">Observação</label>
-                            <div class="col-sm-7">
-                                <textarea ng-model="newd.observacao" class="form-control" rows="3"></textarea>
-                            </div>
-                        </div>
-                        <button ng-click="entradas.add()" 
-                                ng-disabled="form.$invalid || !newd.peso || !entradas.dt"
-                                class="btn btn-sm btn-success">Adcionar</button>
-                    </div>
-                </form>
-            </div>
+                </accordion-group>
+            </accordion>
         </div>
     </div>
-    <alert class="col-md-4 text-center" ng-show="errorEntrada" type="danger" close="closeAlert()"><b>{{errorEntrada}}</b></alert>
-    <div class="col-md-4" ng-show="register.length" ng-model="register">
+    <div class="row">   
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"><b>Nova Entrada</b></div>
+                <div class="panel-body">
+                    <form name="form" novalidate>
+                        <div class="form-inline" style="margin-left: 10%">
+                            <div class="form-group" ng-init="produtor.getData()">
+                                <select ng-change="newd.produtor = produtor.id" ng-model="produtor.id" class="form-control"> 
+                                    <option ng-repeat="value in produtor.data" value="{{value.id}}">
+                                        {{value.nome}}
+                                    </option>
+                                </select> 
+                            </div>
+                            <div class="btn-group">
+                                <label class="btn btn-default btn-sm" ng-model="entradas.radio" btn-radio="'1'">Entrada</label>
+                                <label class="btn btn-default btn-sm" ng-model="entradas.radio" btn-radio="'0'">Saida</label>
+                                <label class="btn btn-info btn-sm" ng-model="entradas.radio" btn-radio="'2'">Transferência</label>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-horizontal col-sm-10">
 
-        <ul class="list-group">
-            <li class="list-group-item list-group-item-success" ng-repeat="value in register">
-                <span class="badge">{{$index + 1}}</span>
-                <span>Data: {{value.dt}}</span>
-                <span>Ticket: {{value.tc}}</span>
-                <span>Motorista: {{value.mt}}</span>
-                <button ng-disabled="disable[$index].d" ng-click="entradas.deletar(value.id, $index)" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
-            </li>
-        </ul>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Data</label>
+                                <div class="col-sm-6">
+                                    <input class="form-control" type="text" ng-model="newd.data">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input1" class="col-sm-3 control-label">Peso em Kg</label>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <input integer ng-model="newd.peso" type="number" class="form-control" name="peso">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default"
+                                                    tooltip-html-unsafe='Caso o peso seja em sacos de 60.<br /> <span class="text-success">Converte o valor em Peso Bruto!</span>'
+                                                    tooltip-placement="top"
+                                                    ng-click="entradas.converter()" type="button">60Kg</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <span class="help-block text-danger" ng-show="form.peso.$error.integer">Numero invalido!</span>
+                            </div>
+                            <div ng-hide="entradas.radio == '2' || entradas.radio == '0'">
+                                <div class="form-group">
+                                    <label for="input2" class="col-sm-3 control-label">Umidade</label>
+                                    <div class="col-sm-6">
+                                        <input smart-float ng-model="newd.umidade" name="umidade"  type="text" class="form-control" id="input2">                                   
+                                    </div>
+                                    <span class="help-block text-danger" ng-show="form.umidade.$error.float">Numero invalido!</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input3" class="col-sm-3 control-label">Impureza</label>
+                                    <div class="col-sm-6">
+                                        <input smart-float ng-model="newd.impureza" name="impureza"  type="text" class="form-control" id="input3">
+                                    </div>
+                                    <span class="help-block text-danger" ng-show="form.impureza.$error.float">numero invalido!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div  ng-hide="entradas.radio == '2'" class="form-inline col-sm-10">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Motorista</label>
+                                <div class="col-sm-6">
+                                    <input ng-model="newd.motorista"
+                                           typeahead="nome as nome.mt for nome in register | filter:{mt:$viewValue} | limitTo:8"
+                                           type="text" class="form-control" />
+                                </div>
+                                <label class="control-label col-sm-2">Ticket</label>
+                                <div class="col-sm-1">
+                                    <input ng-model="newd.ticket" style='width: 100px' type="text" class="form-control"  placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-10" style="margin-top: 15px">
+                            <div class="form-group">
+                                <label for="input3" class="col-sm-3 control-label">Observação</label>
+                                <div class="col-sm-7">
+                                    <textarea ng-model="newd.observacao" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <button ng-click="entradas.add()" 
+                                    ng-disabled="form.$invalid || !newd.peso || !entradas.dt"
+                                    class="btn btn-sm btn-success">Adcionar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <alert class="col-md-4 text-center" ng-show="errorEntrada" type="danger" close="closeAlert()"><b>{{errorEntrada}}</b></alert>
+        <div class="col-md-4" ng-show="register.length" ng-model="register">
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-success" ng-repeat="value in register">
+                    <span class="badge">{{$index + 1}}</span>
+                    <span>Data: {{value.dt}}</span>
+                    <span>Ticket: {{value.tc}}</span>
+                    <span>Motorista: {{value.mt}}</span>
+                    <button ng-disabled="disable[$index].d" ng-click="entradas.deletar(value.id, $index)" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                </li>
+            </ul>
+        </div>
     </div>
+
 </div>
+

@@ -16,6 +16,17 @@ class IntegrationGuardian {
         $this->iterator = new CSV($file);
     }
 
+    public function hasConflict($ticket) {
+        $conn = Connection\Init::getInstance()->on();
+        $stm = $conn->query(sprintf("SELECT * FROM entradas WHERE ticket = '%s'", $ticket));
+        $data = [];
+        if ($stm) {
+            $data = $stm->fetchAll(2);
+            return ['has' => !empty($data), 'dados' => $data];
+        }
+        return ['has' => false];
+    }
+
     public function fetchAll() {
         $data = array();
         foreach ($this->iterator as $value) {
@@ -47,16 +58,16 @@ class IntegrationGuardian {
                     'placa' => $value[3],
                     'ticket' => $value[2],
                     'status' => $value[6],
-                    'peso_inicial' => number_format(round($value[19], 2),1,'.',','),
-                    'peso_final' => number_format(round($value[23], 2),1,'.',','),
-                    'peso_liguido' => number_format(round($value[30], 2),1,'.',','),
+                    'peso_inicial' => round($value[19], 2),
+                    'peso_final' => round($value[23], 2),
+                    'peso_liguido' => round($value[30], 2),
                     'data' => [
                         date('d/m/Y H:i:s', strtotime($value[21])),
                         date('d/m/Y H:i:s', strtotime($value[25])),
                         date('d/m/Y', strtotime($value[21]))],
                     'emissor' => $value[17],
                     'motorista' => $value[87],
-                    'observacao' => utf8_decode($value[16])
+                    'observacao' => htmlentities($value[16])
                 ];
             }
         }

@@ -16,9 +16,9 @@ class GItegrationTest extends PHPUnit {
     }
 
     public function testFormatTicktForGuardian() {
-        $tick = 28;
+        $tick = 26;
         $res = \Model\Entrada::TicketFormat($tick);
-        $this->assertEquals($res, "000028");
+        $this->assertEquals($res, "000026");
         $this->assertEquals(\Model\Entrada::TicketFormat(1115), "001115");
     }
 

@@ -19,7 +19,7 @@ class GItegrationRequestTest extends PHPUnit {
         $main = new Main();
         Main::$EXTRA_PARAMS = [25]; //ticket
         $main->run('GET', 'guardinclude');
-        $this->expectOutputString('{"placa":"DBL4626","ticket":"000025","status":"F","peso_inicial":"20,510.0","peso_final":"56,020.0","peso_liguido":"35,510.0","data":["19\/04\/2013 07:32:03","19\/04\/2013 11:00:47","19\/04\/2013"],"emissor":"CLAUDIO BARBOSA DA CUNHA","motorista":"LUVERCI","observacao":"VENDA DE SOJA DE LUIS OTAVIO P  ADM"}');
+        $this->expectOutputString('{"placa":"DDI6189","ticket":"000025","status":"F","peso_inicial":4580,"peso_final":6850,"peso_liguido":2270,"data":["29\/04\/2013 08:47:51","29\/04\/2013 10:17:12","29\/04\/2013"],"emissor":"CLAUDIO BARBOSA DA CUNHA","motorista":"ZOSE CARLOS","observacao":"CREME DE LEITE LAT PJ \/PARA RITAPOLIS","conflito":{"has":false,"dados":[]}}');
     }
 
 }

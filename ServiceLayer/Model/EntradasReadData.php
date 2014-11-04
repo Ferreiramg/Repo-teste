@@ -69,7 +69,7 @@ class EntradasReadData {
     }
 
     public function __toString() {
-        return json_encode($this->getData());
+        return json_encode($this->getData(),JSON_UNESCAPED_UNICODE);
     }
 
 }

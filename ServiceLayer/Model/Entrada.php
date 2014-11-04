@@ -65,7 +65,7 @@ class Entrada {
         $stmt->bindValue(':i', $args['impureza']);
         $stmt->bindValue(':d', $date);
         $stmt->bindValue(':t', $args['ticket']);
-        $stmt->bindValue(':o', sprintf("%s: %s", $args['motorista'], $args['observacao']));
+        $stmt->bindValue(':o', utf8_encode(sprintf("%s: %s", $args['motorista'], $args['observacao'])));
         $stmt->bindValue(':q', $qp);
         $stmt->bindValue(':b', $sv);
         $stmt->bindValue(':z', $imp);
@@ -78,7 +78,7 @@ class Entrada {
     public function makeQT(array $args) {
         $args['tipo'] = 0;
         $args['peso'] = CalcDiscounts::quebraTecnica($args['peso'] * 60);
-        $args['observacao'] = "Quebra técnica!";
+        $args['observacao'] = "Quebra tecnica!";
         return $this->create($args);
     }
 

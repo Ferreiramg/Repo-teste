@@ -48,7 +48,7 @@ class Produtor extends \ArrayIterator {
     }
 
     public function __toString() {
-        return json_encode($this->getArrayCopy());
+        return json_encode($this->getArrayCopy(),JSON_UNESCAPED_UNICODE);
     }
 
     public function create(array $args, &$stmt = null) {

@@ -1,5 +1,5 @@
 
-(function () {
+(function() {
     'use stric';
     function serializeData(data) {
         // If this is not an object, defer to native stringification.
@@ -41,7 +41,7 @@
         'ui.bootstrap.accordion',
         'ngProgress',
         'produtorStore'])
-            .config(['$routeProvider', function ($router) {
+            .config(['$routeProvider', function($router) {
                     $router.when('/entrada', {
                         controller: 'EntradasController',
                         controllerAs: 'entradas',
@@ -61,17 +61,17 @@
                     });
                 }]);
 
-    main.controller('SimuladorEntrada', ['$http', 'ngProgress', function ($http, progress) {
+    main.controller('SimuladorEntrada', ['$http', 'ngProgress', function($http, progress) {
             this.data = {};
             this.params = {};
             this.params.acao = 'simulador';
             this.title = "IFORMAÇÕES";
             var store = this;
-            this.run = function () {
+            this.run = function() {
                 if (this.params.peso !== undefined) {
                     $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
                     $http.post('/simulator', serializeData(this.params))
-                            .success(function (data) {
+                            .success(function(data) {
                                 store.title = data.msg || "IFORMAÇÕES";
                                 store.data = data;
                             });
@@ -80,7 +80,7 @@
             };
         }]);
     main.controller('EntradasController', ['$scope', '$routeParams', '$http', 'ngProgress',
-        function ($scope, $params, $http, progress) {
+        function($scope, $params, $http, progress) {
 
             var store = this;
             $scope.id = 0;
@@ -96,10 +96,11 @@
             $scope.register = [];
             $scope.disable = [];
             $scope.Selected = {};
+            $scope.ticketdata = {};
 
             function sortOn(collection, name) {
                 collection.sort(
-                        function (a, b) {
+                        function(a, b) {
                             if (a.group === name) {
                                 return(-1);
                             }
@@ -108,7 +109,7 @@
                 );
             }
 
-            $scope.groupBy = function (attribute) {
+            $scope.groupBy = function(attribute) {
 
                 // First, reset the groups.
                 $scope.groups = [];
@@ -149,35 +150,35 @@
                 }
             };
 
-            $scope.setSelected = function (Selected, i) {
+            $scope.setSelected = function(Selected, i) {
                 Selected.index = i;
                 $scope.Selected = Selected;
             };
-            $scope.closeAlert = function () {
+            $scope.closeAlert = function() {
                 $scope.errorEntrada = null;
                 progress.complete();
             };
-            this.wasTrans = function (value) {
+            this.wasTrans = function(value) {
                 return value === "1";
             };
-            this.converter = function () {
+            this.converter = function() {
                 $scope.newd.peso = $scope.newd.peso * 60;
             };
-            this.getData = function () {
+            this.getData = function() {
                 $scope.id = $params.id;
                 var id = $scope.id;
-                $http.get('/entrada_read/' + id).success(function (data) {
+                $http.get('/entrada_read/' + id).success(function(data) {
                     store.data = data;
-                    angular.forEach(data, function (value, key) {
+                    angular.forEach(data, function(value, key) {
                         this.push({d: false});
                     }, $scope.disable);
                 });
             };
-            this.deletar = function (id, i) {
+            this.deletar = function(id, i) {
                 var cf = confirm('Deseja apagar Entrada?');
                 if (cf) {
                     progress.start();
-                    $http.delete('/entrada/deletar/' + id).success(function (data) {
+                    $http.delete('/entrada/deletar/' + id).success(function(data) {
                         var resp = data[0] || data;
                         if (resp.code === "1") {
                             $scope.disable[i].d = true;
@@ -186,7 +187,7 @@
                     });
                 }
             };
-            this.add = function () {
+            this.add = function() {
                 $scope.newd.tipo = this.radio;
                 $scope.newd.wastrans = this.radio === '2' ? 1 : 0;
                 if (this.radio === '0') {
@@ -198,7 +199,7 @@
                 $scope.newd.acao = 'create';
                 $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
                 $http.post('/entrada', serializeData($scope.newd)).success(
-                        function (data) {
+                        function(data) {
                             var resp = data[0] || data;
                             if (resp.code !== "0") {
                                 progress.complete();
@@ -214,11 +215,11 @@
                         });
             };
 
-            this.showTicket = function () {
+            this.showTicket = function() {
                 progress.start();
                 var tk = this.shticket || $params.tid;
-                $scope.ticketdata = {};
-                $http.get('/guardinclude/' + tk).success(function (data) {
+
+                $http.get('/guardinclude/' + tk).success(function(data) {
                     if (data && !data.message) {
                         $scope.ticketdata = data;
                     }
@@ -227,10 +228,10 @@
                 progress.complete();
                 tk = this.shticket = null;
             };
-            this.guardianDataInit = function () {
+            this.guardianDataInit = function() {
                 progress.start();
                 if (this.shticket)
-                    $http.get('/guardinclude/' + this.shticket).success(function (data) {
+                    $http.get('/guardinclude/' + this.shticket).success(function(data) {
                         if (data && !data.message) {
                             setDataGuardian(data);
                         }
@@ -238,7 +239,8 @@
                     });
                 progress.complete();
             };
-            var setDataGuardian = function (data) {
+            var setDataGuardian = function(data) {
+                $scope.ticketdata = data;
                 $scope.newd.peso = data.peso_liguido;
                 $scope.newd.data = data.data[2];
                 $scope.newd.ticket = data.ticket;
@@ -253,15 +255,15 @@
             $scope.newd.data = day + "-" + month + "-" + year;
         }]);
 
-    main.filter("total", function () {
-        return function (items, field) {
+    main.filter("total", function() {
+        return function(items, field) {
             var total = 0, i = 0;
             for (i = 0; i < items.length; i++)
                 total += items[i][field];
             return total;
         };
     });
-    main.filter("kgConverte", function () {
+    main.filter("kgConverte", function() {
         return convertKG;
     });
 }());

@@ -27,7 +27,7 @@ class EntradaRead extends AbstracClient {
             $key = (string) self::C_KEY . $this->params[1];
             $_t = $this;
             echo Memory::getInstance()->checkIn($key, function(\Memcached $mem)use ($_t, $key) {
-                $data = json_encode($_t->calendarData());
+                $data = json_encode($_t->calendarData(),JSON_UNESCAPED_UNICODE);
                 $mem->set($key, $data, time() + 300);
                 unset($_t);
                 return $data;

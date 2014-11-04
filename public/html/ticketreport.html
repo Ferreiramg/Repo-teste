@@ -15,8 +15,10 @@
         <thead>
             <tr>
                 <td colspan="6" class="text-center">
-                    <p>Agrovertentes Comercio e Distribuição</p>
-                    <p>Endereço</p>
+                    <img src="../../opt/logo.jpg" alt=""/>
+                    <p>MG 773.753 PR- 308.522 - Manoel Joaquim - Ingai -MG - Cep.:37215-000</p>
+                    <p>CNPJ: 19.148.391/0001-14</p>
+                    <p>Telefone: (035) 97057632</p>
                 </td>
             </tr>
         </thead>
@@ -37,7 +39,9 @@
                         <dt>Descrição:</dt>
                         <dd>{{ticketdata.observacao}}</dd>
                         <dt>Motorista:</dt>
-                        <dd>{{ticketdata.motorista}}</dd>        
+                        <dd>{{ticketdata.motorista}}</dd>
+                        <dt>Placa:</dt>
+                        <dd>{{ticketdata.placa}}</dd>  
                     </dl>
                 </td>
             </tr>
@@ -50,7 +54,7 @@
                         <dt>Data Entrada:</dt>
                         <dd>{{ticketdata.data[0]}}</dd>
                         <dt>Tara:</dt>
-                        <dd class="text-center"><b>{{ticketdata.peso_inicial}} Kg</b></dd>
+                        <dd class="text-center"><b>{{ticketdata.peso_inicial | number:1}} Kg</b></dd>
                     </dl>
                 </td>
                 <td colspan="2">
@@ -58,11 +62,11 @@
                         <dt>Data Saida:</dt>
                         <dd>{{ticketdata.data[1]}}</dd>
                         <dt>Peso Final:</dt>
-                        <dd class="text-center"><b>{{ticketdata.peso_final}} Kg</b></dd>
+                        <dd class="text-center"><b>{{ticketdata.peso_final | number:1}} Kg</b></dd>
                     </dl>
                 </td>
                 <td colspan="2"> 
-                    <b>Peso Liquido:</b> <h3 class="text-center">{{ticketdata.peso_liguido}} Kg</h3> 
+                    <b>Peso Liquido:</b> <h3 class="text-center">{{ticketdata.peso_liguido | number:1}} Kg</h3> 
                 </td>
             </tr>
         </tbody>

@@ -13,6 +13,18 @@
                     <div class="col-md-2">
                         <button class="btn btn-default" ng-click="entradas.guardianDataInit()">Buscar</button>
                     </div>
+
+                    <div class="col-md-12" ng-show="ticketdata.conflito.has">
+                        <br />
+                        <b>Ticket já foi inserido!</b>
+                        <ul class="list-group" ng-repeat="tdados in ticketdata.conflito.dados">
+                            <li class="list-group-item">
+                                <span class="badge">{{$index+1}}</span>
+                                <a  target="_blank" href="#/ticket/{{tdados.ticket}}"><b>Visualizar Ticket</b> </a>
+                                <button tooltip="Apagar essa entrada!" ng-click="entradas.deletar(tdados.id, $index)" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                            </li>
+                        </ul>
+                    </div>
                 </accordion-group>
             </accordion>
         </div>
@@ -100,14 +112,14 @@
                                 </div>
                             </div>
                             <button ng-click="entradas.add()" 
-                                    ng-disabled="form.$invalid || !newd.peso || !entradas.dt"
+                                    ng-disabled="form.$invalid || !newd.peso || !newd.data"
                                     class="btn btn-sm btn-success">Adcionar</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-    <alert class="col-md-4 text-center" ng-show="errorEntrada" type="danger" close="closeAlert()"><b>{{errorEntrada}}</b></alert>
+        <alert class="col-md-4 text-center" ng-show="errorEntrada" type="danger" close="closeAlert()"><b>{{errorEntrada}}</b></alert>
         <div class="col-md-4" ng-show="register.length" ng-model="register">
             <ul class="list-group">
                 <li class="list-group-item list-group-item-success" ng-repeat="value in register">

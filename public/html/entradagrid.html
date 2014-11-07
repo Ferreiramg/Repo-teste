@@ -8,7 +8,7 @@
         <button 
             ng-disabled="!Selected.id" 
             ng-model="Selected.id"
-            ng-click="entradas.deletar(Selected.id, Selected.index)"
+            ng-click="entradas.deletar(Selected)"
             class="btn btn-default btn-sm btn-danger">Apagar</button>  
         <a href="#/entrada" class="btn btn-default btn-sm btn-info">Nova Entrada</a>
     </div>
@@ -39,7 +39,7 @@
     <tbody ng-init="entradas.getData()">
 
         <tr ng-repeat="values in entradas.data| filter:search" 
-            ng-click="setSelected(values, $index)"
+            ng-click="setSelected(values,$index)"
             ng-class="{'active': values.id === Selected.id}"
             ng-hide="disable[$index].d">
             <td>{{$index + 1}}</td>

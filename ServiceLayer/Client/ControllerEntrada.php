@@ -21,7 +21,7 @@ class ControllerEntrada extends AbstracClient {
             if (!$response)
                 throw new ClientExceptionResponse($model->error_msg);
         }
-        $id = isset($post['produtor']) ? $post['produtor'] : $post['id'];
+        $id = isset($post['produtor']) ? $post['produtor'] : $post['cliente'];
         $this->clearCached($id);
         printf('[{"code":"%s"}]', $response);
     }
@@ -37,6 +37,7 @@ class ControllerEntrada extends AbstracClient {
         if (!$post) {
             $post['id'] = $this->params[1];
             $post['acao'] = $this->params[0];
+            $post['cliente'] = isset($this->params[2]) ? $this->params[2] : null;
         }
         return $post;
     }

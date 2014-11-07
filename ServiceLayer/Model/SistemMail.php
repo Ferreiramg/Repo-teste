@@ -27,7 +27,7 @@ class SistemMail {
         if (!empty($args['file'])) {
             $this->mail->addAttachment($args['file']);
         }
-        $this->mail->From = "luispkiller@gmail.com"; // Seu e-mail
+        $this->mail->From = "luispaulo@laticiniospj.com.br"; // Seu e-mail
         $this->mail->FromName = 'Agro Vertentes'; // Seu nome
         $this->mail->addAddress($args['mail'], $args['name']);
         $this->mail->isHTML(true);                                  // Set email format to HTML

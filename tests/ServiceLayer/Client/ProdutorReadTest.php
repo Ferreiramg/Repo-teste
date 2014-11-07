@@ -40,7 +40,7 @@ class ProdutorReadTest extends PHPUnit {
         $response = $request->post('http://localhost/produtor', [
             'body' => [
                 'nome' => 'Antonio Rezende',
-                'taxa' => 0.033, //SQL REAL Type
+                'armazenagem' => 0.033, //SQL REAL Type
                 'grao' => 'Soja',
                 'data' => "10-06-2014",
                 'acao' => 'create'

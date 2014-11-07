@@ -23,7 +23,7 @@ class ClientExceptionResponse extends \Exception {
         return json_encode([
             'message' => (string) $this->message,
             'code' => (string) $this->code,
-            'severity' => (string) $this->severity],JSON_UNESCAPED_UNICODE);
+            'severity' => (string) $this->severity]);
     }
 
 }

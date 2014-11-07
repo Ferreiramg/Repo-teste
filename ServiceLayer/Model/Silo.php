@@ -49,7 +49,7 @@ class Silo {
     }
 
     public function siloPServicos() {
-
+        $ano = date('Y');
         $this->error_msg = "Sem dados para gerar grafico!";
         $conn = Connection\Init::getInstance()->on();
         $out = array(
@@ -58,13 +58,15 @@ class Silo {
             'total' => 0
         );
         $sql = "SELECT EXTRACT( YEAR_MONTH FROM data ) AS data FROM `entradas`
+                    WHERE ano = '%s'
                     GROUP BY EXTRACT( YEAR_MONTH FROM data );";
         $sql2 = "SELECT data,SUM( servicos ) as servicos FROM  `entradas` 
-                        WHERE EXTRACT( YEAR_MONTH FROM data ) =  '%s'";
-        $stmt = $conn->query($sql);
+                        WHERE EXTRACT( YEAR_MONTH FROM data ) =  '%s' 
+                        AND ano = '%s';";
+        $stmt = $conn->query(sprintf($sql, $ano));
         if ($stmt) {
             foreach ($stmt->fetchAll(2) as $v) {
-                $stmt2 = $conn->query(sprintf($sql2, $v['data']));
+                $stmt2 = $conn->query(sprintf($sql2, $v['data'], $ano));
                 $data = $stmt2->fetchAll(2);
                 foreach ($data as $key => $value) {
                     $out['labels'][] = date('M', strtotime($value['data']));

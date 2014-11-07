@@ -36,6 +36,7 @@
                 <div class="panel-body">
                     <form name="form" novalidate>
                         <div class="form-inline" style="margin-left: 10%">
+                             <span class="help-block text-info" ng-show="without_data">Não existe produtor Cadastrado. Cadastre em: [<a href="#/produtor">Novo / Listar</a>]</span>
                             <div class="form-group" ng-init="produtor.getData()">
                                 <select ng-change="newd.produtor = produtor.id" ng-model="produtor.id" class="form-control"> 
                                     <option ng-repeat="value in produtor.data" value="{{value.id}}">
@@ -112,7 +113,7 @@
                                 </div>
                             </div>
                             <button ng-click="entradas.add()" 
-                                    ng-disabled="form.$invalid || !newd.peso || !newd.data"
+                                    ng-disabled="without_data || form.$invalid || !newd.peso || !newd.data"
                                     class="btn btn-sm btn-success">Adcionar</button>
                         </div>
                     </form>

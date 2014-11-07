@@ -33,7 +33,7 @@ var main = angular.module('produtorStore', [
     'ngProgress',
     'angularFileUpload',
     'ui.bootstrap'])
-        .config(['$routeProvider', function ($router) {
+        .config(['$routeProvider', function($router) {
                 $router.when('/calendar/:id', {
                     controller: 'calendarController',
                     controllerAs: 'calendar',
@@ -49,19 +49,19 @@ var main = angular.module('produtorStore', [
                 });
             }]);
 
-main.controller('ReportCtrl', function ($scope, $routeParams) {
+main.controller('ReportCtrl', function($scope, $routeParams) {
     $scope.open = false;
     $scope.templateUrl = '/produtor_report/' + $routeParams.id + '/' + $routeParams.kg + '/' + $routeParams.ano;
 });
-main.controller('configController', function ($scope, $modalInstance, progress, $http) {
-    $scope.cancel = function () {
+main.controller('configController', function($scope, $modalInstance, progress, $http) {
+    $scope.cancel = function() {
         $modalInstance.dismiss('cancel');
         progress.complete();
     };
 });
 //mail controller
 main.controller('mailController',
-        function ($scope, $modalInstance, items, $upload, progress, $http) {
+        function($scope, $modalInstance, items, $upload, progress, $http) {
             $scope.message = {
                 name: items.nome,
                 mail: items.email,
@@ -82,67 +82,70 @@ main.controller('mailController',
                 $scope.message.info = data.message;
             }
 
-            $scope.cancel = function () {
+            $scope.cancel = function() {
                 $modalInstance.dismiss('cancel');
                 progress.complete();
             };
-            $scope.send = function () {
+            $scope.send = function() {
                 if (file.length === 1)
                     $scope.upload = $upload.upload({
                         url: '/sendmail',
                         data: $scope.message,
                         file: file
-                    }).progress(function (evt) {
+                    }).progress(function(evt) {
                         progress.set($scope.per = parseInt(100.0 * evt.loaded / evt.total));
-                    }).success(function (data, status, headers, config) {
+                    }).success(function(data, status, headers, config) {
                         clienteResponse(data);
                     });
                 else {
                     progress.start();
                     $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-                    $http.post('/sendmail', serializeData($scope.message)).success(function (data) {
+                    $http.post('/sendmail', serializeData($scope.message)).success(function(data) {
                         clienteResponse(data);
                     });
                 }
             };
-            $scope.upload = function ($files) {
+            $scope.upload = function($files) {
                 file = $files;
             };
         });
 //produtor controller       
 main.controller('produtorDataStore', ['$scope', '$upload', '$modal', '$http', 'ngProgress',
-    function ($scope, $upload, $modal, $http, progress) {
+    function($scope, $upload, $modal, $http, progress) {
 
         var store = this;
         store.data = produtor_data;
         this.id = 1;
         this.add = false;
+        $scope.without_data = false;
 
-        this.addForm = function () {
+        this.addForm = function() {
             this.add = true;
         };
-        this.addFormRemove = function () {
+        this.addFormRemove = function() {
             this.add = false;
         };
 
-        this.unset = function () {
+        this.unset = function() {
             produtor_data = this.data = [];
         };
 
-        this.getData = function () {
+        this.getData = function() {
             $scope.newdata = {};
             if (this.data.length === 0)
-                $http.get('/produtor_read').success(function (data) {
+                $http.get('/produtor_read').success(function(data) {
+                    if (data.length === 0)
+                        $scope.without_data = true;
                     produtor_data = store.data = data;
                 });
         };
 
-        this.new = function () {
+        this.new = function() {
             progress.start();
             $scope.newdata.acao = 'create';
             $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
             $http.post('/produtor', serializeData($scope.newdata)).success(
-                    function (data) {
+                    function(data) {
                         var resp = data[0] || data;
                         if (resp.code === "1") {
                             progress.complete();
@@ -151,14 +154,14 @@ main.controller('produtorDataStore', ['$scope', '$upload', '$modal', '$http', 'n
                     });
         };
 
-        this.update = function (id) {
+        this.update = function(id) {
             var _data = this.data[id - 1] || false;
             if (_data) {
                 progress.start();
                 _data.acao = 'update';
                 $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
                 $http.post('/produtor', serializeData(_data)).success(
-                        function (data) {
+                        function(data) {
                             var resp = data[0] || data;
                             if (resp.code === "1") {
                                 progress.complete();
@@ -167,12 +170,12 @@ main.controller('produtorDataStore', ['$scope', '$upload', '$modal', '$http', 'n
             }
         };
 
-        this.delete = function (id) {
+        this.delete = function(id) {
             if (this.data[id - 1]) {
                 var cf = confirm('Deseja apagar produtor?');
                 if (cf) {
                     progress.start();
-                    $http.delete('/produtor/deletar/' + id).success(function (data) {
+                    $http.delete('/produtor/deletar/' + id).success(function(data) {
                         var resp = data[0] || data;
                         if (resp.code === "1") {
                             progress.complete();
@@ -182,36 +185,36 @@ main.controller('produtorDataStore', ['$scope', '$upload', '$modal', '$http', 'n
                 }
             }
         };
-        this.openConfig = function (id) {
+        this.openConfig = function(id) {
             $modal.open({
                 templateUrl: 'public/html/modalConfig.html',
                 controller: 'configController',
                 resolve: {
-                    progress: function () {
+                    progress: function() {
                         return progress;
                     },
-                    http: function () {
+                    http: function() {
                         return $http;
                     }
                 }
             });
         };
-        this.open = function (id) {
+        this.open = function(id) {
             var _data = this.data[id - 1] || false;
             $modal.open({
                 templateUrl: 'mailContent.html',
                 controller: 'mailController',
                 resolve: {
-                    items: function () {
+                    items: function() {
                         return _data;
                     },
-                    fileupload: function () {
+                    fileupload: function() {
                         return $upload;
                     },
-                    progress: function () {
+                    progress: function() {
                         return progress;
                     },
-                    http: function () {
+                    http: function() {
                         return $http;
                     }
                 }
@@ -220,21 +223,21 @@ main.controller('produtorDataStore', ['$scope', '$upload', '$modal', '$http', 'n
     }]);
 //calendario controller
 main.controller('calendarController', ['$scope', '$routeParams', '$http', 'ngProgress',
-    function ($scope, $params, $http, ngProgress) {
+    function($scope, $params, $http, ngProgress) {
         var store = this;
         this.days = [];
         this.model = [];
-        this.getData = function () {
+        this.getData = function() {
             ngProgress.start();
-            $http.get('/entrada_read/calendar/' + $params.id).success(function (data) {
+            $http.get('/entrada_read/calendar/' + $params.id).success(function(data) {
                 store.days = data;
                 ngProgress.complete();
             });
         };
-        this.isSaida = function (saida) {
+        this.isSaida = function(saida) {
             return saida > 0;
         };
-        $scope.open = function (v) {
+        $scope.open = function(v) {
             var d = {};
             d.acao = 'makeQT';
             d.peso = v.saldo;
@@ -243,7 +246,7 @@ main.controller('calendarController', ['$scope', '$routeParams', '$http', 'ngPro
             ngProgress.start();
             $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
             $http.post('/entrada', serializeData(d)).success(
-                    function (data) {
+                    function(data) {
                         var resp = data[0] || data;
                         if (resp.code !== "0") {
                             ngProgress.complete();
@@ -253,8 +256,8 @@ main.controller('calendarController', ['$scope', '$routeParams', '$http', 'ngPro
         };
     }]);
 //filtros
-main.filter("total", function () {
-    return function (items, field) {
+main.filter("total", function() {
+    return function(items, field) {
         var total = 0, i = 0;
         for (i = 0; i < items.length; i++)
             total += items[i][field];

@@ -22,9 +22,9 @@ class SysMailTest extends PHPUnit {
      * @covers \Model\SistemMail::invalidate
      */
     public function testInvalidMail() {
-        $this->markTestIncomplete(
-                'This test not work in travis ci.'
-        );
+//        $this->markTestIncomplete(
+//                'This test not work in travis ci.'
+//        );
         $client = new Client();
         $response = $client->post('http://localhost/sendmail', ['body' => [
                 'name' => 'luis Paulo',
@@ -41,9 +41,9 @@ class SysMailTest extends PHPUnit {
      * @covers \Client\Email::upload
      */
     public function testSendMailWillAttachmentFile() {
-        $this->markTestIncomplete(
-                'This test not work in travis ci.'
-        );
+//        $this->markTestIncomplete(
+//                'This test not work in travis ci.'
+//        );
         $client = new Client();
         $response = $client->post('http://localhost/sendmail', ['body' => [
                 'name' => 'luis Paulo',
@@ -58,14 +58,14 @@ class SysMailTest extends PHPUnit {
     }
 
     public function testSendMailDirect() {
-        $this->markTestIncomplete(
-                'This test not work in travis ci.'
-        );
+//        $this->markTestIncomplete(
+//                'This test not work in travis ci.'
+//        );
         $mail = new \Model\SistemMail();
         $res = $mail->send([
             'name' => 'luis Paulo',
             'subject' => 'Email Testes',
-            'mail' => 'luispkiller@gmail.com',
+            'mail' => 'luispaulo@laticiniospj.com.br',
             'body' => '<b>Email de Teste com PHPMailer...</b>'
         ]);
         $this->assertTrue($res);

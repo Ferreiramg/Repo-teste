@@ -65,8 +65,8 @@ class IntegrationGuardian {
                         date('d/m/Y H:i:s', strtotime($value[21])),
                         date('d/m/Y H:i:s', strtotime($value[25])),
                         date('d/m/Y', strtotime($value[21]))],
-                    'emissor' => $value[17],
-                    'motorista' => $value[87],
+                    'emissor' => htmlentities($value[17]),
+                    'motorista' => htmlentities($value[87]),
                     'observacao' => htmlentities($value[16])
                 ];
             }

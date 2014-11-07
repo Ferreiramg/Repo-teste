@@ -174,14 +174,16 @@
                     }, $scope.disable);
                 });
             };
-            this.deletar = function(id, i) {
+            this.deletar = function(_data) {
                 var cf = confirm('Deseja apagar Entrada?');
+                console.log(_data);
                 if (cf) {
+
                     progress.start();
-                    $http.delete('/entrada/deletar/' + id).success(function(data) {
+                    $http.delete('/entrada/deletar/' + _data.id + '/' + _data._cliente).success(function(data) {
                         var resp = data[0] || data;
                         if (resp.code === "1") {
-                            $scope.disable[i].d = true;
+                            $scope.disable[_data.index].d = true;
                             progress.complete();
                         }
                     });

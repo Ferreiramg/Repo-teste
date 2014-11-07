@@ -1,4 +1,5 @@
 <?php
+
 namespace Client;
 
 use Event\InterfaceEvent as EventManager;
@@ -21,6 +22,7 @@ abstract class AbstracClient implements ClientInterface {
      * @var array get extras params 
      */
     public $params;
+    public $key_cached = "";
 
     /**
      * Gets a delegate class to your event

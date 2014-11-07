@@ -11,8 +11,6 @@ class EntradasReadData {
 
     private $id = 0;
 
-    const QT = ": Quebra técnica!";
-
     public function getdataByClientId($id) {
         $conn = Connection\Init::getInstance()->on();
 
@@ -36,7 +34,7 @@ class EntradasReadData {
         );
         if ($stmt) {
             $data = array();
-            foreach ($stmt->fetchAll(\PDO::FETCH_ASSOC) as $key => $value) {
+            foreach ($stmt->fetchAll(\PDO::FETCH_ASSOC) as $value) {
                 $data[] = [
                     'id' => $value['id'],
                     'peso' => $value['peso'],

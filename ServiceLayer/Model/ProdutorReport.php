@@ -16,7 +16,7 @@ class ProdutorReport {
         $stmt = $conn->query(sprintf("SELECT * FROM entradas WHERE _cliente = %u AND ano ='%s' ORDER BY data ASC", $id, $ano));
         $produtor->setIdKey($id - 1);
 
-        static $total = 0, $saida = 0, $qp = 0, $trasferencia = 0, $servico = 0, $imp = 0, $corrgido = 0;
+         $total = 0; $saida = 0; $qp = 0; $trasferencia = 0; $servico = 0; $imp = 0; $corrgido = 0;
         $output = array('content' => []);
         $entradas = new \Client\EntradaRead();
         $entradas->params[1] = $id;

@@ -1,5 +1,5 @@
 <div class="row" ng-init="tc.getDataTotal()">
-    <h3>Armazenado</h3>
+    <h3>Armazenamento Silo ({{ano}})</h3>
     <div class="col-lg-6">
         <canvas piechart options="options" data="chart"></canvas>  
     </div>
@@ -8,6 +8,40 @@
             <li class="list-group-item">Total de Entradas: <b>{{tc.info.corrigido| number:2}}</b></li>
             <li class="list-group-item">Retirado: <b>{{tc.info.retirado| number:2}}</b></li>
             <li class="list-group-item">Silo Capacidade Total de <b>50.000</b> sacos 60Kg</li>
+            <li class="list-group-item">Capacidade em: <b>{{tc.info.espaco| number:2}}</b></li>
         </ul>
+    </div>
+</div>
+<div class="row" ng-init="tc.listAllDatasDetail()">
+    <div class="col-lg-offset-6">
+        <table class="table table-bordered table-responsive">
+            <thead>
+                <tr>
+                    <th>Produtor</th>
+                    <th>Entradas</th>
+                    <th>Saidas</th>
+                    <th>Armazenagem</th>
+                    <th>Saldo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="value in table.produtor">
+                    <td><a href="#/resume/{{value.id}}/0/{{ano}}">{{value.nome}}</a></td>
+                    <td>{{value.liquido / 60| number:2}}</td>
+                    <td>{{value.saidas / 60| number:2}}</td>
+                    <td>{{value.armazenagem / 60| number:2}}</td>
+                    <td>{{value.saldo / 60| number:2}}</td>
+                </tr>
+            </tbody>
+            <tfoot class="well">
+                <tr>
+                    <td></td>
+                    <td><b>{{table.produtor| total:'liquido' |kgConverte:'60' |number:2}}</b></td>
+                    <td><b>{{table.produtor| total:'saidas' |kgConverte:'60'|number:2}}</b></td>
+                    <td><b>{{table.produtor| total:'armazenagem'|kgConverte:'60'|number:2}}</b></td>
+                    <td><b>{{table.produtor| total:'saldo' |kgConverte:'60'|number:2}}</b></td>
+                </tr>
+            </tfoot>
+        </table>
     </div>
 </div>

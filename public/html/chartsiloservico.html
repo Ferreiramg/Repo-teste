@@ -1,12 +1,22 @@
+<div ng-init="tc.armzChart()"></div>
 <div class="row" ng-init="tc.servicoGetData()">
-    <h3>Rendimentos Serviços (2014)</h3>
+    <h3>Rendimentos Serviços ({{ano||year}})</h3>
     <div class="col-md-8">
         <canvas barchart options="options" data="chart"></canvas>  
     </div>
     <div class="col-md-4">
         <ul class="list-group">
+            <li class="list-group-item active">Serviços Secagem/Limpeza</li>
             <li class="list-group-item">Total: <b>{{tc.sinfo.total| number:2}}</b> sc 60Kg</li>
-              <li class="list-group-item">Media Mes: <b>{{tc.sinfo.media| number:2}}</b> sc 60Kg</li>
+            <li class="list-group-item">Media Mes: <b>{{tc.sinfo.media| number:2}}</b> sc 60Kg</li>
+            <li class="list-group-item active">Armazenagem</li>
+            <li ng-repeat="cv in chart2.datasets[0].data" class="list-group-item">{{chart2.labels[$index]}} : <b>{{cv}}</b> sc 60Kg - Variação: {{chart2.perc[$index-1]||0 | number:2}}% </li>
         </ul>
+    </div>
+</div>
+<div class="row">
+    <h5>Armazenagem</h5>
+    <div class="col-md-8">
+        <canvas height="95" linechart options="options2" data="chart2"></canvas>  
     </div>
 </div>

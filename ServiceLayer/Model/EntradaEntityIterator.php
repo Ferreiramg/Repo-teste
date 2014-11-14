@@ -12,7 +12,7 @@ class EntradaEntityIterator extends \ArrayIterator {
 
     public $cliente;
     private $media = 60;
-    public static $saldo = 0, $armazenagem = 0;
+    public static $saldo = 0;
     public $cols = [], $pointer = 0, $qt = 0;
 
     const KG_60 = 60;
@@ -86,7 +86,6 @@ class EntradaEntityIterator extends \ArrayIterator {
     }
 
     public function __destruct() {
-        static::$armazenagem = 0;
         static::$saldo = 0;
     }
 

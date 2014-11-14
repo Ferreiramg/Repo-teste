@@ -23,12 +23,14 @@
             var store = this;
             this.info = {};
             this.sinfo = {};
+            $scope.table = {};
+            $scope.ano = $params.ano;
 
             this.initServicos = function(data) {
                 $scope.chart = data;
-                this.sinfo.total = (data.total/60);
-                this.sinfo.media = (data.total/60)/data.datasets[0].data.length;
-                
+                this.sinfo.total = (data.total / 60);
+                this.sinfo.media = (data.total / 60) / data.datasets[0].data.length;
+
                 $scope.options = {
                     responsive: true,
                     scaleBeginAtZero: true,
@@ -43,6 +45,14 @@
                 };
 
             };
+
+            this.listAllDatasDetail = function() {
+                $http.get('/silo/getAllDataProdutores/' + $params.ano).success(
+                        function(data) {
+                            $scope.table = data;
+                        });
+            };
+
             this.servicoGetData = function() {
                 $http.get('/silo/siloPServicos').success(
                         function(data) {
@@ -64,6 +74,30 @@
                     multiTooltipTemplate: "<%= datasetLabel %> - <%= value %> Kg"
                 };
             };
+            this.initopt = function(data) {
+                $scope.chart2 = data;
+                $scope.options2 = {
+                    responsive: true,
+                    animation: true,
+                    bezierCurve: false,
+                    tooltipTemplate: "<%if (label){%><%=label %>: <%}%><%= value %> s60Kg",
+                    multiTooltipTemplate: "<%= datasetLabel %> - <%= value %> s60Kg"
+                };
+            };
+            this.armzChart = function() {
+
+                $http.get('/silo/armzChart/' + $params.ano).success(function(data) {
+                    data.datasets[0].label = 'Armazenagem';
+                            data.datasets[0].fillColor = "rgba(255, 255, 137,0.4)";
+                            data.datasets[0].strokeColor = "rgba(255, 255, 137,1)";
+                            data.datasets[0].pointColor = "rgba(255, 255, 0,1)";
+                            data.datasets[0].pointStrokeColor = "#fff";
+                            data.datasets[0].pointHighlightFill = "#fff";
+                            data.datasets[0].pointHighlightStroke = "rgba(255, 255, 137,1)";
+                    store.initopt(data);
+                });
+            };
+
             this.getData = function() {
                 $http.get('/produtor_chart/outinchart/' + $params.id).success(
                         function(data) {
@@ -102,6 +136,12 @@
                             color: "#F7464A",
                             highlight: "#FF5A5E",
                             label: "Armazenado"
+                        },
+                        {
+                            value: data.ts,
+                            color: "#fada0a",
+                            highlight: "#f0e38d",
+                            label: "Serviço"
                         },
                         {
                             value: data.espaco,

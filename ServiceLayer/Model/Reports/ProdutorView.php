@@ -67,10 +67,10 @@ class ProdutorView {
                 <tr><td colspan="6">Secagem e Limpeza: <b>$servicos</b></td></tr>
                 <tr><td colspan="6">Armazenagem: <b>$armazenagem</b></td></tr>
                 <tr><td colspan="6" class="well"><h4>Saldo</h4></td></tr>
-                <tr><td colspan="6">Tranferências: <b>$transf</b></td></tr>
-                <tr><td colspan="6">Saldo Liquido: <b>$liquido</b></td></tr>
+                <tr><td colspan="6">Transferências: <b>$transf</b></td></tr>
+                <tr><td colspan="6">Saldo Liquido: <b>$liquido</b> <i class="text-info">Peso liquido menos secagem mais transferência</i></td></tr>
                 <tr><td colspan="6">Saida Total: <b>$saidas</b></td></tr>
-                <tr><td colspan="6"><b>Saldo: $saldo</b></td></tr>
+                <tr><td colspan="6"><b>Saldo: $saldo</b> <i class="text-info">Com armazenamento já descontado</i></td></tr>
             </head>               
             <body class="page-break">
                         $content

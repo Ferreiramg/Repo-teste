@@ -18,20 +18,19 @@ class SiloTest extends PHPUnit {
         DBConnSqliteTest::ConnPDO();
     }
 
-    protected function install() {
-        $out = array('amz' => 0, 'qp' => 0);
-        $data = new \Model\ProdutorReport();
-        foreach (new Model\Produtor as $value) {
-            $out['amz'] += $data->resumeInfoEntradas($value['id'], 1)['agregado']['armazenagem'];
-            $out['qp'] += $data->resumeInfoEntradas($value['id'], 1)['agregado']['qp'];
-        }
-        return $out;
+   public function testSilogetAmzSaldos() {
+        //var_dump($this->install());
     }
 
-    public function testSilogetAmzSaldos() {
-        var_dump($this->install());
+    public function testGetAllProdutoresData(){
+        $data = $this->silo->getAllDataProdutores();
+        var_dump($data['saldo']);
     }
-
+    
+    public function testChartArmz(){
+        $data = $this->silo->armzChart();
+        var_dump($data);
+    }
     public function testTotalSilo() {
         $res = $this->silo->totalEstocado();
         $this->assertEquals((int) $res['ts'], 0);

@@ -9,11 +9,11 @@ namespace Model;
  */
 class Silo {
 
-    public function insertTotalArmazenagem() {
+    public function insertTotalArmazenagem($anterior = 0) {
         $conn = Connection\Init::getInstance()->on();
         $out = array('amz' => 0, 'qp' => 0);
         $data = new \Model\ProdutorReport();
-        foreach (new Model\Produtor as $value) {
+        foreach (new \Model\Produtor as $value) {
             $dados = $data->resumeInfoEntradas($value['id'], 1);
             $out['amz'] += $dados['agregado']['armazenagem'];
             $out['qp'] += $dados['agregado']['qp'];
@@ -21,10 +21,60 @@ class Silo {
         $ano = date('Y');
         $d = date('Y-m-d H:i:s');
         $exec = $conn->exec(sprintf("INSERT INTO `caixasilo` (quebra_peso,armazenagem,ano,data)"
-                        . "VALUES(%f,%f,'%s','%s')", $out['qp'], $out['amz'], $ano, $d));
+                        . "VALUES(%f,%f,'%s','%s')", $out['qp'], round($out['amz'] - $anterior, 2), $ano, $d));
         if ($exec)
             return true;
         throw new \RuntimeException(print_r($conn->errorInfo(), true));
+    }
+
+    public function armzChart() {
+        $conn = Connection\Init::getInstance()->on();
+        $stmt = $conn->prepare("SELECT * FROM caixasilo ORDER BY data ASC");
+        $out = array(
+            'perc' => array(),
+            'labels' => array(),
+            'datasets' => array(['data' => [], 'data' => []])
+        );
+        if ($stmt) {
+            $stmt->execute();
+            $data = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $c = count($data);
+
+            if ($c === 0) {
+                $this->insertTotalArmazenagem();
+                $stmt->execute();
+                foreach ($stmt->fetchAll(\PDO::FETCH_ASSOC) as $values) {
+                    $out['labels'][] = date('M', strtotime($values['data']));
+                    $out['datasets'][0]['data'][] = round($values['armazenagem'] / 60, 2);
+                }
+                return $out;
+            }
+            $last_dados = $data[$c - 1];
+            $date = new \DateTime($last_dados['data']);
+            $date->modify('+30 days');
+            $now = new \DateTime('now');
+
+            $am = $last_dados['armazenagem'];
+            if ($now >= $date) {
+                $this->insertTotalArmazenagem($last_dados['armazenagem']);
+                $stmt->execute();
+                return $this->makeChartAmrz($stmt->fetchAll(\PDO::FETCH_ASSOC), $am, $out);
+            }
+            return $this->makeChartAmrz($data, $am, $out);
+        }
+        return $out;
+    }
+
+    public function getAllDataProdutores($ano = null) {
+        $out = array('saldo' => 0, 'produtor' => []);
+        $data = new \Model\ProdutorReport();
+        foreach (new \Model\Produtor as $value) {
+            $dados = $data->resumeInfoEntradas($value['id'], 1, $ano);
+            $dados['agregado']['id'] = $value['id'];
+            $out['produtor'][] = $dados['agregado'];
+            $out['saldo'] += $dados['agregado']['liquido'];
+        }
+        return $out;
     }
 
     public function totalEstocado($ano = null, $kg = 60) {
@@ -41,8 +91,8 @@ class Silo {
                 'corrigido' => $peso = round($row['corrigido'] / $kg, 1),
                 'ts' => round($row['ts'] / $kg, 1),
                 'retirado' => $s = round($row['saida'] / $kg, 1),
-                'espaco' => 50000 - ($peso > $s ? $peso - $s : $s - $peso),
-                'amz' => ($peso > $s ? $peso - $s : $s - $peso)
+                'espaco' => 50000 - ( $peso - $s ),
+                'amz' => ($peso - $s )
             );
         }
         return array('corrigido' => 0, 'ts' => 0, 'retirado' => 0, 'espaco' => 0);
@@ -116,6 +166,18 @@ class Silo {
             'q_p' => $qp,
             'total' => $armz + $imp + $servico + $qp
         ];
+    }
+
+    private function makeChartAmrz($data, $am, $out) {
+        foreach ($data as $values) {
+            $menor = $am < $values['armazenagem'] ? $am : $values['armazenagem'];
+            $v = $am - $values['armazenagem'];
+            $p = round(($v / $menor) * 100.0, 2);
+            $out['perc'][] = $p;
+            $out['labels'][] = date('M', strtotime($values['data']));
+            $out['datasets'][0]['data'][] = round($values['armazenagem'] / 60, 2);
+        }
+        return $out;
     }
 
 }

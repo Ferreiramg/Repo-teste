@@ -24,8 +24,10 @@ class DBConnSqliteTest {
 CREATE TABLE caixasilo (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `servico` REAL,
+  `quebra_peso` REAL,
   `armazenagem` REAL,
-  `data` TEXT NOT NULL
+  `data` TEXT NOT NULL,
+  `ano` TEXT
 ); 
 CREATE TABLE IF NOT EXISTS cliente (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,

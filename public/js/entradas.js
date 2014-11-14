@@ -174,16 +174,16 @@
                     }, $scope.disable);
                 });
             };
-            this.deletar = function(_data) {
+            this.deletar = function(_data, i) {
                 var cf = confirm('Deseja apagar Entrada?');
-                console.log(_data);
+                var index = _data.index || i;
                 if (cf) {
 
                     progress.start();
                     $http.delete('/entrada/deletar/' + _data.id + '/' + _data._cliente).success(function(data) {
                         var resp = data[0] || data;
                         if (resp.code === "1") {
-                            $scope.disable[_data.index].d = true;
+                            $scope.disable[index].d = true;
                             progress.complete();
                         }
                     });
@@ -208,6 +208,7 @@
                                 $scope.disable.push({d: false});
                                 $scope.register.push({
                                     id: resp.code,
+                                    _cliente: $scope.newd.produtor,
                                     mt: $scope.newd.motorista,
                                     tc: $scope.newd.ticket,
                                     dt: $scope.newd.data
@@ -260,6 +261,8 @@
     main.filter("total", function() {
         return function(items, field) {
             var total = 0, i = 0;
+            if (items === undefined)
+                return 0;
             for (i = 0; i < items.length; i++)
                 total += items[i][field];
             return total;

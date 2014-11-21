@@ -110,8 +110,8 @@ main.controller('mailController',
             };
         });
 //produtor controller       
-main.controller('produtorDataStore', ['$scope', '$upload', '$modal', '$http', 'ngProgress',
-    function($scope, $upload, $modal, $http, progress) {
+main.controller('produtorDataStore', ['$scope', '$routeParams', '$upload', '$modal', '$http', 'ngProgress',
+    function($scope, $params, $upload, $modal, $http, progress) {
 
         var store = this;
         store.data = produtor_data;
@@ -128,6 +128,9 @@ main.controller('produtorDataStore', ['$scope', '$upload', '$modal', '$http', 'n
 
         this.unset = function() {
             produtor_data = this.data = [];
+        };
+        this.getProdutor = function() {
+            return produtor_data[$params.id-1];
         };
 
         this.getData = function() {

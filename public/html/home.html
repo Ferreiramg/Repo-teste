@@ -1,5 +1,5 @@
 <div class="row">  
-    <div class="col-lg-4" ng-init="cotacao()">   
+    <div class="col-xs-4" ng-init="cotacao()">   
         <h3>MILHO CCM FUT U14</h3>
         <div class="row">
             <span><b>{{home.d_cotacao.data}}</b> | <small>*Atraso 15 minutos</small></span>
@@ -17,21 +17,26 @@
             <br />
             <i class="text-info small" ng-if="home.getbycookie">Houve problema na conexão, <b class="text-warning">exibindo dados recuperados ({{home.d_cotacao.data}})</b></i>
         </div> 
+        <div class="row">
+
+        </div>
+
     </div>
-    <div class="col-lg-4"> </div>
-    <div class="col-lg-4" ng-init="tempo()">   
+ <div class="col-xs-4"></div>
+  
+    <div class="col-xs-4" ng-init="tempo()">   
         <table class="table table-bordered table-responsive text-center" >
             <tr >
                 <th  rowspan="6" class="text-top">
-                    <div class="col-md-offset-2">
-                        <p>Agora: {{home.clima_tempo.agora.descricao}} </p>
-                        <img ng-src="{{home.clima_tempo.agora.imagem}}" alt="{{home.clima_tempo.agora.descricao}}">
-                        <p class="temperatura">{{home.clima_tempo.agora.temperatura}}º</p>
-                        <span>Umidade: {{home.clima_tempo.agora.umidade}}</span>
-                        <br />
-                        <span>Ventos: {{home.clima_tempo.agora.vento_velocidade}}</span>
-                    </div>                
-                </th>
+            <div class="col-md-offset-2">
+                <p>Agora: {{home.clima_tempo.agora.descricao}} </p>
+                <img ng-src="{{home.clima_tempo.agora.imagem}}" alt="{{home.clima_tempo.agora.descricao}}">
+                <p class="temperatura">{{home.clima_tempo.agora.temperatura}}º</p>
+                <span>Umidade: {{home.clima_tempo.agora.umidade}}</span>
+                <br />
+                <span>Ventos: {{home.clima_tempo.agora.vento_velocidade}}</span>
+            </div>                
+            </th>
             </tr>
             <tr ng-repeat="value in home.clima_tempo.previsoes.dia">
                 <td ng-if="$index !== 0">
@@ -44,3 +49,9 @@
         </table>
     </div>
 </div>
+<div class="row" style="top:30em;position: fixed;width: 60%">
+        <div terminal></div>
+</div>
+
+
+

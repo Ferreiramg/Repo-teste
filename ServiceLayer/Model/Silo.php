@@ -32,8 +32,8 @@ class Silo {
         $stmt = $conn->prepare("SELECT * FROM caixasilo ORDER BY data ASC");
         $out = array(
             'perc' => array(),
-            'labels' => array(),
-            'datasets' => array(['data' => [], 'data' => []])
+            'labels' => array(' '),
+            'datasets' => array(['data' => [0], 'data' => [0]])
         );
         if ($stmt) {
             $stmt->execute();

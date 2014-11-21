@@ -1,61 +1,65 @@
-<div class="btn-toolbar well-sm" role="toolbar">
-    <div class="btn-group">
-        <label class="btn btn-default btn-sm" ng-model="entradas.kg" btn-radio="'60'">60Kg</label>
-        <label class="btn btn-default btn-sm" ng-model="entradas.kg" btn-radio="'50'">50Kg</label>
-        <label class="btn btn-default btn-sm" ng-model="entradas.kg" btn-radio="'1'">Bruto</label>
-    </div>
-    <div class="btn-group">
-        <button 
-            ng-disabled="!Selected.id" 
-            ng-model="Selected.id"
-            ng-click="entradas.deletar(Selected)"
-            class="btn btn-default btn-sm btn-danger">Apagar</button>  
-        <a href="#/entrada" class="btn btn-default btn-sm btn-info">Nova Entrada</a>
-    </div>
-    <div class="btn-group">
-        <label class="btn btn-default btn-sm" ng-model="entradas.d" btn-radio="'1'" ng-click="groupBy('Entradas')">Entradas</label>
-        <label class="btn btn-default btn-sm" ng-model="entradas.d" btn-radio="'0'" ng-click="groupBy('Saidas')">Saidas</label>
-    </div>
-    <div class="row" ng-show="!visible">
-        <div class="col-md-4 input-group-sm">
-            <input class="form-control" type="search" placeholder="filtrar ..." ng-model="search.$" />
-        </div>
-    </div>
-</div>
-<table class="table table-hover table-bordered table-responsive">
-    <thead class="well">
+<table float-thead="opt_theader"  class="table table-hover table-bordered table-responsive">
+    <thead>
         <tr>
-            <th class="well">#</th>
+            <th colspan="9" class="pheader">
+                <div class="btn-toolbar well-sm" role="toolbar" >
+                    <div class="btn-group">
+                        <label class="btn btn-default btn-sm" ng-model="entradas.kg" btn-radio="'60'">60Kg</label>
+                        <label class="btn btn-default btn-sm" ng-model="entradas.kg" btn-radio="'50'">50Kg</label>
+                        <label class="btn btn-default btn-sm" ng-model="entradas.kg" btn-radio="'1'">Bruto</label>
+                    </div>
+                    <div class="btn-group">
+                        <button 
+                            ng-disabled="!Selected.id" 
+                            ng-model="Selected.id"
+                            ng-click="entradas.deletar(Selected)"
+                            class="btn btn-default btn-sm btn-danger">Apagar</button>  
+                        <a href="#/entrada" class="btn btn-default btn-sm btn-info">Nova Entrada</a>
+                    </div>
+                    <div class="btn-group">
+                        <label class="btn btn-default btn-sm" ng-model="entradas.d" btn-radio="'1'" ng-click="groupBy('Entradas')">Entradas</label>
+                        <label class="btn btn-default btn-sm" ng-model="entradas.d" btn-radio="'0'" ng-click="groupBy('Saidas')">Saidas</label>
+                    </div>
+                    <div  ng-show="!visible">
+                        <div class="col-md-4 input-group-sm">
+                            <input class="form-control" type="search" placeholder="filtrar ..." ng-model="search.$" />
+                        </div>
+                    </div>
+                </div>
+            </th>
+        </tr>
+        <tr><th colspan="9" class="pheader"><produtor-name></produtor-name></th></tr>
+        <tr class="well">
+            <th>#</th>
             <th>ID</th>
-            <th>Data</th>
+            <th class="col-sm-1">Data</th>
             <th>Entradas</th>
             <th>Saidas</th>
             <th>Umidade</th>
             <th>Impureza</th>
             <th>Ticket</th>
-            <th>Observação</th>
+            <th class="col-sm-5">Observação</th>
         </tr>
-    </thead>
-    <tbody ng-init="entradas.getData()">
+</thead>
+<tbody ng-init="entradas.getData()">
+    <tr ng-repeat="values in entradas.data| filter:search" 
+        ng-click="setSelected(values, $index)"
+        ng-class="{'active': values.id === Selected.id}"
+        ng-hide="disable[$index].d">
+        <td>{{$index + 1}}</td>
+        <td>{{values.id}}</td>
+        <td>{{values.data}}</td>
+        <td  ng-class="{ 'success':entradas.wasTrans(values.foi_transf) }">
+            {{values.peso| kgConverte:entradas.kg | number:2 }}
+        </td>
+        <td>{{values.saida_peso| kgConverte:entradas.kg | number:2}}</td>
+        <td>{{values.umidade}} %</td>
+        <td>{{values.impureza}} %</td>
+        <td><a ng-hide="values.ticket == '000000'" href="#/ticket/{{values.ticket}}">{{values.ticket}}</a></td>
+        <td>{{values.observacao}}</td>
+    </tr>
+</tbody>
+<tfoot class="well">
 
-        <tr ng-repeat="values in entradas.data| filter:search" 
-            ng-click="setSelected(values,$index)"
-            ng-class="{'active': values.id === Selected.id}"
-            ng-hide="disable[$index].d">
-            <td>{{$index + 1}}</td>
-            <td>{{values.id}}</td>
-            <td>{{values.data}}</td>
-            <td  ng-class="{ 'success':entradas.wasTrans(values.foi_transf) }">
-                {{values.peso| kgConverte:entradas.kg | number:2 }}
-            </td>
-            <td>{{values.saida_peso| kgConverte:entradas.kg | number:2}}</td>
-            <td>{{values.umidade}} %</td>
-            <td>{{values.impureza}} %</td>
-            <td><a ng-hide="values.ticket == '000000'" href="#/ticket/{{values.ticket}}">{{values.ticket}}</a></td>
-            <td>{{values.observacao}}</td>
-        </tr>
-    </tbody>
-    <tfoot class="well">
-
-    </tfoot>
+</tfoot>
 </table>

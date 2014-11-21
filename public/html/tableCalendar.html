@@ -1,43 +1,44 @@
 <div class="row" ng-show="!visible">
-    <div class="col-md-4" style="background: rgba(0,0,0,.8);z-index: 100;position: absolute;top: 51px;right: 40px;width: 180px;padding: 3px;">
+    <div class="col-md-4" style="background: rgba(0,0,0,.8);z-index: 5000;position: fixed;top: 51px;right: 5%;width: 180px;padding: 3px;">
         <input class="form-control" type="search" placeholder="filtrar ..." ng-model="search.$" />
     </div>
 </div>
-<table class="table table-hover table-bordered table-responsive">
-        <thead class="well">
-            <tr>
-                <th>#</th>
-                <th>ID</th>
-                <th>Dias</th>
-                <th>Entrada</th>
-                <th>Saida</th>
-                <th>Armazenagem</th>
-                <th>Saldo</th>
-                <th>Observação</th>
-            </tr>
-        </thead>
-        <tbody ng-init="calendar.getData()">
-            <tr ng-repeat="values in calendar.days | filter:search" ng-dblClick="open(values)">
-                <td>{{$index + 1}}</td>
-                <td>{{values.id}}</td>
-                <td>{{values.dia}}</td>
-                <td>{{values.entrada| number:2}}</td>
-                <td ng-class="{ 'warning':calendar.isSaida(values.saida) }">
-                    {{values.saida}}
-                </td>
-                <td>{{values.desconto| number:2}}</td>
-                <td>{{values.saldo| number:2}}</td>
-                <td>{{values.observacao}}</td>
-            </tr>
-        </tbody>
-        <tfoot class="well">
-            <tr>
-                <td colspan="3"></td>
-                <td><b>{{calendar.days| total:'entrada' |number:2}}</b></td>
-                <td><b>{{calendar.days| total:'saida' |number:2}}</b></td>
-                <td><b>{{calendar.days| total:'desconto'|number:2}}</b></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tfoot>
-    </table>
+<table float-thead="opt_theader" class="table table-hover table-bordered table-responsive">
+    <thead>
+        <tr><th colspan="8" class="pheader"><produtor-name></produtor-name></th></tr>
+        <tr class="well">
+            <th class="col-sm-1">#</th>
+            <th class="col-sm-1">ID</th>
+            <th class="col-sm-2">Dias</th>
+            <th>Entrada</th>
+            <th>Saida</th>
+            <th>Armazenagem</th>
+            <th class="col-sm-1">Saldo</th>
+            <th class="col-sm-5">Observação</th>
+        </tr>       
+    </thead>
+    <tbody ng-init="calendar.getData()">
+        <tr ng-repeat="values in calendar.days| filter:search" ng-dblClick="open(values)">
+            <td>{{$index + 1}}</td>
+            <td>{{values.id}}</td>
+            <td>{{values.dia}}</td>
+            <td>{{values.entrada| number:2}}</td>
+            <td ng-class="{ 'danger':calendar.isSaida(values.saida) }">
+                {{values.saida}}
+            </td>
+            <td>{{values.desconto| number:2}}</td>
+            <td>{{values.saldo| number:2}}</td>
+            <td>{{values.observacao}}</td>
+        </tr>
+    </tbody>
+    <tfoot class="well">
+        <tr>
+            <td colspan="3"></td>
+            <td><b>{{calendar.days| total:'entrada' |number:2}}</b></td>
+            <td><b>{{calendar.days| total:'saida' |number:2}}</b></td>
+            <td><b>{{calendar.days| total:'desconto'|number:2}}</b></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tfoot>
+</table>

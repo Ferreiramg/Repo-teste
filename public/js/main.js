@@ -12,16 +12,14 @@
                 'ui.bootstrap.alert',
                 'EntradaStore',
                 'ChartController',
+                'io.service',
                 'angles'
             ]);
 
-    main.directive('reload', ['$location', function(location) {
-            return {
-                restrict: 'E',
-                replace: true,
-                template: '<a class="btn btn-default btn-sm" href="#/{{param_u}}" ><span class="glyphicon glyphicon-refresh"></span></a>',
-            };
-        }]);
+    main.controller('ioController', function($scope, io) {
+        $scope.io = io;
+    });
+
     main.controller('mainController', ['$http', '$scope', '$log', '$location',
         function($http, $scope, $log, $location) {
             $scope.$log = $log;
@@ -68,6 +66,11 @@
                     store.clima_tempo = data;
                 });
             };
+            $scope.opt_theader =
+                    {
+                        scrollingTop: 50,
+                        useAbsolutePositioning: false
+                    };
         }]).config(['$routeProvider', function($router) {
             $router.when('/tabela', {
                 templateUrl: 'public/html/pdftabela.html'
@@ -77,8 +80,78 @@
                 templateUrl: 'public/html/home.html'
             });
         }]);
+    /*directives*/
+    var texto_help = 'Forma de Uso: <command> [<args>]\n\
+    version,                 Exibe a versão.\n\
+Principais Comandos:\n\
+    restart             reinicia sistema.\n\
+    backup              Serviço de backup.\n\
+    mail                Serviço de E-mail.\n\
+    dbase               Banco de dados.\n\
+    status              Atualização do sistema.\n\
+    self-update         Checa e atualiza sistema.\n\
+    rollback            Reverte ultima atualização.\n\
+\n\
+Sub-Comandos:\n\
+\n\
+    Para exibir sub-comandos individuais, execute: `sas COMANDO -h`\n\
+\n\
+';
+    main.directive('terminal', [function() {
+            return {
+                require: '?ngModel',
+                controller: 'ioController',
+                restrict: 'A',
+                link: function(scope, element, attrs, ctrl) {
+                    $(element).terminal(function(command, term) {
 
+                        if (command !== '') {
+                            if (command === 'help') {
+                                term.echo(texto_help);
+                                term.echo('    Para mais informações contate o suporte.<a href="#" target="_blank">Tecnico</a>', {raw: true});
+                                return null;
+                            }
+                            if (command === 'clear') {
+                                term.clear();
+                                return null;
+                            }
+                            scope.io.init({
+                                ioServer: 'http://localhost:3000',
+                                apiServer: ''
+                            });
+                            scope.io.socket().on('serverResponse', function(response) {
+                                term.resume();
+                                term.echo(response.data);
+                            });
+                            term.pause();
+                            scope.io.emit([command]);
 
+                        } else {
+                            term.echo('');
+                        }
+                    }, {
+                        greetings: 'Console Terminal. Digite [ help ] para exibir comados disponiveis.',
+                        name: 'sys console',
+                        height: 350,
+                        prompt: '@sas> '});
+                }
+            };
+        }]);
+    main.directive('reload', ['$location', function(location) {
+            return {
+                restrict: 'E',
+                replace: true,
+                template: '<a class="btn btn-default btn-sm" href="#/{{param_u}}" ><span class="glyphicon glyphicon-refresh"></span></a>',
+            };
+        }]);
+    main.directive('produtorName', function() {
+        return{
+            restrict: 'E',
+            controller: 'produtorDataStore',
+            controllerAs: 'produtor',
+            template: '<b>{{produtor.getProdutor().nome}}</b>'
+        };
+    });
     main.directive('smartFloat', function() {
         return {
             require: 'ngModel',
@@ -95,7 +168,6 @@
             }
         };
     });
-
     main.directive('integer', function() {
         return {
             require: 'ngModel',
@@ -114,7 +186,39 @@
             }
         };
     });
+    main.directive('floatThead', ['$timeout', '$log', floatThead]);
 
+    function floatThead($timeout, $log) {
+        return {
+            require: '?ngModel',
+            link: link,
+            restrict: 'A'
+        };
+
+        function link(scope, element, attrs, ngModel) {
+            $(element).floatThead(scope.$eval(attrs.floatThead));
+
+            if (ngModel) {
+                // Set $watch to do a deep watch on the ngModel (collection) by specifying true as a 3rd parameter
+                scope.$watch(attrs.ngModel, function() {
+                    $(element).floatThead('reflow');
+                }, true);
+            } else {
+                $log.info('floatThead: ngModel not provided!');
+            }
+
+            element.bind('update', function() {
+                $timeout(function() {
+                    $(element).floatThead('reflow');
+                }, 0);
+            });
+
+            element.bind('$destroy', function() {
+                $(element).floatThead('destroy');
+            });
+        }
+    }
+    ;
     var angles = angular.module("angles", []);
 
     angles.chart = function(type) {
@@ -205,8 +309,6 @@
             }
         };
     };
-
-
     /* Aliases for various chart types */
     angles.directive("chart", function() {
         return angles.chart();

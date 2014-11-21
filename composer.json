@@ -12,6 +12,7 @@
     "require": {
         "php": ">=5.5",
         "phpmailer/phpmailer": "dev-master",
+        "wisembly/elephant.io": "3.0.0",
         "guzzlehttp/guzzle": "~4.0",
         "noodlehaus/config": "dev-master"
     },

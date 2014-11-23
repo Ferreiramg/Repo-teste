@@ -1,26 +1,19 @@
 {
-    "name": "jquery.floatThead",
-    "version": "1.2.9",
-    "homepage": "http://mkoryak.github.io/floatThead/",
-    "authors": [
-        "Misha Koryak"
-    ],
-    "description": "Unobtrusively float any table's header without breaking styles or events",
-    "main": "jquery.floatThead.js",
-    "keywords": [
-        "float table header", "locked header", "table header", "table", "sticky header", "floatThead", "scrolling table"
-    ],
-    "license": "MIT",
+    "name": "silo-front-dependecies",
+    "version": "1.0.0",
+    "main": "public/js/main.js",
+    "license": "GPL-3.0+",
     "ignore": [
         "**/.*",
         "node_modules",
         "bower_components",
-        "test",
-        "demo"
+        "vendor",
+        "test"
     ],
     "dependencies": {
         "jquery": ">= 1.9.0",
-        "jquery.terminal": "",
-        "jquery.floatThead": ""
+        "jquery.terminal": ">= 0.8.8",
+        "jquery.floatThead": ">= 1.2.9",
+        "Chart.js": ">= 1.0.1"
     }
 }

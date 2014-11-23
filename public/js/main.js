@@ -132,7 +132,7 @@ Sub-Comandos:\n\
                     }, {
                         greetings: 'Console Terminal. Digite [ help ] para exibir comados disponiveis.',
                         name: 'sys console',
-                        height: 350,
+                        height: 300,
                         prompt: '@sas> '});
                 }
             };

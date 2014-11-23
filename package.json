@@ -1,5 +1,5 @@
 {
-    "name": "console socket",
+    "name": "console-socket",
     "version": "0.0.0",
     "description": "",
     "main": "server/io,js.js",
@@ -10,6 +10,6 @@
     "author": "",
     "license": "MIT",
     "dependencies": {
-        "socket.io": "latest"
+        "socket.io": ">= 1.2.1"
     }
 }

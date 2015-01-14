@@ -185,6 +185,9 @@
                         if (resp.code === "1") {
                             $scope.disable[index].d = true;
                             progress.complete();
+                        }else{
+                            $scope.errorEntrada = resp.message;
+                            progress.complete();
                         }
                     });
                 }

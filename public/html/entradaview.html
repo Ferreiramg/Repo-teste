@@ -8,7 +8,7 @@
                         <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
                     </accordion-heading>
                     <div class="col-md-4">
-                        <input class="form-control" ng-model="entradas.shticket" type="text" placeholder="Nº Ticket" />
+                        <input class="form-control" ng-keypress="($event.which === 13)?entradas.guardianDataInit():0" ng-model="entradas.shticket" type="text" placeholder="Nº Ticket" />
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-default" ng-click="entradas.guardianDataInit()">Buscar</button>

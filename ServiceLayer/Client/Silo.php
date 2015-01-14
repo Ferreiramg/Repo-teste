@@ -1,7 +1,7 @@
 <?php
 
 namespace Client;
-
+use Model\Cached\Memory;
 /**
  * Description of Silo
  *
@@ -15,9 +15,13 @@ class Silo extends AbstracClient {
         $model = new \Model\Silo();
         $p1 = isset($this->params[1]) ? $this->params[1] : null;
         $p0 = isset($this->params[0]) ? $this->params[0] : 'totalEstocado';
+        $key = $p0 . $p1;
 
-        $response = call_user_func_array([$model, $p0], [$p1]);
-        echo (string) json_encode($response);
+        echo Memory::getInstance()->checkIn($key, function(\Memcached $mem)use ($key, $model, $p0, $p1) {
+            $response = call_user_func_array([$model, $p0], [$p1]);
+            $mem->set($key, (string) json_encode($response), time() + 900);
+            return (string) json_encode($response);
+        });
     }
 
     public function hasRequest() {

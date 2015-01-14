@@ -51,9 +51,9 @@ class EntradaRead extends AbstracClient {
      * @return array
      * @throws \Exceptions\ClientExceptionResponse format error date
      */
-    public function calendarData($media = \Model\EntradaEntityIterator::KG_60) {
+    public function calendarData($media = \Model\EntradaEntityIterator::KG_60,$ano=null) {
         $key = ($this->params[1] - 1); //get id produtor to array key
-        $data = $this->data->getdataByClientId($this->params[1]);
+        $data = $this->data->getdataByClientId($this->params[1],$ano);
 
         if (empty($data)) {
             return [];

@@ -16,4 +16,5 @@ if ($content) {
 }
 $jsod =  isset($_COOKIE['_bmfmilho']) ? json_decode($_COOKIE['_bmfmilho']) : [];
 $jsod['cookie'] = true;
+sleep(1);
 echo json_encode($jsod);

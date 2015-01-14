@@ -15,7 +15,7 @@ abstract class AbstracClient implements ClientInterface {
      *
      * @var \Client\Delegate 
      */
-    public $delegate;
+    private $delegate;
 
     /**
      *

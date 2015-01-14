@@ -7,5 +7,6 @@ error_reporting(E_ALL | E_STRICT);
 
 $xml = simplexml_load_file('http://developers.agenciaideias.com.br/tempo/xml/ingai-MG');
 
-$json = json_decode(json_encode((array)$xml), TRUE);//xml to array.
+$json = json_decode(json_encode((array) $xml), TRUE); //xml to array.
+sleep(1);
 echo json_encode($json);

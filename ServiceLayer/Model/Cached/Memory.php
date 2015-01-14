@@ -14,7 +14,6 @@ class Memory {
     public function init() {
         $this->meminstance = new \Memcached();
         $this->meminstance->addServer('localhost', 11211);
-        $this->meminstance;
     }
 
     public function checkIn($key, \Closure $callback = null) {
@@ -26,6 +25,10 @@ class Memory {
             }
         }
         return $output;
+    }
+
+    public function delete() {
+        return $this->meminstance->deleteMulti($this->meminstance->getAllKeys());
     }
 
 use \AppSingleton;

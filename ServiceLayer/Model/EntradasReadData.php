@@ -11,16 +11,18 @@ class EntradasReadData {
 
     private $id = 0;
 
-    public function getdataByClientId($id) {
+    public function getdataByClientId($id, $ano = null) {
         $conn = Connection\Init::getInstance()->on();
 
+        $ano = $ano ? $ano : date('Y');
         $stmt = $conn->prepare("SELECT *, SUM(saida_peso) as saida,"
                 . " SUM(peso) as entrada,"
                 . " SUM(peso_corrigido) as corrigido"
                 . " FROM entradas"
-                . " WHERE _cliente = :i GROUP BY data ORDER BY data ASC");
+                . " WHERE _cliente = :i AND ano = :an GROUP BY data ORDER BY data ASC");
         if ($stmt) {
             $stmt->bindValue(':i', $id, \PDO::PARAM_INT);
+            $stmt->bindValue(':an', $ano, \PDO::PARAM_STR);
             $stmt->execute();
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         }
@@ -30,7 +32,7 @@ class EntradasReadData {
     protected function getData() {
         $conn = Connection\Init::getInstance()->on();
         $stmt = $conn->query(
-                sprintf("SELECT * FROM entradas WHERE _cliente = %u ORDER BY id DESC", $this->id)
+                sprintf("SELECT * FROM entradas WHERE _cliente = %u AND ano = '%s' ORDER BY id DESC", $this->id, date('Y'))
         );
         if ($stmt) {
             $data = array();
@@ -67,7 +69,7 @@ class EntradasReadData {
     }
 
     public function __toString() {
-        return json_encode($this->getData(),JSON_UNESCAPED_UNICODE);
+        return json_encode($this->getData(), JSON_UNESCAPED_UNICODE);
     }
 
 }

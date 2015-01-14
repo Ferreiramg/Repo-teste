@@ -20,14 +20,15 @@ class Silo {
         }
         $ano = date('Y');
         $d = date('Y-m-d H:i:s');
+        $amz = round($out['amz'] - $anterior, 2);
         $exec = $conn->exec(sprintf("INSERT INTO `caixasilo` (quebra_peso,armazenagem,ano,data)"
-                        . "VALUES(%f,%f,'%s','%s')", $out['qp'], round($out['amz'] - $anterior, 2), $ano, $d));
+                        . "VALUES(%f,%f,'%s','%s')", $out['qp'], $amz < 0 ? 0 : $amz, $ano, $d));
         if ($exec)
             return true;
         throw new \RuntimeException(print_r($conn->errorInfo(), true));
     }
 
-    public function armzChart() {
+    public function armzChart($ano=null) {
         $conn = Connection\Init::getInstance()->on();
         $stmt = $conn->prepare("SELECT * FROM caixasilo ORDER BY data ASC");
         $out = array(
@@ -100,7 +101,6 @@ class Silo {
 
     public function siloPServicos() {
         $ano = date('Y');
-        $this->error_msg = "Sem dados para gerar grafico!";
         $conn = Connection\Init::getInstance()->on();
         $out = array(
             'labels' => array(),

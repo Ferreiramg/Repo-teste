@@ -35,4 +35,18 @@ class MemcachedTest extends PHPUnit {
         $this->assertFalse($false);
     }
 
+    public function testDeleteFlushCached() {
+        $_ = $this;
+        Memory::getInstance()
+                ->checkIn('mykey', function(\Memcached $mem)use($_) {
+                    $_->assertInstanceOf('\Memcached', $mem);
+                    $mem->set('mykey', array());
+                    return array();
+                });
+
+        $this->assertTrue(is_array(Memory::getInstance()->delete()));
+        $false = Memory::getInstance()->meminstance->get('mykey');
+        $this->assertFalse($false);
+    }
+
 }

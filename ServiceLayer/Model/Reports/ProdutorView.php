@@ -43,7 +43,7 @@ class ProdutorView {
         $qp = round($qp / $multiplicador, 2);
         $imp = round($imp / $multiplicador, 2);
         $servicos = round($servicos / $multiplicador, 2);
-        $liquido = round($liquido / $multiplicador, 2);
+        $liquido = number_format(round($liquido / $multiplicador, 2),2) ;
         $liquido_descontos = number_format(round($bruto - $qp - $imp, 2), 2);
         $saidas = number_format(round($saidas / $multiplicador, 2), 2);
         $content = $this->content($data['content'], $multiplicador);
@@ -68,7 +68,7 @@ class ProdutorView {
                 <tr><td colspan="6">Armazenagem: <b>$armazenagem</b></td></tr>
                 <tr><td colspan="6" class="well"><h4>Saldo</h4></td></tr>
                 <tr><td colspan="6">Transferências: <b>$transf</b></td></tr>
-                <tr><td colspan="6">Saldo Liquido: <b>$liquido</b> <i class="text-info">Peso liquido menos secagem mais transferência</i></td></tr>
+                <tr><td colspan="6">Saldo Liquido: <b class="text-success">$liquido</b> <i class="text-info">Peso liquido menos secagem mais transferência</i></td></tr>
                 <tr><td colspan="6">Saida Total: <b>$saidas</b></td></tr>
                 <tr><td colspan="6"><b>Saldo: $saldo</b> <i class="text-info">Com armazenamento já descontado</i></td></tr>
             </head>               

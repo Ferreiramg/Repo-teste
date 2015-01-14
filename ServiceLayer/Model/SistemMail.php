@@ -13,7 +13,8 @@ class SistemMail {
     public $dir;
 
     public function __construct() {
-        $this->mail = new \PHPMailer();
+        $this->mail = new \PHPMailer(true);
+        $this->mail->CharSet = 'UTF-8';
     }
 
     public function getErrorSendMail() {

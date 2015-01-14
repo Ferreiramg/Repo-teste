@@ -12,9 +12,12 @@
                 'ui.bootstrap.alert',
                 'EntradaStore',
                 'ChartController',
-                'io.service',
+                //'io.service',
                 'angles'
-            ]);
+            ])
+            .run(function() {
+                console.log('app init.');
+            });
 
     main.controller('ioController', function($scope, io) {
         $scope.io = io;
@@ -81,62 +84,39 @@
             });
         }]);
     /*directives*/
-    var texto_help = 'Forma de Uso: <command> [<args>]\n\
-    version,                 Exibe a versão.\n\
-Principais Comandos:\n\
-    restart             reinicia sistema.\n\
-    backup              Serviço de backup.\n\
-    mail                Serviço de E-mail.\n\
-    dbase               Banco de dados.\n\
-    status              Atualização do sistema.\n\
-    self-update         Checa e atualiza sistema.\n\
-    rollback            Reverte ultima atualização.\n\
-\n\
-Sub-Comandos:\n\
-\n\
-    Para exibir sub-comandos individuais, execute: `sas COMANDO -h`\n\
-\n\
-';
-    main.directive('terminal', [function() {
-            return {
-                require: '?ngModel',
-                controller: 'ioController',
-                restrict: 'A',
-                link: function(scope, element, attrs, ctrl) {
-                    $(element).terminal(function(command, term) {
-
-                        if (command !== '') {
-                            if (command === 'help') {
-                                term.echo(texto_help);
-                                term.echo('    Para mais informações contate o suporte.<a href="#" target="_blank">Tecnico</a>', {raw: true});
-                                return null;
-                            }
-                            if (command === 'clear') {
-                                term.clear();
-                                return null;
-                            }
-                            scope.io.init({
-                                ioServer: 'http://localhost:3000',
-                                apiServer: ''
-                            });
-                            scope.io.socket().on('serverResponse', function(response) {
-                                term.resume();
-                                term.echo(response.data);
-                            });
-                            term.pause();
-                            scope.io.emit([command]);
-
-                        } else {
-                            term.echo('');
-                        }
-                    }, {
-                        greetings: 'Console Terminal. Digite [ help ] para exibir comados disponiveis.',
-                        name: 'sys console',
-                        height: 300,
-                        prompt: '@sas> '});
-                }
-            };
-        }]);
+//    var texto_help = 'Forma de Uso: <command> [<args>]\n\
+//    version,                 Exibe a versão.\n\
+//Principais Comandos:\n\
+//    restart             reinicia sistema.\n\
+//    backup              Serviço de backup.\n\
+//    mail                Serviço de E-mail.\n\
+//    dbase               Banco de dados.\n\
+//    status              Atualização do sistema.\n\
+//    self-update         Checa e atualiza sistema.\n\
+//    rollback            Reverte ultima atualização.\n\
+//\n\
+//Sub-Comandos:\n\
+//\n\
+//    Para exibir sub-comandos individuais, execute: `sas COMANDO -h`\n\
+//\n\
+//';
+//    main.directive('terminal', [function() {
+//            return {
+//                require: '?ngModel',
+//                controller: 'ioController',
+//                restrict: 'A',
+//                link: function(scope, element, attrs, ctrl) {
+//                    $(element).terminal(function(command, term) {
+//                      ///refazer com web sockets
+//                           
+//                    }, {
+//                        greetings: 'Console Terminal. Digite [ help ] para exibir comados disponiveis.',
+//                        name: 'sys console',
+//                        height: 300,
+//                        prompt: '@sas> '});
+//                }
+//            };
+//        }]);
     main.directive('reload', ['$location', function(location) {
             return {
                 restrict: 'E',

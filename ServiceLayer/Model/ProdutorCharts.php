@@ -10,7 +10,8 @@ namespace Model;
 class ProdutorCharts {
 
     private $produtor;
-    public $error_msg = "Action not Found!";
+
+    use LogTrait;
 
     public function __construct(Produtor $produtor) {
         $this->produtor = $produtor;
@@ -22,8 +23,9 @@ class ProdutorCharts {
      */
     public function outinchart() {
         $conn = Connection\Init::getInstance()->on();
-        $sql = "SELECT id,data,SUM(saida_peso)as saida, SUM(peso) as entrada FROM entradas WHERE _cliente = %u GROUP BY data";
-        $response = $conn->query(sprintf($sql, $this->produtor->id));
+        $sql = "SELECT id,data,SUM(saida_peso)as saida, SUM(peso) as entrada FROM entradas"
+                . " WHERE _cliente = %u AND ano = '%s' GROUP BY data";
+        $response = $conn->query(sprintf($sql, $this->produtor->id, date('Y')));
         $this->error_msg = "Sem dados para gerar grafico!";
         $out = array(
             'labels' => array(),

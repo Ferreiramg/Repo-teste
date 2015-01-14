@@ -21,7 +21,6 @@
                     <th>Entradas</th>
                     <th>Saidas</th>
                     <th>Armazenagem</th>
-                     <th>Serviços</th>
                     <th>Saldo</th>
                 </tr>
             </thead>
@@ -31,7 +30,6 @@
                     <td>{{value.liquido / 60| number:2}}</td>
                     <td>{{value.saidas / 60| number:2}}</td>
                     <td>{{value.armazenagem / 60| number:2}}</td>
-                    <td>{{value.servicos / 60| number:2}}</td>
                     <td>{{ (value.saldo-value.armazenagem)  / 60| number:2}}</td>
                 </tr>
             </tbody>
@@ -41,7 +39,6 @@
                     <td><b>{{table.produtor| total:'liquido' |kgConverte:'60' |number:2}}</b></td>
                     <td><b>{{table.produtor| total:'saidas' |kgConverte:'60'|number:2}}</b></td>
                     <td><b>{{table.produtor| total:'armazenagem'|kgConverte:'60'|number:2}}</b></td>
-                    <td><b>{{table.produtor| total:'servicos'|kgConverte:'60'|number:2}}</b></td>
                     <td><b>{{table.produtor| total:'saldo' |kgConverte:'60'|number:2}}</b></td>
                 </tr>
             </tfoot>

@@ -8,22 +8,13 @@
         font-family: Arial, serif;
         background: none;
         color: black;
-        margin: 0;
     }
-    .container {
-        margin: 0;
-        padding: 0;
-    }
+
     table .table{
         margin: 0;
     }
     .floatThead-table{
         display: none;
-    }
-    col{
-        margin: 0;
-        padding: 0;
-        width: auto;
     }
 
     a:after {

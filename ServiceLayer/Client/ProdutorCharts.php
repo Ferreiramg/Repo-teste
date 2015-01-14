@@ -2,7 +2,8 @@
 
 namespace Client;
 
-use Exceptions\ClientExceptionResponse;
+use Model\Cached\Memory,
+    Exceptions\ClientExceptionResponse;
 
 /**
  * Description of ProdutorCharts
@@ -16,11 +17,15 @@ class ProdutorCharts extends AbstracClient {
             $id = isset($this->params[1]) ? $this->params[1] : 1;
             $produtor = new \Model\Produtor($id - 1);
             $model = new \Model\ProdutorCharts($produtor);
-            $response = call_user_func_array([$model, $this->params[0]], [$this->params]);
-            if (!$response)
-                throw new ClientExceptionResponse($model->error_msg);
-            
-            echo json_encode((array)$response);
+            $_ = $this;
+            $key = "report::" . $this->params[0] . $id;
+            echo Memory::getInstance()->checkIn($key, function(\Memcached $mem)use ($key, $_, $model) {
+                $response = call_user_func_array([$model, $_->params[0]], [$_->params]);
+                if (!$response)
+                    throw new ClientExceptionResponse($model->error_msg);
+                $mem->set($key, json_encode((array) $response), time() + 900);
+                return json_encode((array) $response);
+            });
         }
     }
 

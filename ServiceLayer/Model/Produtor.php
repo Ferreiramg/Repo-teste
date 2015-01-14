@@ -11,7 +11,8 @@ class Produtor extends \ArrayIterator {
 
 //    public $id, $nome, $grao, $data, $armazenagem;
     private $idKey;
-    public $error_msg = "Action not Found!";
+
+    use LogTrait;
 
     public function __construct($id = 0) {
         $conn = Connection\Init::getInstance()->on();
@@ -48,7 +49,7 @@ class Produtor extends \ArrayIterator {
     }
 
     public function __toString() {
-        return json_encode($this->getArrayCopy(),JSON_UNESCAPED_UNICODE);
+        return json_encode($this->getArrayCopy(), JSON_UNESCAPED_UNICODE);
     }
 
     public function create(array $args, &$stmt = null) {

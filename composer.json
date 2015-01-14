@@ -11,8 +11,10 @@
     ],
     "require": {
         "php": ">=5.5",
+        "hoa/eventsource": "~2.0",
         "phpmailer/phpmailer": "dev-master",
         "cboden/ratchet": "0.3.*",
+        "react/react": "0.4.*",
         "guzzlehttp/guzzle": "~4.0",
         "noodlehaus/config": "dev-master"
     },

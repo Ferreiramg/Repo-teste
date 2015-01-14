@@ -2,6 +2,8 @@
 
 namespace Event;
 
+use Model\Cached\Memory;
+
 /**
  * Delegate RequestDelete event
  *
@@ -16,6 +18,7 @@ class RequestDelete extends AbstractEvent {
     public function listen() {
         $this->client->addClient(new \Client\ControllerEntrada);
         $this->client->addClient(new \Client\Produtor);
+        Memory::getInstance()->delete();
     }
 
 }

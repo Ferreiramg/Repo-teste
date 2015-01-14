@@ -23,6 +23,7 @@ class Email extends AbstracClient {
             @unlink($post['file']);
             throw new \Exceptions\ClientExceptionResponse($model->getErrorSendMail());
         }
+        @unlink($post['file']);
         printf('{"code":"%s"}', 1); //true for success
     }
 

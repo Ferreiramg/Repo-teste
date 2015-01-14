@@ -21,7 +21,7 @@ class ProdutorReport {
         $entradas = new \Client\EntradaRead();
         $entradas->params[1] = $id;
 
-        $calendar = $entradas->calendarData($media);
+        $calendar = $entradas->calendarData($media,$ano);
         $a = 0;
         $c = 0;
         if ($stmt) {

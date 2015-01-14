@@ -9,7 +9,11 @@ namespace Model;
  */
 class Entrada {
 
-    public $args, $csvfile, $error_msg = "";
+    public $args, $csvfile;
+
+    use LogTrait;
+
+    const TYPE = 1;
 
     public function __construct() {
         $this->args = array(
@@ -33,7 +37,7 @@ class Entrada {
         $args['corrigido'] = 0;
         $trans = empty($args['wastrans']) ? 0 : $args['wastrans'];
         $this->error_msg = "Não pode ser inserido os dados!!";
-        if ($this->checkType($args['tipo'])) {
+        if (static::TYPE === $args['tipo']) {
             $calcs = $this->instanceCalcDiscountsWillApplyFilter($args['umidade']);
             $qp = round($args['peso'] * $calcs->quebraPeso(), 2);
             $sv = round($args['peso'] * $calcs->servicoSecagem(), 2);
@@ -56,7 +60,7 @@ class Entrada {
         }
         $date = $this->validateDate($args['data']);
         $con = Connection\Init::getInstance()->on();
-        $stmt = $con->prepare("INSERT INTO `entradas` (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`,`quebra_peso`,`servicos`,`desc_impureza`,`foi_transf`) VALUES (:p, :s, :crr, :_c, :u, :i, :d, :t, :o,:q,:b,:z,:l)");
+        $stmt = $con->prepare("INSERT INTO `entradas` (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`,`quebra_peso`,`servicos`,`desc_impureza`,`foi_transf`, `ano`) VALUES (:p, :s, :crr, :_c, :u, :i, :d, :t, :o,:q,:b,:z,:l,:an)");
         $stmt->bindValue(':p', $args['peso']);
         $stmt->bindValue(':s', $args['saida']);
         $stmt->bindValue(':crr', $args['corrigido']);
@@ -70,6 +74,7 @@ class Entrada {
         $stmt->bindValue(':b', $sv);
         $stmt->bindValue(':z', $imp);
         $stmt->bindValue(':l', $trans);
+        $stmt->bindValue(':an', date('Y'));
         if ($stmt->execute())
             return $con->lastInsertId();
         return 0;
@@ -93,14 +98,18 @@ class Entrada {
     }
 
     public function deletar(array $args) {
+
+        $data = (int) Connection\Init::getInstance()
+                        ->on()
+                        ->query(sprintf("SELECT id FROM `entradas` WHERE id = %u", $args['id']))->fetchColumn();
+        if ($data === 0) {
+            $this->error_msg = "Está entrada já foi apagada!";
+            return false;
+        }
         $this->error_msg = "Não foi apagado! Tente novamente.";
         return Connection\Init::getInstance()
                         ->on()
                         ->exec(sprintf("DELETE FROM `entradas` WHERE id = %u", $args['id']));
-    }
-
-    private function checkType($type) {
-        return $type === 1;
     }
 
     private function validateDate($date) {

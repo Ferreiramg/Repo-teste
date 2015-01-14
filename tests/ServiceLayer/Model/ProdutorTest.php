@@ -20,6 +20,7 @@ class ProdutorTest extends PHPUnit {
 
     public function testProdutorIteratorData() {
         $this->assertInstanceOf('\Iterator', $this->prod);
+        $this->assertEquals('Action not found!', $this->prod->error_msg);
     }
 
     public function testProdutorIteratorAccessData() {

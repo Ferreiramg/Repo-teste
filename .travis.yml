@@ -6,6 +6,7 @@ php:
 services:
   - memcached
 before_script:
+    - curl --version
     - sudo apt-get update -qq
     - sudo apt-get install -y -qq postfix
     - sudo apt-get install -y -qq php5-fpm nginx

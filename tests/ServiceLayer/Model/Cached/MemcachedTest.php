@@ -16,9 +16,9 @@ class MemcachedTest extends PHPUnit {
     }
 
     public function testUsageMencached() {
-        $this->markTestIncomplete(
-                'This test has not work in travis ci.'
-        );
+//        $this->markTestIncomplete(
+//                'This test has not work in travis ci.'
+//        );
         $_ = $this;
         $get = Memory::getInstance()
                 ->checkIn('mykey', function(\Memcached $mem)use($_) {

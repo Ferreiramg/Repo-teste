@@ -19,7 +19,14 @@ class DBConnSqliteTest {
         $con->exec(static::$sql);
         return $con;
     }
-    
+
+    public function testSelectData() {
+        $con = $this->ConnPDO();
+        $query = $con->query("SELECT * FROM entradas");
+
+        $this->assertCount(2, $query->fetchAll());
+    }
+
     private static $sql = <<<SQL
 CREATE TABLE caixasilo (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -56,7 +63,7 @@ CREATE TABLE `entradas` (
    `desc_impureza` REAL NULL,
   `umidade` REAL,
   `impureza` REAL,
-  `ano` TEXT DEFAULT '2014',
+  `ano` TEXT DEFAULT '2015',
   `foi_transf` TEXT DEFAULT 0,
   `data` TEXT NOT NULL,
   `ticket` TEXT NULL,

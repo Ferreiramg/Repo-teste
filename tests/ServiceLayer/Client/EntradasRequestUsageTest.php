@@ -57,17 +57,17 @@ class EntradasRequestUsageTest extends PHPUnit {
     }
 
     public function testMakeRequestTest() {
-//        $this->markTestIncomplete(
-//                'Apache rewrite not work in travis.'
-//        );
+        $this->markTestIncomplete(
+                'Apache rewrite not work in travis.'
+        );
         $response = $this->requestServer->get('http://localhost/entrada_read/calendar/1');
         $this->assertEquals($response->getStatusCode(), '200');
     }
 
     public function testCreateEntradaRequest() {
-//        $this->markTestIncomplete(
-//                'Apache rewrite not work in travis.'
-//        );
+        $this->markTestIncomplete(
+                'Apache rewrite not work in travis.'
+        );
         $response = $this->requestServer->post('http://localhost/entrada', [
             'body' => [
                 'produtor' => 1,

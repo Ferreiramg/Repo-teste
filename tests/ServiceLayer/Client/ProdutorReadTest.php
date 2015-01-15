@@ -34,9 +34,9 @@ class ProdutorReadTest extends PHPUnit {
 
     public function testInsertDataProdutor() {
         $request = new Client();
-//        $this->markTestIncomplete(
-//                'Apache rewrite not work in travis ci.'
-//        );
+        $this->markTestIncomplete(
+                'Apache rewrite not work in travis ci.'
+        );
         $response = $request->post('http://localhost/produtor', [
             'body' => [
                 'nome' => 'Antonio Rezende',

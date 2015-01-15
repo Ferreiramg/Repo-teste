@@ -3,16 +3,19 @@ language: php
 php:
     - 5.5
     - 5.6
-
+services:
+  - memcached
 before_script:
     - sudo apt-get update -qq
     - sudo apt-get install -y -qq postfix
+    - sudo apt-get install -y -qq php5-fpm nginx
+    - sudo cp .travis_nginx.conf /etc/nginx/nginx.conf
+    - sudo /etc/init.d/nginx restart
     - sudo service postfix stop
     - smtp-sink -d "%d.%H.%M.%S" localhost:2500 1000 &
     - echo -e '#!/usr/bin/env bash\nexit 0' | sudo tee /usr/sbin/sendmail
     - echo 'sendmail_path = "/usr/sbin/sendmail -t -i "' | sudo tee "/home/travis/.phpenv/versions/`php -i | grep "PHP Version" | head -n 1 | grep -o -P '\d+\.\d+\.\d+.*'`/etc/conf.d/sendmail.ini"
     - sudo echo "extension=memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-    - sudo echo "extension=memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
     #app composer required
     -  composer self-update
     -  composer install --no-dev --no-interaction

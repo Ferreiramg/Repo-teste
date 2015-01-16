@@ -25,7 +25,7 @@ class ProdutorCharts {
         $conn = Connection\Init::getInstance()->on();
         $sql = "SELECT id,data,SUM(saida_peso)as saida, SUM(peso) as entrada FROM entradas"
                 . " WHERE _cliente = %u AND ano = '%s' GROUP BY data";
-        $response = $conn->query(sprintf($sql, $this->produtor->id, date('Y')));
+        $response = $conn->query(sprintf($sql, $this->produtor->id, Silo::getSessionYear()));
         $this->error_msg = "Sem dados para gerar grafico!";
         $out = array(
             'labels' => array(),

@@ -7,7 +7,7 @@
                         controller: 'ChartInOut',
                         controllerAs: 'gp',
                         templateUrl: 'public/html/inoutchart.html'
-                    }).when('/amzsilo/:ano', {
+                    }).when('/amzsilo', {
                         controller: 'ChartInOut',
                         controllerAs: 'tc',
                         templateUrl: 'public/html/chartsilo.html'
@@ -24,7 +24,7 @@
             this.info = {};
             this.sinfo = {};
             $scope.table = {};
-            $scope.ano = $params.ano;
+            $scope.ano = sessionStorage.year;
 
             this.initServicos = function(data) {
                 $scope.chart = data;
@@ -47,7 +47,7 @@
             };
 
             this.listAllDatasDetail = function() {
-                $http.get('/silo/getAllDataProdutores/' + $params.ano).success(
+                $http.get('/silo/getAllDataProdutores').success(
                         function(data) {
                             $scope.table = data;
                         });
@@ -86,7 +86,7 @@
             };
             this.armzChart = function() {
 
-                $http.get('/silo/armzChart/' + $params.ano).success(function(data) {
+                $http.get('/silo/armzChart').success(function(data) {
                     data.datasets[0].label = 'Armazenagem';
                             data.datasets[0].fillColor = "rgba(255, 255, 137,0.4)";
                             data.datasets[0].strokeColor = "rgba(255, 255, 137,1)";
@@ -128,7 +128,7 @@
                 };
             };
             this.getDataTotal = function() {
-                $http.get('/silo/totalEstocado/' + $params.ano).success(function(data) {
+                $http.get('/silo/totalEstocado').success(function(data) {
                     store.info = data;
                     var chart = [
                         {

@@ -32,7 +32,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#/produtor">Novo / Listar</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#/resume/{{produtor.id}}/0/{{year}}">Relatório Resumo</a></li>
+                                <li><a href="#/resume/{{produtor.id}}/0">Relatório Resumo</a></li>
                             </ul>
                         </li>
                         <li ng-class="{'active':false}"><a class="b-menu" href="#/calendar/{{produtor.id}}">Armazenamento</a></li>
@@ -41,10 +41,10 @@
                             <a href class="dropdown-toggle b-menu">Relatórios <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li ng-class="{'active':false}"><a href="#/inout/{{produtor.id}}">Entradas Saidas</a></li>
-                                <li><a href="#/amzsilo/{{year}}">Armazenado Silo</a></li>
+                                <li><a href="#/amzsilo">Armazenado Silo</a></li>
                                 <li><a href="#/chartresumeservice">Info Serviços</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#/resume/{{produtor.id}}/0/{{year}}">Resumo/Produtor</a></li>
+                                <li><a href="#/resume/{{produtor.id}}/0">Resumo/Produtor</a></li>
                                 <li class="divider"></li>
                                 <li><a href="#/ticket/01">Ticket</a></li>
                             </ul>
@@ -81,6 +81,7 @@
         <script src="public/js/libs/angular.js/angular-route.js" type="text/javascript"></script> 
 
         <script src="public/js/main.js" type="text/javascript"></script>
+        <script src="public/js/sistema.js" type="text/javascript"></script>
         <script src="public/js/produtor.js" type="text/javascript"></script>
         <script src="public/js/entradas.js" type="text/javascript"></script>
         <script src="public/js/chart.js" type="text/javascript"></script>

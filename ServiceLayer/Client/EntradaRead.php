@@ -14,8 +14,8 @@ class EntradaRead extends AbstracClient {
 
     private $data;
 
-    const C_KEY ="calendar:";
-    const E_KEY ="entrada:";
+    const C_KEY = "calendar:";
+    const E_KEY = "entrada:";
 
     public function __construct() {
         $this->data = new \Model\EntradasReadData();
@@ -24,10 +24,13 @@ class EntradaRead extends AbstracClient {
 
     public function execute() {
         if (isset($this->params[0]) && isset($this->params[1]) && $this->params[0] == 'calendar') {
-            $key = (string) self::C_KEY . $this->params[1];
+            $key = (string) self::C_KEY . $this->params[1] . \Model\Silo::getSessionYear();
             $_t = $this;
             echo Memory::getInstance()->checkIn($key, function(\Memcached $mem)use ($_t, $key) {
-                $data = json_encode($_t->calendarData(),JSON_UNESCAPED_UNICODE);
+                $data = json_encode(
+                        $_t->calendarData(
+                                \Model\EntradaEntityIterator::KG_60, \Model\Silo::getSessionYear()
+                        ), JSON_UNESCAPED_UNICODE);
                 $mem->set($key, $data, time() + 300);
                 unset($_t);
                 return $data;
@@ -36,7 +39,7 @@ class EntradaRead extends AbstracClient {
         }
         $model = $this->data;
         $model->setId($this->params[0]);
-         echo Memory::getInstance()->checkIn($model->hash(self::E_KEY), function(\Memcached $mem)use ($model) {
+        echo Memory::getInstance()->checkIn($model->hash(self::E_KEY), function(\Memcached $mem)use ($model) {
             $mem->set($model->hash(self::E_KEY), (string) $model, time() + 300);
             return (string) $model;
         });
@@ -51,9 +54,9 @@ class EntradaRead extends AbstracClient {
      * @return array
      * @throws \Exceptions\ClientExceptionResponse format error date
      */
-    public function calendarData($media = \Model\EntradaEntityIterator::KG_60,$ano=null) {
+    public function calendarData($media = \Model\EntradaEntityIterator::KG_60, $ano = null) {
         $key = ($this->params[1] - 1); //get id produtor to array key
-        $data = $this->data->getdataByClientId($this->params[1],$ano);
+        $data = $this->data->getdataByClientId($this->params[1], $ano);
 
         if (empty($data)) {
             return [];
@@ -61,7 +64,7 @@ class EntradaRead extends AbstracClient {
         $iterator = new \Model\EntradaEntityIterator($media);
         $iterator->setCliente(new \Model\Produtor($key));
         $iterator->setCols($data);
-        $hoje = new DateTime('now');
+        $hoje = $ano === date('Y') ? new DateTime('now'): new DateTime("31-12-$ano");
         $entrada = new DateTime($data[0]['data']);
         if (DateTime::getLastErrors()['warning_count']) { //error format date
             throw new \Exceptions\ClientExceptionResponse(

@@ -9,6 +9,7 @@ error_reporting(E_ALL | E_STRICT);
 
 setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
 date_default_timezone_set('America/Sao_Paulo');
+session_start();
 
 Configs::getInstance()->set('connection.mysql.pass', 'saga123');
 
@@ -19,5 +20,5 @@ try {
 } catch (\Exceptions\ClientExceptionResponse $response) {
     echo $response->renderJsonMessage();
 } catch (\Exception $e) {
-    echo json_encode([['message'=>$e->getMessage(),'code'=>"0"]]);
+    echo json_encode([['message' => $e->getMessage(), 'code' => "0"]]);
 }

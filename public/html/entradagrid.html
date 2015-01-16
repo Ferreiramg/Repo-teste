@@ -55,7 +55,7 @@
         <td>{{values.saida_peso| kgConverte:entradas.kg | number:2}}</td>
         <td>{{values.umidade}} %</td>
         <td>{{values.impureza}} %</td>
-        <td><a ng-hide="values.ticket == '000000'" href="#/ticket/{{values.ticket}}">{{values.ticket}}</a></td>
+        <td><a ng-hide="values.ticket === '000000'" href="#/ticket/{{values.ticket}}">{{values.ticket}}</a></td>
         <td>{{values.observacao}}</td>
     </tr>
 </tbody>

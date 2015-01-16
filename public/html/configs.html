@@ -1,0 +1,16 @@
+<div class="row">  
+    <div class="col-xs-4">
+        <div class="panel panel-default">
+            <div class="panel-heading"><b>Modo retroativo</b></div>
+            <div class="panel-body">
+                <i>Usar sistema com safras anteriores!</i>
+                <form ng-repeat="value in y">
+                    <label class="radio-inline">
+                        <input type="radio" ng-checked="value === ss" ng-model="data.year" value="{{value}}">{{value}}
+                    </label>
+                </form>
+                <button class="btn col-sm-offset-10" ng-click="config.changeyear()">Ativar</button>
+            </div>
+        </div>
+    </div>
+</div>

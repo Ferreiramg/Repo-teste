@@ -2,8 +2,7 @@
 
 namespace Client;
 
-use Exceptions\ClientExceptionResponse,
-    Model\Cached\Memory;
+use Exceptions\ClientExceptionResponse;
 
 /**
  * Cliente Entrada CRUD events
@@ -22,14 +21,7 @@ class ControllerEntrada extends AbstracClient {
                 throw new ClientExceptionResponse($model->error_msg);
         }
         $id = isset($post['produtor']) ? $post['produtor'] : $post['cliente'];
-        $this->clearCached($id);
         printf('[{"code":"%s"}]', $response);
-    }
-
-    private function clearCached($id) {
-        $cached = Memory::getInstance()->meminstance;
-        $cached->delete(EntradaRead::C_KEY . $id);
-        $cached->delete(EntradaRead::E_KEY . $id);
     }
 
     private function prepareArgs($model) {

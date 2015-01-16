@@ -23,13 +23,9 @@ class EntradasReadDataTest extends PHPUnit {
 
     public function testReadData() {
         $entrada = new Model\EntradasReadData();
-        try {
-            $this->assertTrue(is_array($data = $entrada->getdataByClientId(1)));
-            $this->assertTrue(count($data) > 1);
-            $this->assertTrue(count($entrada->getdataByClientId(100)) === 0);
-        } catch (Exception $e) {
-            var_dump($e->getMessage());
-        }
+        $this->assertTrue(is_array($data = $entrada->getdataByClientId(1, '2015')));
+        $this->assertTrue(count($data) > 1);
+        $this->assertTrue(count($entrada->getdataByClientId(100, '2015')) === 0);
     }
 
     public function testMakeCalendar() {
@@ -39,11 +35,11 @@ class EntradasReadDataTest extends PHPUnit {
         $reflection = new ReflectionClass('\Client\EntradaRead');
         $method = $reflection->getMethod('calendarData');
         $method->setAccessible(true);
-        $invo = $method->invokeArgs($entrada, array());
+        $invo = $method->invokeArgs($entrada, array(60, date('Y')));
         $date1 = new DateTime("2014-05-06");
         $date2 = new DateTime("now");
 
-        $diff = $date2->diff($date1)->format("%a") + 1;//number of days
+        $diff = $date2->diff($date1)->format("%a") + 1; //number of days
         $this->assertEquals(count($invo), $diff);
     }
 
@@ -54,8 +50,8 @@ class EntradasReadDataTest extends PHPUnit {
         $reflection = new ReflectionClass('\Client\EntradaRead');
         $method = $reflection->getMethod('calendarData');
         $method->setAccessible(true);
-        $invo = $method->invokeArgs($entrada, array());
+        $invo = $method->invokeArgs($entrada, array(60, date('Y')));
         $this->assertTrue(empty($invo));
-}
+    }
 
 }

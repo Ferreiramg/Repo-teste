@@ -50,11 +50,12 @@ class ProdutorView {
         $transf = round($transf / $multiplicador, 2);
         $saldo = round($saldo / $multiplicador, 2);
         $saldo = $this->negativeEfect($saldo - $armazenagem);
+        $ano = \Model\Silo::getSessionYear();
         return <<<HTML
         <table class="table table-bordered table-responsive">
             <head>
                 <tr><td colspan="6" class="well text-center"><h3>Relatório Resumido</h3></td></tr>
-                <tr><td colspan="5">Nome: <h4>$nome</h4></td><td>Dias : $dias</td></tr>
+                <tr><td colspan="5">Nome: <h4>$nome</h4></td><td>Dias : $dias<p>Ano: $ano</p></td></tr>
                 <tr><td colspan="6"><span class="glyphicon glyphicon-info-sign"></span><i class="text-info">Taxa Armazenagem: $taxa% ao dia</i></td></tr>
                 <tr><td colspan="6">Peso bruto: <b>$bruto</b> sacos $multiplicador Kg</td></tr>
                 <tr><td colspan="6" class="well"><h4>Descontos</h4></td></tr>

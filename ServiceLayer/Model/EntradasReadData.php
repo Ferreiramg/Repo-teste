@@ -11,10 +11,9 @@ class EntradasReadData {
 
     private $id = 0;
 
-    public function getdataByClientId($id, $ano = null) {
+    public function getdataByClientId($id, $ano) {
         $conn = Connection\Init::getInstance()->on();
 
-        $ano = $ano ? $ano : date('Y');
         $stmt = $conn->prepare("SELECT *, SUM(saida_peso) as saida,"
                 . " SUM(peso) as entrada,"
                 . " SUM(peso_corrigido) as corrigido"

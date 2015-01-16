@@ -12,16 +12,27 @@ class ProdutorReport {
     public function resumeInfoEntradas($id = 1, $media = EntradaEntityIterator::KG_60, $ano = null) {
         $conn = Connection\Init::getInstance()->on();
         $produtor = new Produtor();
-        $ano = is_null($ano) ? date('Y') : $ano;
-        $stmt = $conn->query(sprintf("SELECT * FROM entradas WHERE _cliente = %u AND ano ='%s' ORDER BY data ASC", $id, $ano));
+        $ano = is_null($ano) ? Silo::getSessionYear() : $ano;
+        $stmt = $conn->query(
+                sprintf("SELECT * FROM entradas "
+                        . "WHERE _cliente = %u "
+                        . "AND ano ='%s' "
+                        . "ORDER BY data ASC", $id, $ano)
+        );
         $produtor->setIdKey($id - 1);
 
-         $total = 0; $saida = 0; $qp = 0; $trasferencia = 0; $servico = 0; $imp = 0; $corrgido = 0;
+        $total = 0;
+        $saida = 0;
+        $qp = 0;
+        $trasferencia = 0;
+        $servico = 0;
+        $imp = 0;
+        $corrgido = 0;
         $output = array('content' => []);
         $entradas = new \Client\EntradaRead();
         $entradas->params[1] = $id;
 
-        $calendar = $entradas->calendarData($media,$ano);
+        $calendar = $entradas->calendarData($media, $ano);
         $a = 0;
         $c = 0;
         if ($stmt) {

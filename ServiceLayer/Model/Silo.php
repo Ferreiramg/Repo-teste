@@ -10,6 +10,9 @@ namespace Model;
 class Silo {
 
     public function insertTotalArmazenagem($anterior = 0) {
+        if ($this->getSessionYear() !== date('Y')) {
+            return true;
+        }
         $conn = Connection\Init::getInstance()->on();
         $out = array('amz' => 0, 'qp' => 0);
         $data = new \Model\ProdutorReport();
@@ -28,15 +31,17 @@ class Silo {
         throw new \RuntimeException(print_r($conn->errorInfo(), true));
     }
 
-    public function armzChart($ano=null) {
+    public function armzChart() {
         $conn = Connection\Init::getInstance()->on();
-        $stmt = $conn->prepare("SELECT * FROM caixasilo ORDER BY data ASC");
+        $stmt = $conn->prepare("SELECT * FROM caixasilo WHERE ano = :a ORDER BY data ASC");
+
         $out = array(
             'perc' => array(),
             'labels' => array(' '),
             'datasets' => array(['data' => [0], 'data' => [0]])
         );
         if ($stmt) {
+            $stmt->bindvalue(':a', $this->getSessionYear());
             $stmt->execute();
             $data = $stmt->fetchAll(\PDO::FETCH_ASSOC);
             $c = count($data);
@@ -79,7 +84,7 @@ class Silo {
     }
 
     public function totalEstocado($ano = null, $kg = 60) {
-        $ano = $ano ? $ano : date('Y');
+        $ano = $ano ? $ano : $this->getSessionYear();
         $conn = Connection\Init::getInstance()->on();
         $query = $conn->query(sprintf("SELECT SUM(  `peso_corrigido` ) AS corrigido,
             SUM( servicos ) AS ts,
@@ -100,7 +105,7 @@ class Silo {
     }
 
     public function siloPServicos() {
-        $ano = date('Y');
+        $ano = $this->getSessionYear();
         $conn = Connection\Init::getInstance()->on();
         $out = array(
             'labels' => array(),
@@ -126,6 +131,14 @@ class Silo {
             }
         }
         return $out;
+    }
+
+    public function changeYear($year) {
+         $_SESSION['year'] = $year;
+    }
+
+    static public function getSessionYear() {
+        return isset($_SESSION['year']) ? $_SESSION['year'] : date('Y');
     }
 
     public function simulador(array $args) {
@@ -170,12 +183,9 @@ class Silo {
 
     private function makeChartAmrz($data, $am, $out) {
         foreach ($data as $values) {
-            $menor = $am < $values['armazenagem'] ? $am : $values['armazenagem'];
-            $v = $am - $values['armazenagem'];
-            $p = round(($v / $menor) * 100.0, 2);
-            $out['perc'][] = $p;
+            $valor = $am < $values['armazenagem'] ? $values['armazenagem'] - $am : $am - $values['armazenagem'];
             $out['labels'][] = date('M', strtotime($values['data']));
-            $out['datasets'][0]['data'][] = round($values['armazenagem'] / 60, 2);
+            $out['datasets'][0]['data'][] = round($valor / 60, 2);
         }
         return $out;
     }

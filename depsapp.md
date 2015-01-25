@@ -4,8 +4,8 @@ Extensões do servidor
 $ apt-get install python-software-properties
 $ add-apt-repository ppa:ondrej/php5
 $ apt-get update
-$ apt-get install php5 nginx php5-fpm php5-apcu php5-mysql php5-memcached memcached
-$ apt-get install mysql-server mdbtools 
+$ apt-get install php5 nginx php5-fpm php5-apcu php5-sqlite php5-mysql php5-memcached memcached
+$ apt-get install mysql-server mdbtools sqlite
 ```
 ## Composer
 Aplicação Dependências

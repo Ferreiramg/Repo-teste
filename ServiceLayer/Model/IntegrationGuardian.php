@@ -71,7 +71,9 @@ class IntegrationGuardian {
                 ];
             }
         }
-        throw new \Exceptions\ClientExceptionResponse(sprintf("%s , Ticket não encontrado!", $filter->getParam()));
+        throw new \Exceptions\ClientExceptionResponse(
+        sprintf("%s , Ticket não encontrado!", $filter->getParam())
+        );
     }
 
 }

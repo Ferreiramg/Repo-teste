@@ -31,7 +31,9 @@ class EntradasReadData {
     protected function getData() {
         $conn = Connection\Init::getInstance()->on();
         $stmt = $conn->query(
-                sprintf("SELECT * FROM entradas WHERE _cliente = %u AND ano = '%s' ORDER BY id DESC", $this->id, date('Y'))
+                sprintf("SELECT * FROM entradas "
+                        . "WHERE _cliente = %u AND ano = '%s' "
+                        . "ORDER BY id DESC", $this->id, Silo::getSessionYear())
         );
         if ($stmt) {
             $data = array();

@@ -45,7 +45,9 @@ class Produtor extends \ArrayIterator {
     }
 
     public function __get($name) {
-        return $this->offsetGet($this->idKey)[(string) $name];
+        if ($this->offsetExists($this->idKey))
+            return $this->offsetGet($this->idKey)[(string) $name];
+        return [];
     }
 
     public function __toString() {

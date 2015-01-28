@@ -43,7 +43,7 @@ class SistemMail {
         if (isset($_FILES['file']) && $_FILES['file']['error'] === 0) {
             $dir = ROOT . \Configs::getInstance()->app->upload_dir;
             if (!file_exists($dir))
-                @mkdir($dir);
+                mkdir($dir);
             $res = move_uploaded_file($_FILES['file']['tmp_name'], $file = (string) $dir . $_FILES['file']['name']);
             if ($res)
                 return $file;

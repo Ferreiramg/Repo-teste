@@ -2,8 +2,7 @@
 
 namespace Client;
 
-use Model\Cached\Memory,
-    Exceptions\ClientExceptionResponse;
+use Exceptions\ClientExceptionResponse;
 
 /**
  * Produtor Client actions CRUD event
@@ -20,22 +19,12 @@ class Produtor extends AbstracClient {
             if (!$response)
                 throw new ClientExceptionResponse($model->error_msg);
 
-            $this->clearCached();
             printf('[{"code":"%s"}]', $response);
         }
     }
 
     public function hasRequest() {
         return \Main::$Action === 'produtor';
-    }
-
-    /**
-     * Clear memcached
-     * @return bool
-     */
-    private function clearCached() {
-        $cached = Memory::getInstance()->meminstance;
-        return $cached->delete(ProdutorRead::CACHE_KEY);
     }
 
     /**

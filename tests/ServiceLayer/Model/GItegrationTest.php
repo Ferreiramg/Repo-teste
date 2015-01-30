@@ -24,8 +24,8 @@ class GItegrationTest extends PHPUnit {
 
     public function testFilterTicketAccess() {
 
-        $data = $this->obj->filterTicket(\Model\Entrada::TicketFormat(25));
-        $this->assertEquals($data['ticket'], "000025");
+        $data = $this->obj->filterTicket(\Model\Entrada::TicketFormat(2220));
+        $this->assertEquals($data['ticket'], "002220");
     }
     /**
      * @expectedException \Exceptions\ClientExceptionResponse

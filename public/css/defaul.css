@@ -4,14 +4,17 @@
 */
 
 @media print {
-    body {
-        font-family: Arial, serif;
-        background: none;
-        color: black;
-    }
 
-    table .table{
-        margin: 0;
+    * { color: black; background: white; }
+    table { 
+        margin-right: 50px !important;
+        font-size: 95%;
+    }
+    table, th, td
+    {
+        border-collapse:collapse;
+        text-align:left;
+        height: auto;
     }
     .floatThead-table{
         display: none;

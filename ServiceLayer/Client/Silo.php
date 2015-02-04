@@ -11,12 +11,15 @@ use Model\Cached\Memory;
  */
 class Silo extends AbstracClient {
 
-    const S_KEY = "silo:";
-
     public function execute() {
         $model = new \Model\Silo();
+
         $p1 = isset($this->params[1]) ? $this->params[1] : null;
         $p0 = isset($this->params[0]) ? $this->params[0] : 'totalEstocado';
+        if ($p0 === 'changeYear') {
+            $model->changeYear($p1);
+            return json_encode([$p1]);
+        }
         $key = $p0 . $p1 . \Model\Silo::getSessionYear();
 
         echo Memory::getInstance()->checkIn($key, function(\Memcached $mem)use ($key, $model, $p0, $p1) {

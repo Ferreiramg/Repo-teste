@@ -134,11 +134,11 @@ class Silo {
     }
 
     public function changeYear($year) {
-         $_SESSION['year'] = $year;
+        Cached\Memory::getInstance()->meminstance->set('year', $year, 60 * 60 * 24 * 1);
     }
 
     static public function getSessionYear() {
-        return isset($_SESSION['year']) ? $_SESSION['year'] : date('Y');
+        return Cached\Memory::getInstance()->meminstance->get('year') ? Cached\Memory::getInstance()->meminstance->get('year'): date('Y');
     }
 
     public function simulador(array $args) {

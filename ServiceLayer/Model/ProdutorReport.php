@@ -9,10 +9,10 @@ namespace Model;
  */
 class ProdutorReport {
 
-    public function resumeInfoEntradas($id = 1, $media = EntradaEntityIterator::KG_60, $ano = null) {
+    public function resumeInfoEntradas($id = 1, $media = EntradaEntityIterator::KG_60) {
         $conn = Connection\Init::getInstance()->on();
         $produtor = new Produtor();
-        $ano = is_null($ano) ? Silo::getSessionYear() : $ano;
+        $ano =  Silo::getSessionYear();
         $stmt = $conn->query(
                 sprintf("SELECT * FROM entradas "
                         . "WHERE _cliente = %u "

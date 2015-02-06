@@ -17,7 +17,7 @@ class ProdutorRead extends AbstracClient {
         $model = new \Model\Produtor();
 
         echo Memory::getInstance()->checkIn('produtor:', function(\Memcached $mem)use ($model) {
-            $mem->set('produtor:', (string) $model, time() + 300);
+            $mem->set('produtor:', (string) $model, CACHE_TIME);
             return (string) $model;
         });
     }

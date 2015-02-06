@@ -30,8 +30,8 @@ class EntradaRead extends AbstracClient {
                 $data = json_encode(
                         $_t->calendarData(
                                 \Model\EntradaEntityIterator::KG_60, \Model\Silo::getSessionYear()
-                        ), JSON_UNESCAPED_UNICODE);
-                $mem->set($key, $data, time() + 300);
+                        ));
+                $mem->set($key, $data, CACHE_TIME);
                 unset($_t);
                 return $data;
             });
@@ -40,7 +40,7 @@ class EntradaRead extends AbstracClient {
         $model = $this->data;
         $model->setId($this->params[0]);
         echo Memory::getInstance()->checkIn($model->hash(self::E_KEY), function(\Memcached $mem)use ($model) {
-            $mem->set($model->hash(self::E_KEY), (string) $model, time() + 300);
+            $mem->set($model->hash(self::E_KEY), (string) $model, CACHE_TIME);
             return (string) $model;
         });
     }

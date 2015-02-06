@@ -24,8 +24,8 @@ class Silo {
         $ano = date('Y');
         $d = date('Y-m-d H:i:s');
         $amz = round($out['amz'] - $anterior, 2);
-        $exec = $conn->exec(sprintf("INSERT INTO `caixasilo` (quebra_peso,armazenagem,ano,data)"
-                        . "VALUES(%f,%f,'%s','%s')", $out['qp'], $amz < 0 ? 0 : $amz, $ano, $d));
+        $exec = $conn->exec(sprintf("INSERT INTO `caixasilo` (id,quebra_peso,armazenagem,ano,data)"
+                        . "VALUES(%u,%f,%f,'%s','%s')", (int) date('mY'), $out['qp'], $amz < 0 ? 0 : $amz, $ano, $d));
         if ($exec)
             return true;
         throw new \RuntimeException(print_r($conn->errorInfo(), true));
@@ -104,6 +104,12 @@ class Silo {
         return array('corrigido' => 0, 'ts' => 0, 'retirado' => 0, 'espaco' => 0);
     }
 
+    static public function delete($data) {
+        return Connection\Init::getInstance()->on()->exec(
+                        sprintf("DELETE FROM `caixasilo`"
+                                . " WHERE id = %u", (int) date('mY', strtotime($data))));
+    }
+
     public function siloPServicos() {
         $ano = $this->getSessionYear();
         $conn = Connection\Init::getInstance()->on();
@@ -138,7 +144,7 @@ class Silo {
     }
 
     static public function getSessionYear() {
-        return Cached\Memory::getInstance()->meminstance->get('year') ? Cached\Memory::getInstance()->meminstance->get('year'): date('Y');
+        return Cached\Memory::getInstance()->meminstance->get('year') ? Cached\Memory::getInstance()->meminstance->get('year') : date('Y');
     }
 
     public function simulador(array $args) {

@@ -29,13 +29,18 @@ class DBConnSqliteTest {
 
     private static $sql = <<<SQL
 CREATE TABLE caixasilo (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `id` INTEGER PRIMARY KEY,
   `servico` REAL,
   `quebra_peso` REAL,
   `armazenagem` REAL,
   `data` TEXT NOT NULL,
   `ano` TEXT
-); 
+);
+BEGIN TRANSACTION;
+    INSERT INTO `caixasilo` 
+    (`id`, `servico`, `quebra_peso`, `armazenagem`, `data`, `ano`) VALUES
+    (52014, '3525', '500','4500', '2014-05-28', '2014');
+COMMIT;  
 CREATE TABLE IF NOT EXISTS cliente (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `nome` TEXT NOT NULL,

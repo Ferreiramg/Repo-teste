@@ -2,7 +2,8 @@
     "app": {
         "port": 80,
         "csv": "/opt/tabela.csv",
-        "upload_dir": "/opt/upload/"
+        "upload_dir": "/opt/upload/",
+        "cache_time": 3600
     },
     "connection": {
         "mysql": {

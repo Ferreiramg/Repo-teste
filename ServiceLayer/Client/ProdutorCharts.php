@@ -18,12 +18,12 @@ class ProdutorCharts extends AbstracClient {
             $produtor = new \Model\Produtor($id - 1);
             $model = new \Model\ProdutorCharts($produtor);
             $_ = $this;
-            $key = "report::" . $this->params[0] . $id;
+            $key = "report:" . $this->params[0] . $id;
             echo Memory::getInstance()->checkIn($key, function(\Memcached $mem)use ($key, $_, $model) {
                 $response = call_user_func_array([$model, $_->params[0]], [$_->params]);
                 if (!$response)
                     throw new ClientExceptionResponse($model->error_msg);
-                $mem->set($key, json_encode((array) $response), time() + 900);
+                $mem->set($key, json_encode((array) $response), CACHE_TIME);
                 return json_encode((array) $response);
             });
         }

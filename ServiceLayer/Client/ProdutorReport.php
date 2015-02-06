@@ -19,7 +19,7 @@ class ProdutorReport extends AbstracClient {
         $key = "report::" . $_->params[0] . $m . \Model\Silo::getSessionYear();
         $data = Memory::getInstance()->checkIn($key, function(\Memcached $mem)use ($report, $key, $m, $_) {
             $dados = $report->resumeInfoEntradas((int) $_->params[0], $m);
-            $mem->set($key, $dados, time() + 900);
+            $mem->set($key, $dados, CACHE_TIME);
             return $dados;
         });
 

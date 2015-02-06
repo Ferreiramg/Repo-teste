@@ -1,6 +1,7 @@
 <?php
 
-use \PHPUnit_Framework_TestCase as PHPUnit;
+use \PHPUnit_Framework_TestCase as PHPUnit,
+    Model\Connection;
 
 require_once dirname(__DIR__) . '/DBConnSqliteTest.php';
 
@@ -11,26 +12,31 @@ require_once dirname(__DIR__) . '/DBConnSqliteTest.php';
  */
 class SiloTest extends PHPUnit {
 
-    protected $silo;
+    protected $silo, $conn;
 
     protected function setUp() {
         $this->silo = new \Model\Silo();
         DBConnSqliteTest::ConnPDO();
     }
 
-   public function testSilogetAmzSaldos() {
+    public function testSilogetAmzSaldos() {
         //var_dump($this->install());
     }
 
-    public function testGetAllProdutoresData(){
+    public function testGetAllProdutoresData() {
         $data = $this->silo->getAllDataProdutores();
         var_dump($data['saldo']);
     }
-    
-    public function testChartArmz(){
-        $data = $this->silo->armzChart();
-        var_dump($data);
+
+    public function testDeleteAmz() {
+
+        $this->assertEquals(1, $this->silo->delete('12-05-2014')); //true
     }
+
+    public function testChartArmz() {
+        $data = $this->silo->armzChart();
+    }
+
     public function testTotalSilo() {
         $res = $this->silo->totalEstocado();
         $this->assertEquals((int) $res['ts'], 0);

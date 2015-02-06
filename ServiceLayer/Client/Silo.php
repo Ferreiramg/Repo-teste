@@ -24,7 +24,7 @@ class Silo extends AbstracClient {
 
         echo Memory::getInstance()->checkIn($key, function(\Memcached $mem)use ($key, $model, $p0, $p1) {
             $response = call_user_func_array([$model, $p0], [$p1]);
-            $mem->set($key, (string) json_encode($response), time() + 900);
+            $mem->set($key, (string) json_encode($response), CACHE_TIME);
             return (string) json_encode($response);
         });
     }

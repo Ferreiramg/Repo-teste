@@ -97,15 +97,23 @@ class Entrada {
         return str_pad(trim($tikc), 6, '0', STR_PAD_LEFT);
     }
 
+    /**
+     * 
+     * @param array $args
+     * @return int 
+     */
     public function deletar(array $args) {
 
-        $data = (int) Connection\Init::getInstance()
+        $data = Connection\Init::getInstance()
                         ->on()
-                        ->query(sprintf("SELECT id FROM `entradas` WHERE id = %u", $args['id']))->fetchColumn();
-        if ($data === 0) {
+                        ->query(sprintf("SELECT * FROM `entradas` WHERE id = %u", $args['id']))->fetchAll();
+        if (empty($data)) {
             $this->error_msg = "Está entrada já foi apagada!";
-            return false;
+            return 0;
         }
+        //delete caixasilo referente ao mes
+        Silo::delete($data[0]['data']);
+
         $this->error_msg = "Não foi apagado! Tente novamente.";
         return Connection\Init::getInstance()
                         ->on()

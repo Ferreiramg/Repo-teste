@@ -14,7 +14,8 @@ session_start();
 
 Configs::getInstance()->set('connection.mysql.pass', 'saga123');
 
-define('ROOT', dirname(__FILE__)) . DIRECTORY_SEPARATOR;
+define('ROOT', dirname(__FILE__));
+define('CACHE_TIME', 3600);
 try {
     $main = new Main();
     $main->run($_SERVER['REQUEST_METHOD']);

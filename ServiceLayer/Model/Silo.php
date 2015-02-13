@@ -110,6 +110,9 @@ class Silo {
                                 . " WHERE id = %u", (int) date('mY', strtotime($data))));
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function siloPServicos() {
         $ano = $this->getSessionYear();
         $conn = Connection\Init::getInstance()->on();
@@ -187,6 +190,9 @@ class Silo {
         ];
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function makeChartAmrz($data, $am, $out) {
         foreach ($data as $values) {
             $valor = $am < $values['armazenagem'] ? $values['armazenagem'] - $am : $am - $values['armazenagem'];

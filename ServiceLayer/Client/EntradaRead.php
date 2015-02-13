@@ -23,7 +23,7 @@ class EntradaRead extends AbstracClient {
     }
 
     public function execute() {
-        if (isset($this->params[0]) && isset($this->params[1]) && $this->params[0] == 'calendar') {
+        if (isset($this->params[0]) && isset($this->params[1]) && $this->params[0] === 'calendar') {
             $key = (string) self::C_KEY . $this->params[1] . \Model\Silo::getSessionYear();
             $_t = $this;
             echo Memory::getInstance()->checkIn($key, function(\Memcached $mem)use ($_t, $key) {

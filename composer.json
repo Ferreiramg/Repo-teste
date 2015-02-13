@@ -16,7 +16,8 @@
         "cboden/ratchet": "0.3.*",
         "react/react": "0.4.*",
         "guzzlehttp/guzzle": "~4.0",
-        "noodlehaus/config": "dev-master"
+        "noodlehaus/config": "dev-master",
+        "phpoffice/phpexcel":"1.8.*"
     },
     "require-dev": {
         "phpunit/phpunit": "4.2.*"

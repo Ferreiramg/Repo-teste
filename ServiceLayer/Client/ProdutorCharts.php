@@ -9,6 +9,7 @@ use Model\Cached\Memory,
  * Description of ProdutorCharts
  *
  * @author Luis Paulo
+ * @codeCoverageIgnore
  */
 class ProdutorCharts extends AbstracClient {
 

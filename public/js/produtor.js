@@ -130,7 +130,7 @@ main.controller('produtorDataStore', ['$scope', '$routeParams', '$upload', '$mod
             produtor_data = this.data = [];
         };
         this.getProdutor = function() {
-            return produtor_data[$params.id-1];
+            return produtor_data[$params.id - 1];
         };
 
         this.getData = function() {
@@ -230,6 +230,11 @@ main.controller('calendarController', ['$scope', '$routeParams', '$http', 'ngPro
         var store = this;
         this.days = [];
         this.model = [];
+        this.convertToDate = function(stringDate) {
+            var dateOut = new Date(stringDate);
+            dateOut.setDate(dateOut.getDate() + 1);
+            return dateOut;
+        };
         this.getData = function() {
             ngProgress.start();
             $http.get('/entrada_read/calendar/' + $params.id).success(function(data) {
@@ -239,6 +244,9 @@ main.controller('calendarController', ['$scope', '$routeParams', '$http', 'ngPro
         };
         this.isSaida = function(saida) {
             return saida > 0;
+        };
+        this.exportxls = function() {
+            window.location.href = '/export/' + $params.id;
         };
         $scope.open = function(v) {
             var d = {};

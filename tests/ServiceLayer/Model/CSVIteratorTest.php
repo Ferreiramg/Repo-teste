@@ -12,7 +12,7 @@ class csvFilterTest extends FilterIterator {
     private $param;
 
     public function __construct(\Iterator $iterator, $params) {
-        $this->param = $params;
+        $this->param = (float)$params;
         parent::__construct($iterator);
     }
 
@@ -22,7 +22,7 @@ class csvFilterTest extends FilterIterator {
      */
     public function accept() {
 
-        return ($this->param === $this->getInnerIterator()->current()[0]);
+        return ($this->param === (float)$this->getInnerIterator()->current()[0]);
     }
 
 }
@@ -64,6 +64,18 @@ class CSVIteratorTest extends PHPUnit {
         $this->assertEquals($this->csv->current(), ['20.20', '4.69', '8.53', '13.22']);
         $this->csv->next();
         $this->assertFalse($filter->accept());
+    }
+
+    public function testIssue_1() {
+        $i = 0;
+        $filter = new csvFilterTest($this->csv, '30.00');
+        for ($this->csv->rewind(); $this->csv->valid(); $this->csv->next()) {
+            ++$i;
+            if ($filter->accept()) {
+                $this->assertEquals($this->csv->current()[1], '11.86');
+                break;
+            }
+        }
     }
 
     private $data = "13.00;1.75;0.00;1.75

@@ -12,6 +12,7 @@ namespace Client;
  * Description of SiloActions
  *
  * @author Luis Paulo
+ * @codeCoverageIgnore
  */
 class SiloActions extends AbstracClient {
 

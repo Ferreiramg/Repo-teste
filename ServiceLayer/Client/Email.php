@@ -9,6 +9,9 @@ namespace Client;
  */
 class Email extends AbstracClient {
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function execute() {
         $model = new \Model\SistemMail();
         $post = filter_input_array(INPUT_POST, [

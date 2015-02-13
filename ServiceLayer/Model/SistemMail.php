@@ -24,10 +24,11 @@ class SistemMail {
     public function send(array $args) {
         if (($msg = $this->invalidate($args)))
             throw new \Exceptions\ClientExceptionResponse($msg);
-
+        // @codeCoverageIgnoreStart
         if (!empty($args['file'])) {
             $this->mail->addAttachment($args['file']);
         }
+        // @codeCoverageIgnoreEnd
         $this->mail->From = "luispaulo@laticiniospj.com.br"; // Seu e-mail
         $this->mail->FromName = 'Agro Vertentes'; // Seu nome
         $this->mail->addAddress($args['mail'], $args['name']);
@@ -39,6 +40,9 @@ class SistemMail {
         return !$this->mail->isError();
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function attachement() {
         if (isset($_FILES['file']) && $_FILES['file']['error'] === 0) {
             $dir = ROOT . \Configs::getInstance()->app->upload_dir;

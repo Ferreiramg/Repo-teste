@@ -6,39 +6,42 @@
 <table float-thead="opt_theader" class="table table-hover table-bordered table-responsive">
     <thead>
         <tr><th colspan="8" class="pheader"><produtor-name></produtor-name></th></tr>
-        <tr class="well">
-            <th class="col-sm-1">#</th>
-            <th class="col-sm-1">ID</th>
-            <th class="col-sm-2">Dias</th>
-            <th>Entrada</th>
-            <th>Saida</th>
-            <th>Armazenagem</th>
-            <th class="col-sm-1">Saldo</th>
-            <th class="col-md-12">Observação</th>
-        </tr>       
-    </thead>
-    <tbody ng-init="calendar.getData()">
-        <tr ng-repeat="values in calendar.days| filter:search" ng-dblClick="open(values)">
-            <td>{{$index + 1}}</td>
-            <td>{{values.id}}</td>
-            <td>{{values.dia}}</td>
-            <td>{{values.entrada| number:2}}</td>
-            <td ng-class="{ 'danger':calendar.isSaida(values.saida) }">
-                {{values.saida}}
-            </td>
-            <td>{{values.desconto| number:2}}</td>
-            <td>{{values.saldo| number:2}}</td>
-            <td>{{values.observacao}}</td>
-        </tr>
-    </tbody>
-    <tfoot class="well">
-        <tr>
-            <td colspan="3"></td>
-            <td><b>{{calendar.days| total:'entrada' |number:2}}</b></td>
-            <td><b>{{calendar.days| total:'saida' |number:2}}</b></td>
-            <td><b>{{calendar.days| total:'desconto'|number:2}}</b></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </tfoot>
+<tr class="well">
+    <th class="col-sm-1">#</th>
+    <th class="col-sm-1">ID</th>
+    <th class="col-sm-2">Dias</th>
+    <th>Entrada</th>
+    <th>Saida</th>
+    <th>Armazenagem</th>
+    <th class="col-sm-1">Saldo</th>
+    <th class="col-md-12">Observação</th>
+</tr>       
+</thead>
+<tbody ng-init="calendar.getData()">
+    <tr ng-repeat="values in calendar.days| filter:search" ng-dblClick="open(values)">
+        <td>{{$index + 1}}</td>
+        <td>{{values.id}}</td>
+        <td>{{ calendar.convertToDate(values.dia) | date:"dd-MM-yyyy"}}</td>
+        <td>{{values.entrada| number:2}}</td>
+        <td ng-class="{ 'danger':calendar.isSaida(values.saida) }">
+            {{values.saida}}
+        </td>
+        <td>{{values.desconto| number:2}}</td>
+        <td>{{values.saldo| number:2}}</td>
+        <td>{{values.observacao}}</td>
+    </tr>
+</tbody>
+<tfoot class="well">
+    <tr>
+        <td colspan="3"></td>
+        <td><b>{{calendar.days| total:'entrada' |number:2}}</b></td>
+        <td><b>{{calendar.days| total:'saida' |number:2}}</b></td>
+        <td><b>{{calendar.days| total:'desconto'|number:2}}</b></td>
+        <td></td>
+        <td>
+            <button ng-click="calendar.exportxls();" type="button" title="Baixar Arquivo Excel .xls" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-export"></i></button>
+            <i class="text-info small">Exportar para planilha!</i>
+        </td>
+    </tr>
+</tfoot>
 </table>

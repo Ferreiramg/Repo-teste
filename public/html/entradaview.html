@@ -1,7 +1,7 @@
 <div  ng-controller="produtorDataStore as produtor">
     <div class="row">
         <div class="col-md-6">
-            <accordion ng-init="status.open = false">
+            <!--accordion ng-init="status.open = false">
                 <accordion-group is-open="status.open">
                     <accordion-heading>
                         <b>Buscar por Ticket</b>
@@ -26,7 +26,32 @@
                         </ul>
                     </div>
                 </accordion-group>
-            </accordion>
+            </accordion -->
+            <div class="panel panel-default">
+                  <div class="panel-heading"><b>Buscar por Ticket</b></div>
+                  <div class="panel-body">
+                       <div class="col-md-4">
+                        <input class="form-control" ng-keypress="($event.which === 13)?entradas.guardianDataInit():0" ng-model="entradas.shticket" type="text" placeholder="Nº Ticket" />
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-default" ng-click="entradas.guardianDataInit()">Buscar</button>
+                    </div>
+
+                    <div class="col-md-12" ng-show="ticketdata.conflito.has">
+                        <br />
+                        <b>Ticket já foi inserido!</b>
+                        <ul class="list-group" ng-repeat="tdados in ticketdata.conflito.dados">
+                            <li class="list-group-item">
+                                <span class="badge">{{$index+1}}</span>
+                                <a  target="_blank" href="#/ticket/{{tdados.ticket}}"><b>Visualizar Ticket</b> </a>
+                                <button tooltip="Apagar essa entrada!" ng-click="entradas.deletar(tdados.id, $index)" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                            </li>
+                        </ul>
+                    </div>
+                      
+                  </div>
+            </div>
+            
         </div>
     </div>
     <div class="row">   

@@ -44,7 +44,7 @@ class EntradaCrudTest extends PHPUnit {
         $this->model->csvfile = ROOT . \Configs::getInstance()->app->csv;
         $rows = $this->model->create($data = $this->post(), $stmt); //By reference debug mode
 
-        $EXPECTED = "INSERT INTO `entradas` (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`,`quebra_peso`,`servicos`,`desc_impureza`,`foi_transf`, `ano`) VALUES ('30600', '0', '28705.86', '1', '14.60', '1', '2014-06-25 00:00:00', '234', 'Luis: ','553.86','1034.28','306','0','2015')";
+        $EXPECTED = "INSERT INTO `entradas` (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`,`quebra_peso`,`servicos`,`desc_impureza`,`foi_transf`, `ano`) VALUES ('30600', '0', '29088.36', '1', '14.60', '1', '2014-06-25 00:00:00', '234', 'Luis: ','520.2','685.44','306','0','2015')";
 
         $this->assertEquals((int) $rows, 3);
         $this->assertEquals("" . $EXPECTED . "", $stmt->getSQL());

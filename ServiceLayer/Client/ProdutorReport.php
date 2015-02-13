@@ -11,6 +11,9 @@ use Model\Cached\Memory;
  */
 class ProdutorReport extends AbstracClient {
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function execute() {
         $report = new \Model\ProdutorReport();
         $view = new \Model\Reports\ProdutorView();

@@ -1,7 +1,9 @@
 <?php
 
 namespace Event;
+
 use Model\Cached\Memory;
+
 /**
  * Delegate RequestPost to Clients
  *
@@ -13,6 +15,9 @@ class RequestPost extends AbstractEvent {
         return \Main::$REQUEST === 'POST';
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function listen() {
 
         $this->client->addClient(new \Client\ControllerEntrada);

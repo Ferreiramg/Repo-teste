@@ -24,9 +24,15 @@ class IntegrationGuardian {
             $data = $stm->fetchAll(2);
             return ['has' => !empty($data), 'dados' => $data];
         }
+// @codeCoverageIgnoreStart
         return ['has' => false];
+        // @codeCoverageIgnoreEnd
     }
 
+    /**
+     * @codeCoverageIgnore
+     * @deprecated since version 1.0
+     */
     public function fetchAll() {
         $data = array();
         foreach ($this->iterator as $value) {
@@ -70,7 +76,9 @@ class IntegrationGuardian {
                     'observacao' => htmlentities($value[16])
                 ];
             }
+            // @codeCoverageIgnoreStart
         }
+        // @codeCoverageIgnoreEnd
         throw new \Exceptions\ClientExceptionResponse(
         sprintf("%s , Ticket não encontrado!", $filter->getParam())
         );

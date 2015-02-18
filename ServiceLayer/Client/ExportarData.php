@@ -21,6 +21,25 @@ class ExportarData extends AbstracClient {
         }
         $excel = new \PHPExcel();
         $excel->setActiveSheetIndex(0);
+
+        $this->armazenagem($produtor, $excel, $data);
+
+        $objWriter = \PHPExcel_IOFactory::createWriter($excel, 'Excel5');
+        $this->download($objWriter);
+    }
+
+    public function hasRequest() {
+        return \Main::$Action === 'export';
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @param \Model\Produtor $produtor
+     * @param \PHPExcel $excel
+     * @param string $data
+     * @return \PHPExcel
+     */
+    private function armazenagem(\Model\Produtor $produtor, \PHPExcel $excel, $data) {
         $sheet = $excel->getActiveSheet();
         $sheet->setCellValue('A1', $produtor->nome)
                 ->setCellValue('D1', $produtor->getTaxa())
@@ -30,8 +49,6 @@ class ExportarData extends AbstracClient {
                 ->setCellValue('D2', 'Armazenagem')
                 ->setCellValue('E2', 'Saldo')
                 ->setCellValue('F2', 'Obs.');
-
-
         $sheet->getStyle('A1:F2')->applyFromArray(
                 array(
                     'fill' => [
@@ -62,13 +79,7 @@ class ExportarData extends AbstracClient {
                     ->setCellValue('E' . $row, round($dataRow['saldo'], 2))
                     ->setCellValue('F' . $row, $dataRow['observacao']);
         }
-
-        $objWriter = \PHPExcel_IOFactory::createWriter($excel, 'Excel5');
-        $this->download($objWriter);
-    }
-
-    public function hasRequest() {
-        return \Main::$Action === 'export';
+        return $excel;
     }
 
     /**

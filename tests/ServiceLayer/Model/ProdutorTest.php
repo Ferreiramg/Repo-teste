@@ -29,6 +29,7 @@ class ProdutorTest extends PHPUnit {
         $this->prod->setIdKey(1);
         $this->assertEquals($this->prod->nome, 'Ferreira');
         $this->assertEquals($this->prod->count(), 2);
+        $this->assertEmpty($this->prod->not_exist);
         //$this->assertEquals($produtor->getTaxa(),0.43);
     }
 

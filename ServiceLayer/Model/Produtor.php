@@ -46,10 +46,10 @@ class Produtor extends \ArrayIterator {
 
     public function __get($name) {
         if ($this->offsetExists($this->idKey))
-            return $this->offsetGet($this->idKey)[(string) $name];
-        return [];
+            return isset($this->offsetGet($this->idKey)[(string) $name]) ? $this->offsetGet($this->idKey)[(string) $name] : null;
+        // @codeCoverageIgnoreStart
     }
-
+    // @codeCoverageIgnoreEnd
     public function __toString() {
         return json_encode($this->getArrayCopy(), JSON_UNESCAPED_UNICODE);
     }

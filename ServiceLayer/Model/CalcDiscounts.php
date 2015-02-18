@@ -58,7 +58,9 @@ class CalcDiscounts {
             if ($this->csv->accept()) {
                 return $this->csv->current();
             }
+            //@codeCoverageIgnoreStart
         }
+        //@codeCoverageIgnoreEnd
         throw new RuntimeException(sprintf("%s , não é multiplo de dois", $this->csv->getParam()));
     }
 

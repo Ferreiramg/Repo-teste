@@ -24,7 +24,6 @@ class Init {
         } catch (\PDOException $e) {
             throw new \RuntimeException($e->getMessage());
         }
-        return null;
     }
 
     /**

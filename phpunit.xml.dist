@@ -24,7 +24,6 @@
             <directory suffix=".php">./ServiceLayer</directory>
             <exclude>
                 <directory>./vendor</directory>
-                <directory>./ServiceLayer/table-gateway</directory>
                 <file>./ServiceLayer/Model/PDOConn.php</file>
             </exclude>
         </whitelist>

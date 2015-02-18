@@ -78,6 +78,15 @@ class SysMailTest extends PHPUnit {
         $mail->send(['mail' => 'luispkiller@gmail.com']);
     }
 
+    /**
+     * @expectedException \Exceptions\ClientExceptionResponse
+     */
+    public function testSendMailExceptionInvalidParamtersMailNotFound() {
+
+        $mail = new \Model\SistemMail();
+        $mail->send(['name' => 'luis Paulo','body' => '<b>Email de Teste com PHPMailer...</b>']);
+    }
+
     public function testInvalitAttachemetFile() {
 //        $this->markTestIncomplete(
 //                'This test not work in travis ci.'

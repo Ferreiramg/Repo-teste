@@ -29,7 +29,7 @@ class EntradaCrudTest extends PHPUnit {
             'produtor' => 1,
             'wastrans' => "0",
             'tipo' => 1,
-            'peso' => 30600,
+            'peso' => 30210,
             'umidade' => '14.60',
             'impureza' => 1,
             'motorista' => "Luis",
@@ -44,14 +44,14 @@ class EntradaCrudTest extends PHPUnit {
         $this->model->csvfile = ROOT . \Configs::getInstance()->app->csv;
         $rows = $this->model->create($data = $this->post(), $stmt); //By reference debug mode
 
-        $EXPECTED = "INSERT INTO `entradas` (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`,`quebra_peso`,`servicos`,`desc_impureza`,`foi_transf`, `ano`) VALUES ('30600', '0', '29088.36', '1', '14.60', '1', '2014-06-25 00:00:00', '234', 'Luis: ','520.2','685.44','306','0','2015')";
+        $EXPECTED = "INSERT INTO `entradas` (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`,`quebra_peso`,`servicos`,`desc_impureza`,`foi_transf`, `ano`) VALUES ('30210', '0', '28717.63', '1', '14.60', '1', '2014-06-25 00:00:00', '234', 'Luis: ','513.57','676.7','302.1','0','2015')";
 
         $this->assertEquals((int) $rows, 3);
         $this->assertEquals("" . $EXPECTED . "", $stmt->getSQL());
         //Insert saida tipo =0;
         $data['tipo'] = 0;
         $rows = $this->model->create($data, $stmt);
-        $EXPECTED = "INSERT INTO `entradas` (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`,`quebra_peso`,`servicos`,`desc_impureza`,`foi_transf`, `ano`) VALUES ('0', '30600', '0', '1', '0', '0', '2014-06-25 00:00:00', '234', 'Luis: ','0','0','0','0','2015')";
+        $EXPECTED = "INSERT INTO `entradas` (`peso`, `saida_peso`, `peso_corrigido`, `_cliente`, `umidade`, `impureza`, `data`, `ticket`, `observacao`,`quebra_peso`,`servicos`,`desc_impureza`,`foi_transf`, `ano`) VALUES ('0', '30210', '0', '1', '0', '0', '2014-06-25 00:00:00', '234', 'Luis: ','0','0','0','0','2015')";
         $this->assertEquals((int) $rows, 4);
         $this->assertEquals("" . $EXPECTED . "", $stmt->getSQL());
     }

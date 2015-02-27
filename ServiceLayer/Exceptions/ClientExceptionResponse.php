@@ -19,6 +19,10 @@ class ClientExceptionResponse extends \Exception {
         $this->severity = $severity;
     }
 
+    /**
+     * Render message exception in json 
+     * @return string json
+     */
     public function renderJsonMessage() {
         return json_encode([
             'message' => (string) $this->message,

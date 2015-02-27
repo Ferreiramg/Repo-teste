@@ -27,7 +27,7 @@ class Odbc {
 
     /**
      * 
-     * @return \PDO
+     * @return string file root
      */
     public function on() {
         if (!file_exists(self::$file)) {

@@ -16,7 +16,8 @@ class ExportarData extends AbstracClient {
         $key = EntradaRead::C_KEY . $this->params[0] . \Model\Silo::getSessionYear();
         $data = Memory::getInstance()->meminstance->get($key);
         $produtor = new \Model\Produtor($this->params[0] - 1);
-        if ($data === false) {
+        
+        if ($data === false || strlen($data) < 10 ) {
             throw new \Exceptions\ClientExceptionResponse("Não existe data no cache!");
         }
         $excel = new \PHPExcel();

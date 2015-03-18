@@ -20,7 +20,6 @@ class ControllerEntrada extends AbstracClient {
             if (!$response)
                 throw new ClientExceptionResponse($model->error_msg);
         }
-        $id = isset($post['produtor']) ? $post['produtor'] : $post['cliente'];
         printf('[{"code":"%s"}]', $response);
     }
 

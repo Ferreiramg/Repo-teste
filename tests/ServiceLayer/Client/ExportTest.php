@@ -8,7 +8,7 @@ require_once dirname(__DIR__) . '/DBConnSqliteTest.php';
 /**
  * Description of ExportTest
  *
- * @author Laticinios PJ
+ * @author Luis Paulo
  */
 class ExportTest extends PHPUnit {
 

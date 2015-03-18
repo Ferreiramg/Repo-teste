@@ -3,6 +3,7 @@
         <input class="form-control" type="search" placeholder="filtrar ..." ng-model="search.$" />
     </div>
 </div>
+<alert class="col-md-4 text-center" style="z-index: 5000;position: fixed; left:32%;top: 51px" ng-show="error" type="danger" close="closeAlert()"><b>Não existe dados para gerar Aquivo!</b></alert>
 <table float-thead="opt_theader" class="table table-hover table-bordered table-responsive">
     <thead>
         <tr><th colspan="8" class="pheader"><produtor-name></produtor-name></th></tr>

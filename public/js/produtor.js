@@ -230,6 +230,11 @@ main.controller('calendarController', ['$scope', '$routeParams', '$http', 'ngPro
         var store = this;
         this.days = [];
         this.model = [];
+
+        $scope.error = false;
+        $scope.closeAlert = function() {
+            $scope.error = false;
+        };
         this.convertToDate = function(stringDate) {
             var dateOut = new Date(stringDate);
             dateOut.setDate(dateOut.getDate() + 1);
@@ -246,7 +251,13 @@ main.controller('calendarController', ['$scope', '$routeParams', '$http', 'ngPro
             return saida > 0;
         };
         this.exportxls = function() {
-            window.location.href = '/export/' + $params.id;
+            $http.get('/export/' + $params.id).success(function(data) {
+                if (data.length > 0) {
+                    window.location.href = '/export/' + $params.id;
+                } else {
+                    $scope.error = true;
+                }
+            });
         };
         $scope.open = function(v) {
             var d = {};

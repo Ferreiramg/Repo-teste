@@ -38,14 +38,19 @@ Abra o arquivo ``nano /etc/nginx/site-available/default``, cole a configuração
 
         location / {
             try_files $uri /index.php$is_args$args;
+            expires -1;
         }
 
-        location ~* (\.sql|\.csv|\.json)$ {
+        location ~* \.(html|json)$ {
+                expires -1;
+        }
+
+        location ~* \.(sql|csv|json)$ {
             deny all;
             return 404;
         }
 
-        location ~ \.php/ {
+        location ~ \.php/ {           
             rewrite ^(.*.php)/ $1 last;
           }
         location ~ \.php$ {

@@ -108,6 +108,7 @@ class PDOStatementPrivate extends \PDOStatement {
             case PDO::PARAM_INT:
                 return (int) $value;
             case PDO::PARAM_STR:
+                return  (string) $value;
             default:
                 return $value;
         }
